@@ -7,43 +7,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
-
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.CategoriesAdapter;
+import com.example.woocommerce.adapter.RecentlyAddedAdapter;
 import com.example.woocommerce.model.Category;
-import com.example.woocommerce.network.RetrofitClient;
+import com.example.woocommerce.model.Product;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
+import com.example.woocommerce.viewmodel.ProductsViewModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView categoriesRecycler;
+    RecyclerView categoriesRecycler,
+            recentlyAddedRecycler;
     CategoriesAdapter categoriesAdapter;
     CategoriesViewModel categoriesViewModel;
+    ProductsViewModel productsViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         categoriesRecycler=findViewById(R.id.categoriesRecycler);
+        recentlyAddedRecycler=findViewById(R.id.RecentlyRecycler);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
+        productsViewModel=ViewModelProviders.of(this)
+                .get(ProductsViewModel.class);
+
 
         categoriesViewModel.getCategories(null,"5","0",null,
                 null,null,null,null,false,null,null);
         observeCategories();
-        observeError();
+        observeCategoriesError();
 
+        productsViewModel.getProducts(null,"10",null,null,"date",null,
+                null,null,null,null,null,"publish",null,
+                null,null,null,null,null);
+        observeRecentlyAdded();
+        observeRecentlyAddedError();
 
     }
 
@@ -55,8 +61,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    void observeError(){
+
+    void observeCategoriesError(){
         categoriesViewModel.getCategoriesLoadingError()
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+                        Toast.makeText(MainActivity.this, s
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    void observeRecentlyAdded(){
+        productsViewModel.getProducts()
+                .observe(this, new Observer<ArrayList<Product>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<Product> products) {
+                        showRecentlyAddedProducts(products);
+                    }
+                });
+    }
+
+    void observeRecentlyAddedError(){
+        productsViewModel
+                .getProductsLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
@@ -74,6 +103,16 @@ public class MainActivity extends AppCompatActivity {
         categoriesRecycler.setLayoutManager(layoutManager);
 
     }
+
+    private void showRecentlyAddedProducts(ArrayList<Product> products) {
+        RecentlyAddedAdapter recentlyAddedAdapter=new RecentlyAddedAdapter(this,products);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this
+                ,LinearLayoutManager.HORIZONTAL,false);
+        recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);
+        recentlyAddedRecycler.setLayoutManager(layoutManager);
+
+    }
+
 
 
 }
