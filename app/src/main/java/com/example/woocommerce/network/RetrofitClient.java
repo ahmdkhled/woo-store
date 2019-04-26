@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
@@ -44,6 +45,7 @@ public class RetrofitClient {
         Retrofit mRetrofit = new Retrofit.Builder()
                 .baseUrl("https://ahmdkhaled.000webhostapp.com/wp-json/wc/v3/")
                 .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         apiService=mRetrofit.create(ApiService.class);
