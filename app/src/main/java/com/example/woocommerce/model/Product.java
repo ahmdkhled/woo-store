@@ -21,14 +21,14 @@ public class Product implements Parcelable {
     private String shortDescription;
     private String sku;
     private String price;
-    private String regularPrice;
-    private String salePrice;
+    private String regular_price;
+    private String sale_price;
     private String dateOnSaleFrom;
     private String dateOnSaleFromGmt;
     private String dateOnSaleTo;
     private String dateOnSaleToGmt;
-    private String priceHtml;
-    private Boolean onSale;
+    private String price_html;
+    private Boolean on_sale;
     private Boolean purchasable;
     private Integer totalSales;
     private Boolean virtual;
@@ -85,15 +85,15 @@ public class Product implements Parcelable {
         shortDescription = in.readString();
         sku = in.readString();
         price = in.readString();
-        regularPrice = in.readString();
-        salePrice = in.readString();
+        regular_price = in.readString();
+        sale_price = in.readString();
         dateOnSaleFrom = in.readString();
         dateOnSaleFromGmt = in.readString();
         dateOnSaleTo = in.readString();
         dateOnSaleToGmt = in.readString();
-        priceHtml = in.readString();
+        price_html = in.readString();
         byte tmpOnSale = in.readByte();
-        onSale = tmpOnSale == 0 ? null : tmpOnSale == 1;
+        on_sale = tmpOnSale == 0 ? null : tmpOnSale == 1;
         byte tmpPurchasable = in.readByte();
         purchasable = tmpPurchasable == 0 ? null : tmpPurchasable == 1;
         if (in.readByte() == 0) {
@@ -232,12 +232,12 @@ public class Product implements Parcelable {
         return price;
     }
 
-    public String getRegularPrice() {
-        return regularPrice;
+    public String getRegular_price() {
+        return regular_price;
     }
 
-    public String getSalePrice() {
-        return salePrice;
+    public String getSale_price() {
+        return sale_price;
     }
 
     public String getDateOnSaleFrom() {
@@ -256,12 +256,12 @@ public class Product implements Parcelable {
         return dateOnSaleToGmt;
     }
 
-    public String getPriceHtml() {
-        return priceHtml;
+    public String getPrice_html() {
+        return price_html;
     }
 
-    public Boolean getOnSale() {
-        return onSale;
+    public Boolean getOn_sale() {
+        return on_sale;
     }
 
     public Boolean getPurchasable() {
@@ -438,14 +438,14 @@ public class Product implements Parcelable {
         dest.writeString(shortDescription);
         dest.writeString(sku);
         dest.writeString(price);
-        dest.writeString(regularPrice);
-        dest.writeString(salePrice);
+        dest.writeString(regular_price);
+        dest.writeString(sale_price);
         dest.writeString(dateOnSaleFrom);
         dest.writeString(dateOnSaleFromGmt);
         dest.writeString(dateOnSaleTo);
         dest.writeString(dateOnSaleToGmt);
-        dest.writeString(priceHtml);
-        dest.writeByte((byte) (onSale == null ? 0 : onSale ? 1 : 2));
+        dest.writeString(price_html);
+        dest.writeByte((byte) (on_sale == null ? 0 : on_sale ? 1 : 2));
         dest.writeByte((byte) (purchasable == null ? 0 : purchasable ? 1 : 2));
         if (totalSales == null) {
             dest.writeByte((byte) 0);

@@ -50,7 +50,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
         }else {
             holder.image.setImageResource(R.drawable.notfound);
         }
-        Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSalePrice());
+        Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSale_price());
     }
 
     @Override
