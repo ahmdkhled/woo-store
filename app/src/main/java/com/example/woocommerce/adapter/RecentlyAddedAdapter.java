@@ -27,19 +27,29 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     private Context context;
     private ArrayList<Product> productsList;
+    boolean isMainSample;
 
     public RecentlyAddedAdapter(Context context, ArrayList<Product> productsList) {
         this.context = context;
         this.productsList = productsList;
     }
 
+    public RecentlyAddedAdapter(Context context, ArrayList<Product> productsList, boolean isMainSample) {
+        this.context = context;
+        this.productsList = productsList;
+        this.isMainSample = isMainSample;
+    }
+
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.product_row,parent,false);
-//        RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        layoutParams.setMargins(5,5,5,5);
-//        v.setLayoutParams(layoutParams);
+        if (isMainSample){
+            RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(5,5,5,5);
+            v.setLayoutParams(layoutParams);
+        }
+
         return new ProductHolder(v);
     }
 

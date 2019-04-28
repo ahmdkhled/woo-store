@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showRecentlyAddedProducts(ArrayList<Product> products) {
-        RecentlyAddedAdapter recentlyAddedAdapter=new RecentlyAddedAdapter(this,products);
+        RecentlyAddedAdapter recentlyAddedAdapter=new RecentlyAddedAdapter(this,products,true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
         recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);
