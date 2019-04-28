@@ -2,11 +2,14 @@ package com.example.woocommerce.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.CategoriesAdapter;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     CategoriesAdapter categoriesAdapter;
     CategoriesViewModel categoriesViewModel;
     ProductsViewModel productsViewModel;
+    TextView showAllRecently;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         categoriesRecycler=findViewById(R.id.categoriesRecycler);
         recentlyAddedRecycler=findViewById(R.id.RecentlyRecycler);
+        showAllRecently=findViewById(R.id.see_all_recently);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -51,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         observeRecentlyAdded();
         observeRecentlyAddedError();
 
+        showAllRecently.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     void observeCategories(){

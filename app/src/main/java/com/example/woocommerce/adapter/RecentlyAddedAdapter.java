@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +34,9 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.product_row,parent,false);
-        RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(5,5,5,5);
-        v.setLayoutParams(layoutParams);
+//        RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        layoutParams.setMargins(5,5,5,5);
+//        v.setLayoutParams(layoutParams);
         return new ProductHolder(v);
     }
 
@@ -50,6 +51,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
         }else {
             holder.image.setImageResource(R.drawable.notfound);
         }
+        
         Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSale_price());
     }
 
