@@ -2,6 +2,9 @@ package com.example.woocommerce.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -51,7 +54,13 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
         }else {
             holder.image.setImageResource(R.drawable.notfound);
         }
-        
+        if (product.getSale_price()!=null&& !TextUtils.isEmpty(product.getSale_price())){
+            holder.sale_price.setVisibility(View.VISIBLE);
+            holder.price.setPaintFlags(holder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.price.setTextColor(Color.parseColor("#A7A5A5"));
+            holder.price.setTypeface(holder.price.getTypeface(), Typeface.NORMAL);
+            holder.sale_price.setText(product.getSale_price());
+        }
         Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSale_price());
     }
 
@@ -70,8 +79,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
             price=itemView.findViewById(R.id.product_price);
             sale_price=itemView.findViewById(R.id.producr_sale_price);
 
-            name.setTextSize(15);
-            price.setTextSize(15);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
