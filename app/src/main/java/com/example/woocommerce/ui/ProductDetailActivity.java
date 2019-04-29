@@ -1,10 +1,14 @@
 package com.example.woocommerce.ui;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +37,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         name=findViewById(R.id.product_name);
         price=findViewById(R.id.product_price);
+        sale_price=findViewById(R.id.price_after);
         DetailsPager =findViewById(R.id.product_detail_viewPager);
         imagesPager =findViewById(R.id.product_images_viewPager);
         indicator=findViewById(R.id.product_images_indicator);
@@ -73,6 +78,15 @@ public class ProductDetailActivity extends AppCompatActivity {
     void populateProductDetail(Product product){
         name.setText(product.getName());
         price.setText(product.getPrice());
+
+        if (product.getSale_price()!=null&& !TextUtils.isEmpty(product.getSale_price())){
+            sale_price.setVisibility(View.VISIBLE);
+            price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            price.setTextColor(Color.parseColor("#A7A5A5"));
+            price.setTypeface(price.getTypeface(), Typeface.NORMAL);
+            sale_price.setText(product.getSale_price());
+        }
+
         DetailsAdapter detailsAdapter=new DetailsAdapter(getSupportFragmentManager());
         DetailsPager.setAdapter(detailsAdapter);
         tabLayout.setupWithViewPager(DetailsPager);

@@ -87,7 +87,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
             image=itemView.findViewById(R.id.product_image);
             name=itemView.findViewById(R.id.product_name);
             price=itemView.findViewById(R.id.product_price);
-            sale_price=itemView.findViewById(R.id.producr_sale_price);
+            sale_price=itemView.findViewById(R.id.product_sale_price);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
