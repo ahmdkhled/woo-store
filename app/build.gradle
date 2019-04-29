@@ -47,4 +47,7 @@ dependencies {
     // glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+    //pager indicator
+    implementation 'com.romandanylyk:pageindicatorview:1.0.0'
 }

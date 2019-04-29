@@ -16,6 +16,15 @@
         tools:background="#F3F3F3"
         android:id="@+id/product_images_viewPager"/>
 
+    <com.rd.PageIndicatorView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_images_indicator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/product_images_viewPager"
+        android:layout_marginBottom="3dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
