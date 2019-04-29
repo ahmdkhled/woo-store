@@ -1,21 +1,51 @@
 package com.example.woocommerce.ui;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.woocommerce.model.CartItem;
+import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.R;
+import com.example.woocommerce.viewmodel.CartViewModel;
+import com.example.woocommerce.viewmodel.ProductDetailViewModel;
 
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CartActivity extends AppCompatActivity {
 
+    @BindView(R.id.back_arrow)
+    ImageView mBackArrowBtn;
+    @BindView(R.id.cart_done)
+    ImageView mDoneBtn;
+    @BindView(R.id.cart_title_txt)
+    TextView mCartTitleTxt;
+    @BindView(R.id.cart_total_txt)
+    TextView mCartTotalTxt;
+    @BindView(R.id.cart_total_value)
+    TextView mCartTotalValueTxt;
+    @BindView(R.id.cart_recycler_view)
+    RecyclerView mCartRecyclerView;
 
+    CartViewModel mViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +57,35 @@ public class CartActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
+        ButterKnife.bind(this);
+
+
+        // init recycler view
+        mCartRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        
+
+        mViewModel = ViewModelProviders.of(this).get(CartViewModel.class);
+        mViewModel.getCartItems();
+
+        // observe getting cart items
+        mViewModel.getmCartItems().observe(this, new Observer<ArrayList<Product>>() {
+            @Override
+            public void onChanged(@Nullable ArrayList<Product> products) {
+
+            }
+        });
+
+        // observe is cart is empty
+        mViewModel.getIsCartEmpty().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if(aBoolean){
+                    // empty cart
+                    Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
     }
