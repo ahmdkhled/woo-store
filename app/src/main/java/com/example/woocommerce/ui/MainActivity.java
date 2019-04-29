@@ -7,10 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.CategoriesAdapter;
-import com.example.woocommerce.adapter.RecentlyAddedAdapter;
+import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Category;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 null,null,null,null,null);
         observeRecentlyAdded();
         observeRecentlyAddedError();
+
 
     }
 
@@ -105,13 +107,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showRecentlyAddedProducts(ArrayList<Product> products) {
-        RecentlyAddedAdapter recentlyAddedAdapter=new RecentlyAddedAdapter(this,products);
+        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
         recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);
         recentlyAddedRecycler.setLayoutManager(layoutManager);
 
     }
+
 
 
 

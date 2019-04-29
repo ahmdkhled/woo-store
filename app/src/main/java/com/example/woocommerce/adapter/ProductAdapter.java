@@ -17,12 +17,12 @@ import com.example.woocommerce.model.Product;
 
 import java.util.ArrayList;
 
-public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.ProductHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
 
     private Context context;
     private ArrayList<Product> productsList;
 
-    public RecentlyAddedAdapter(Context context, ArrayList<Product> productsList) {
+    public ProductAdapter(Context context, ArrayList<Product> productsList) {
         this.context = context;
         this.productsList = productsList;
     }

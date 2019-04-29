@@ -38,4 +38,7 @@ public class ProductsViewModel extends ViewModel {
     public MutableLiveData<String> getProductsLoadingError() {
         return ProductsRepo.getInstance().getProductsLoadingError();
     }
+
+
+
 }
