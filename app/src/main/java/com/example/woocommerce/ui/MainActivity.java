@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-
     RecyclerView categoriesRecycler,
             recentlyAddedRecycler;
     CategoriesAdapter categoriesAdapter;
@@ -59,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         categoriesViewModel.getCategories().observe(this, new Observer<ArrayList<Category>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Category> categories) {
-                showCategories(categories);
+                if(categories == null)
+                    Toast.makeText(MainActivity.this, com.example.woocommerce.R.string.error_message, Toast.LENGTH_SHORT).show();
+                else showCategories(categories);
             }
         });
     }
@@ -80,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        showRecentlyAddedProducts(products);
+                        if(products == null)
+                            Toast.makeText(MainActivity.this, com.example.woocommerce.R.string.error_message, Toast.LENGTH_SHORT).show();
+                        else showRecentlyAddedProducts(products);
                     }
                 });
     }

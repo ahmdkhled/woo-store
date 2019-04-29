@@ -7,11 +7,15 @@ import android.support.annotation.NonNull;
 
 import com.example.woocommerce.utils.PrefManager;
 
-public class ProducDetailViewModel extends AndroidViewModel {
+public class ProductDetailViewModel extends AndroidViewModel {
 
-    private MutableLiveData<Boolean> isItemSavedIntoCart;
-    public ProducDetailViewModel(@NonNull Application application) {
+    private MutableLiveData<Integer> isItemSavedIntoCart;
+    public ProductDetailViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    public void init(){
+        if(isItemSavedIntoCart == null)isItemSavedIntoCart = new MutableLiveData<>();
     }
 
     public void addProductToCart(int id, int quantity){
@@ -19,7 +23,7 @@ public class ProducDetailViewModel extends AndroidViewModel {
         isItemSavedIntoCart.setValue(manager.addItemToCart(id,quantity));
     }
 
-    public MutableLiveData<Boolean> getIsItemSavedIntoCart() {
+    public MutableLiveData<Integer> getIsItemSavedIntoCart() {
         if(isItemSavedIntoCart == null) isItemSavedIntoCart = new MutableLiveData<>();
         return isItemSavedIntoCart;
     }
