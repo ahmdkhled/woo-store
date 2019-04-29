@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.DetailsAdapter;
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.utils.PrefManager;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
