@@ -18,7 +18,7 @@ import com.rd.animation.type.AnimationType;
 public class ProductDetailActivity extends AppCompatActivity {
 
     public static final String PRODUCT_KEY="product_key";
-    Product product;
+    public Product product;
     TextView name,price,sale_price;
     ViewPager DetailsPager,imagesPager;
     PageIndicatorView indicator;
