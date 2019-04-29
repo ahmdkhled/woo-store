@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.DetailsAdapter;
+import com.example.woocommerce.adapter.ProductMediaAdapter;
 import com.example.woocommerce.model.Product;
 
 public class ProductDetailActivity extends AppCompatActivity {
@@ -16,7 +17,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     public static final String PRODUCT_KEY="product_key";
     Product product;
     TextView name,price,sale_price;
-    ViewPager viewPager;
+    ViewPager DetailsPager,imagesPager;
     TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         name=findViewById(R.id.product_name);
         price=findViewById(R.id.product_price);
-        viewPager=findViewById(R.id.product_detail_viewPager);
+        DetailsPager =findViewById(R.id.product_detail_viewPager);
+        imagesPager =findViewById(R.id.product_images_viewPager);
         tabLayout=findViewById(R.id.product_detail_tabLayout);
 
         product =getIntent().getParcelableExtra(PRODUCT_KEY);
@@ -36,8 +38,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         name.setText(product.getName());
         price.setText(product.getPrice());
         DetailsAdapter detailsAdapter=new DetailsAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(detailsAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        DetailsPager.setAdapter(detailsAdapter);
+        tabLayout.setupWithViewPager(DetailsPager);
+
+        if (product.getImages()!=null&&!product.getImages().isEmpty()){
+            ProductMediaAdapter productMediaAdapter=new ProductMediaAdapter(this,product.getImages());
+            imagesPager.setAdapter(productMediaAdapter);
+        }
+
 
     }
 }
