@@ -44,7 +44,7 @@ public class CategoriesRepo {
                     public void onResponse(Call<ArrayList<Category>> call, Response<ArrayList<Category>> response) {
                         categories.setValue(response.body());
                         isCategoriesLoading.setValue(false);
-                        Log.d("CATTTTT", "onResponse: "+response.body().size());
+//                        Log.d("CATTTTT", "onResponse: "+response.body().size());
                     }
 
                     @Override

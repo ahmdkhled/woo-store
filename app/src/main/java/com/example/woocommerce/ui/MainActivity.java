@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.CategoriesAdapter;
-import com.example.woocommerce.adapter.RecentlyAddedAdapter;
+import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Category;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-
     RecyclerView categoriesRecycler,
             recentlyAddedRecycler;
     CategoriesAdapter categoriesAdapter;
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         observeRecentlyAdded();
         observeRecentlyAddedError();
 
+
         showAllRecently.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
         categoriesViewModel.getCategories().observe(this, new Observer<ArrayList<Category>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Category> categories) {
-                showCategories(categories);
+                if(categories == null)
+                    Toast.makeText(MainActivity.this, com.example.woocommerce.R.string.error_message, Toast.LENGTH_SHORT).show();
+                else showCategories(categories);
             }
         });
     }
@@ -90,7 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        showRecentlyAddedProducts(products);
+                        if(products == null)
+                            Toast.makeText(MainActivity.this, com.example.woocommerce.R.string.error_message, Toast.LENGTH_SHORT).show();
+                        else showRecentlyAddedProducts(products);
                     }
                 });
     }
@@ -117,13 +121,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showRecentlyAddedProducts(ArrayList<Product> products) {
-        RecentlyAddedAdapter recentlyAddedAdapter=new RecentlyAddedAdapter(this,products,true);
+        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
         recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);
         recentlyAddedRecycler.setLayoutManager(layoutManager);
 
     }
+
 
 
 

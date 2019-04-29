@@ -1,6 +1,8 @@
 package com.example.woocommerce.repository;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
+
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.network.RetrofitClient;
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ public class ProductsRepo {
         
         return products;
     }
+
 
 
     public MutableLiveData<Boolean> getIsProductsLoading() {

@@ -23,18 +23,18 @@ import com.example.woocommerce.ui.ProductDetailActivity;
 
 import java.util.ArrayList;
 
-public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.ProductHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHolder> {
 
     private Context context;
     private ArrayList<Product> productsList;
     boolean isMainSample;
 
-    public RecentlyAddedAdapter(Context context, ArrayList<Product> productsList) {
+    public ProductAdapter(Context context, ArrayList<Product> productsList) {
         this.context = context;
         this.productsList = productsList;
     }
 
-    public RecentlyAddedAdapter(Context context, ArrayList<Product> productsList, boolean isMainSample) {
+    public ProductAdapter(Context context, ArrayList<Product> productsList, boolean isMainSample) {
         this.context = context;
         this.productsList = productsList;
         this.isMainSample = isMainSample;
@@ -76,7 +76,8 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     @Override
     public int getItemCount() {
-        return productsList.size();
+        if(productsList != null && productsList.size() > 0) return productsList.size();
+        return 0;
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{

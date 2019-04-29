@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.woocommerce.R;
-import com.example.woocommerce.adapter.RecentlyAddedAdapter;
+import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
 
@@ -62,7 +62,7 @@ public class ProductsActivity extends AppCompatActivity {
     }
 
     private void showRecentlyAddedProducts(ArrayList<Product> products) {
-        RecentlyAddedAdapter recentlyAddedAdapter=new RecentlyAddedAdapter(this,products);
+        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products);
         GridLayoutManager layoutManager=new GridLayoutManager(this,2);
         recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);
         recentlyAddedRecycler.setLayoutManager(layoutManager);

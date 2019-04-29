@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">woocommerce</string>
+    <string name="error_message">something went wrong, please try again</string>
 </resources>
