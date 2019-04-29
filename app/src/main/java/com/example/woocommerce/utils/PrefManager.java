@@ -20,7 +20,7 @@ public class PrefManager {
         mSharedPref = context.getSharedPreferences(CART_SHARED_PREF,Context.MODE_PRIVATE);
     }
 
-    public void addItemToCart(int id, int quantity){
+    public boolean addItemToCart(int id, int quantity){
         CartItem cartItem = new CartItem(id,quantity);
         ArrayList<CartItem> cartItems = getCartItems();
         if(cartItems == null)cartItems = new ArrayList<>();
@@ -29,7 +29,7 @@ public class PrefManager {
         String cartItemsAsString = gson.toJson(cartItems);
         mEditor = mSharedPref.edit();
         mEditor.putString(CART_EDITOR,cartItemsAsString);
-        mEditor.apply();
+        return mEditor.commit();
     }
 
     private ArrayList<CartItem> getCartItems() {
