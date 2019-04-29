@@ -4,8 +4,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.woocommerce.R;
@@ -23,6 +25,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     ViewPager DetailsPager,imagesPager;
     PageIndicatorView indicator;
     TabLayout tabLayout;
+    Toolbar toolbar;
+    ImageView navigationUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         imagesPager =findViewById(R.id.product_images_viewPager);
         indicator=findViewById(R.id.product_images_indicator);
         tabLayout=findViewById(R.id.product_detail_tabLayout);
+        toolbar=findViewById(R.id.toolbar);
+        navigationUp=findViewById(R.id.navigation_up);
 
+        setSupportActionBar(toolbar);
         product =getIntent().getParcelableExtra(PRODUCT_KEY);
         Log.d("PRODUCCTTT", "product : "+product.getName());
         populateProductDetail(product);
@@ -52,6 +59,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        navigationUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
