@@ -12,7 +12,6 @@ import com.example.woocommerce.repository.ProductsRepo;
 import com.example.woocommerce.utils.PrefManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CartViewModel extends AndroidViewModel {
 
@@ -21,10 +20,12 @@ public class CartViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isCartEmpty;
     private MutableLiveData<Boolean> isProductLoading;
     private MutableLiveData<String> productLoadingError;
+    private PrefManager prefManager;
 
     public CartViewModel(@NonNull Application application) {
         super(application);
         productsRepo = ProductsRepo.getInstance();
+        prefManager = new PrefManager(getApplication());
         if(isCartEmpty == null) isCartEmpty = new MutableLiveData<>();
     }
 
@@ -32,7 +33,7 @@ public class CartViewModel extends AndroidViewModel {
 
         String cartItemsIds = getCartItemsIds();
         if(cartItemsIds != null) {
-            mCartItems = productsRepo.getProducts(null, "10", null, null, null, null, null,
+            mCartItems = productsRepo.getProducts(null, String.valueOf(getCartSize()), null, null, null, null, null,
                     null, null, null, null, "publish", null, cartItemsIds,
                     null, null, null, null);
             isCartEmpty.setValue(false);
@@ -64,8 +65,7 @@ public class CartViewModel extends AndroidViewModel {
 
     private String getCartItemsIds() {
         StringBuilder cartItemsIds = new StringBuilder();
-        PrefManager manager = new PrefManager(getApplication());
-        ArrayList<CartItem> cartItems = manager.getCartItems();
+        ArrayList<CartItem> cartItems = prefManager.getCartItems();
         if(cartItems != null && cartItems.size() > 0) {
             for (CartItem item : cartItems) {
                 cartItemsIds.append(item.getId()+",");
@@ -76,6 +76,10 @@ public class CartViewModel extends AndroidViewModel {
 
         return null;
 
+    }
+
+    private int getCartSize(){
+        return prefManager.getCartSize();
     }
 
 

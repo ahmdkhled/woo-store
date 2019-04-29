@@ -52,4 +52,10 @@ public class PrefManager {
         }
         return false;
     }
+
+    public int getCartSize() {
+        ArrayList<CartItem> cartItems = getCartItems();
+        if(cartItems != null && cartItems.size() > 0)return cartItems.size();
+        return 0;
+    }
 }
