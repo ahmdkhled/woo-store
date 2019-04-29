@@ -19,6 +19,8 @@ public class CartViewModel extends AndroidViewModel {
     private ProductsRepo productsRepo;
     private MutableLiveData<ArrayList<Product>> mCartItems;
     private MutableLiveData<Boolean> isCartEmpty;
+    private MutableLiveData<Boolean> isProductLoading;
+    private MutableLiveData<String> productLoadingError;
 
     public CartViewModel(@NonNull Application application) {
         super(application);
@@ -34,6 +36,8 @@ public class CartViewModel extends AndroidViewModel {
                     null, null, null, null, "publish", null, cartItemsIds,
                     null, null, null, null);
             isCartEmpty.setValue(false);
+            isProductLoading = productsRepo.getIsProductsLoading();
+            productLoadingError = productsRepo.getProductsLoadingError();
         }else isCartEmpty.setValue(true);
 
     }
@@ -43,6 +47,15 @@ public class CartViewModel extends AndroidViewModel {
         return mCartItems;
     }
 
+    public MutableLiveData<Boolean> getIsProductLoading() {
+        if(isProductLoading == null) isProductLoading = new MutableLiveData<>();
+        return isProductLoading;
+    }
+
+    public MutableLiveData<String> getProductLoadingError() {
+        if(productLoadingError == null) productLoadingError = new MutableLiveData<>();
+        return productLoadingError;
+    }
 
     public MutableLiveData<Boolean> getIsCartEmpty() {
         if(isCartEmpty == null)isCartEmpty = new MutableLiveData<>();

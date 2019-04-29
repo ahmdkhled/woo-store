@@ -1,6 +1,7 @@
 package com.example.woocommerce.ui;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,8 @@ public class CartActivity extends AppCompatActivity {
     TextView mCartTotalValueTxt;
     @BindView(R.id.cart_recycler_view)
     RecyclerView mCartRecyclerView;
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     CartViewModel mViewModel;
     CartAdapter mCartAdapter;
@@ -75,24 +79,57 @@ public class CartActivity extends AppCompatActivity {
         mViewModel.getCartItems();
 
         // observe getting cart items
-        mViewModel.getmCartItems().observe(this, new Observer<ArrayList<Product>>() {
-            @Override
-            public void onChanged(@Nullable ArrayList<Product> products) {
-                mCartAdapter.notifyAdapter(products);
-            }
-        });
+        if(!mViewModel.getmCartItems().hasActiveObservers()) {
+            mViewModel.getmCartItems().observe(this, new Observer<ArrayList<Product>>() {
+                @Override
+                public void onChanged(@Nullable ArrayList<Product> products) {
+                    mCartAdapter.notifyAdapter(products);
+                }
+            });
+        }
+
+        // observe if loading cart items is finished or not
+        if(!mViewModel.getIsProductLoading().hasActiveObservers()) {
+            mViewModel.getIsProductLoading().observe(this, new Observer<Boolean>() {
+                @Override
+                public void onChanged(@Nullable Boolean aBoolean) {
+                    if (aBoolean) showProgressBar();
+                    else hideProgressBar();
+                }
+            });
+        }
+
+        // observe if there is error while loading cart items
+        if(!mViewModel.getProductLoadingError().hasActiveObservers()) {
+            mViewModel.getProductLoadingError().observe(this, new Observer<String>() {
+                @Override
+                public void onChanged(@Nullable String s) {
+                    if(s != null) Toast.makeText(CartActivity.this, s, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         // observe is cart is empty
-        mViewModel.getIsCartEmpty().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                if(aBoolean){
-                    // empty cart
-                    Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
+        if(!mViewModel.getIsCartEmpty().hasActiveObservers()) {
+            mViewModel.getIsCartEmpty().observe(this, new Observer<Boolean>() {
+                @Override
+                public void onChanged(@Nullable Boolean aBoolean) {
+                    if (aBoolean) {
+                        // empty cart
+                        Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }
 
 
+
+    }
+
+    private void showProgressBar(){
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+    private void hideProgressBar(){
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 }

@@ -45,7 +45,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
     public void onBindViewHolder(@NonNull CartHolder holder, int position) {
         Product product = products.get(position);
         holder.mCartItemName.setText(product.getName());
-        holder.mPrice.setText(product.getRegular_price()+" EGP");
+        holder.mPrice.setText(product.getOn_sale()?product.getSale_price()+" EGP":product.getRegular_price());
         holder.mQuantityTxt.setText("1");
         List<Image> images = product.getImages();
         if(images != null && images.size() > 0){

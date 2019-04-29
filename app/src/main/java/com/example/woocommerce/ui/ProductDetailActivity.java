@@ -67,7 +67,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                                     break;
                             }
                             mAddToCartBtn.setClickable(true);
-                            startActivity(new Intent(ProductDetailActivity.this, CartActivity.class));
                         }
                     });
 
