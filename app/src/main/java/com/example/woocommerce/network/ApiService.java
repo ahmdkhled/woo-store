@@ -2,6 +2,7 @@ package com.example.woocommerce.network;
 
 import com.example.woocommerce.model.Category;
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.model.Review;
 
 import java.util.ArrayList;
 
@@ -33,4 +34,7 @@ public interface ApiService {
                                 @Query("slug") String slug,@Query("hide_empty")  boolean hide_empty,
                                 @Query("order_by")  String order_by,@Query("order")  String order
                                   );
+
+    @GET("products/reviews")
+    Call<ArrayList<Review>> getReviews(@Query("page") String page,@Query("product") int product_id);
 }
