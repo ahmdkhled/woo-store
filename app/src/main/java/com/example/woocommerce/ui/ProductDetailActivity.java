@@ -5,6 +5,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.woocommerce.R;
@@ -18,6 +20,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView name,price,sale_price;
     ViewPager viewPager;
     TabLayout tabLayout;
+    Button mAddToCartBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +29,18 @@ public class ProductDetailActivity extends AppCompatActivity {
         price=findViewById(R.id.product_price);
         viewPager=findViewById(R.id.product_detail_viewPager);
         tabLayout=findViewById(R.id.product_detail_tabLayout);
+        mAddToCartBtn=findViewById(R.id.addToCart);
 
         product =getIntent().getParcelableExtra(PRODUCT_KEY);
         Log.d("PRODUCCTTT", "product : "+product.getName());
         populateProductDetail(product);
+
+        mAddToCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     void populateProductDetail(Product product){
