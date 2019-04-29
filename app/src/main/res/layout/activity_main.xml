@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#fff">
+
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="#fff">
 
     <TextView
@@ -94,7 +102,7 @@
         android:textStyle="bold"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@id/categories_label"
-        app:layout_constraintTop_toBottomOf="@id/RecentlyRecycler"
+        app:layout_constraintTop_toBottomOf="@id/deals_recycler"
         android:layout_marginTop="5dp"
         />
 
@@ -126,7 +134,7 @@
         android:text="Deals"
         android:textStyle="bold"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/bestRecycler"
+        app:layout_constraintTop_toBottomOf="@id/RecentlyRecycler"
         app:layout_constraintStart_toStartOf="@id/categories_label"
         android:layout_marginTop="5dp"
         />
@@ -145,9 +153,12 @@
         />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:id="@+id/deals_recycler"
         app:layout_constraintTop_toBottomOf="@id/deals_label"
-        android:layout_height="70dp">
+        >
 
     </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>
+</ScrollView>

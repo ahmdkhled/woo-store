@@ -1,6 +1,7 @@
 package com.example.woocommerce.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.woocommerce.R;
 import com.example.woocommerce.model.Image;
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.ui.ProductDetailActivity;
 
 import java.util.ArrayList;
 
@@ -48,7 +50,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         }else {
             holder.image.setImageResource(R.drawable.notfound);
         }
-        Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSalePrice());
+        Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSale_price());
     }
 
     @Override
@@ -68,6 +70,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
             name.setTextSize(15);
             price.setTextSize(15);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, ProductDetailActivity.class);
+                    intent.putExtra(ProductDetailActivity.PRODUCT_KEY,productsList.get(getAdapterPosition()));
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
