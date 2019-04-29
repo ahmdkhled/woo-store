@@ -2,8 +2,12 @@ package com.example.woocommerce.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,19 +27,29 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     private Context context;
     private ArrayList<Product> productsList;
+    boolean isMainSample;
 
     public ProductAdapter(Context context, ArrayList<Product> productsList) {
         this.context = context;
         this.productsList = productsList;
     }
 
+    public RecentlyAddedAdapter(Context context, ArrayList<Product> productsList, boolean isMainSample) {
+        this.context = context;
+        this.productsList = productsList;
+        this.isMainSample = isMainSample;
+    }
+
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.product_row,parent,false);
-        RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(5,5,5,5);
-        v.setLayoutParams(layoutParams);
+        if (isMainSample){
+            RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(270, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(5,5,5,5);
+            v.setLayoutParams(layoutParams);
+        }
+
         return new ProductHolder(v);
     }
 
@@ -49,6 +63,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             Glide.with(context).load(images.get(0).getSrc()).into(holder.image);
         }else {
             holder.image.setImageResource(R.drawable.notfound);
+        }
+        if (product.getSale_price()!=null&& !TextUtils.isEmpty(product.getSale_price())){
+            holder.sale_price.setVisibility(View.VISIBLE);
+            holder.price.setPaintFlags(holder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.price.setTextColor(Color.parseColor("#A7A5A5"));
+            holder.price.setTypeface(holder.price.getTypeface(), Typeface.NORMAL);
+            holder.sale_price.setText(product.getSale_price());
         }
         Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSale_price());
     }
@@ -69,8 +90,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             price=itemView.findViewById(R.id.product_price);
             sale_price=itemView.findViewById(R.id.producr_sale_price);
 
-            name.setTextSize(15);
-            price.setTextSize(15);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

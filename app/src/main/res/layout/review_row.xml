@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardElevation="3dp"
+    android:layout_margin="3dp"
+    app:cardCornerRadius="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,29 +17,32 @@
         android:text="ahmed khaled"
         android:id="@+id/reviewer_name"
         android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#2C2C2C"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
         app:layout_constraintTop_toTopOf="@id/review_ratingBar"
         />
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/MyRatingBar"
         android:id="@+id/review_ratingBar"
-        android:layout_marginTop="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/reviewer_name"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        android:isIndicator="true"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/product_description"
+        android:id="@+id/review_content"
         android:text="this product is very good"
         app:layout_constraintTop_toBottomOf="@id/reviewer_name"
-        android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp" />
 
 </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

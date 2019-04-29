@@ -16,15 +16,19 @@ import android.widget.Toast;
 
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.DetailsAdapter;
+import com.example.woocommerce.adapter.ProductMediaAdapter;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.viewmodel.ProductDetailViewModel;
+import com.rd.PageIndicatorView;
+import com.rd.animation.type.AnimationType;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
     public static final String PRODUCT_KEY="product_key";
-    Product product;
+    public Product product;
     TextView name,price,sale_price;
-    ViewPager viewPager;
+    ViewPager DetailsPager,imagesPager;
+    PageIndicatorView indicator;
     TabLayout tabLayout;
     Button mAddToCartBtn;
     ProductDetailViewModel mViewModel;
@@ -34,7 +38,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         name=findViewById(R.id.product_name);
         price=findViewById(R.id.product_price);
-        viewPager=findViewById(R.id.product_detail_viewPager);
+        DetailsPager =findViewById(R.id.product_detail_viewPager);
+        imagesPager =findViewById(R.id.product_images_viewPager);
+        indicator=findViewById(R.id.product_images_indicator);
         tabLayout=findViewById(R.id.product_detail_tabLayout);
         mAddToCartBtn=findViewById(R.id.addToCart);
 
@@ -50,7 +56,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAddToCartBtn.setClickable(false);
-                mViewModel.addProductToCart(product.getId(),1);
+                mViewModel.addProductToCart(product.getId(), 1);
                 if (!mViewModel.getIsItemSavedIntoCart().hasActiveObservers()) {
                     mViewModel.getIsItemSavedIntoCart().observe(ProductDetailActivity.this, new Observer<Integer>() {
                         @Override
@@ -67,10 +73,30 @@ public class ProductDetailActivity extends AppCompatActivity {
                                     break;
                             }
                             mAddToCartBtn.setClickable(true);
+
                         }
                     });
-
                 }
+            }
+        });
+
+
+
+
+        imagesPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                indicator.setSelection(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
@@ -79,8 +105,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         name.setText(product.getName());
         price.setText(product.getPrice());
         DetailsAdapter detailsAdapter=new DetailsAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(detailsAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        DetailsPager.setAdapter(detailsAdapter);
+        tabLayout.setupWithViewPager(DetailsPager);
+
+        if (product.getImages()!=null&&!product.getImages().isEmpty()){
+            ProductMediaAdapter productMediaAdapter=new ProductMediaAdapter(this,product.getImages());
+            imagesPager.setAdapter(productMediaAdapter);
+            indicator.setAnimationType(AnimationType.WORM);
+            indicator.setCount(product.getImages().size());
+        }
+
 
     }
 }
