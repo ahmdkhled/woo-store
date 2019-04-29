@@ -3,6 +3,7 @@ package com.example.woocommerce.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.woocommerce.model.Image;
 import com.example.woocommerce.model.Product;
-
-import org.w3c.dom.Text;
+import com.example.woocommerce.utils.CartListener;
 
 import java.util.List;
 
@@ -26,12 +26,16 @@ import butterknife.ButterKnife;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
 
-    protected Context context;
-    protected List<Product> products;
+    private Context context;
+    private List<Product> products;
+    private CartListener mCartListener;
 
-    public CartAdapter(Context context, List<Product> products) {
+
+
+    public CartAdapter(Context context, List<Product> products, CartListener cartListener) {
         this.context = context;
         this.products = products;
+        this.mCartListener = cartListener;
     }
 
 
@@ -42,10 +46,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartHolder holder, int position) {
-        Product product = products.get(position);
+    public void onBindViewHolder(@NonNull final CartHolder holder, int position) {
+        final Product product = products.get(position);
         holder.mCartItemName.setText(product.getName());
-        holder.mPrice.setText(product.getOn_sale()?product.getSale_price()+" EGP":product.getRegular_price());
+        holder.mPrice.setText(product.getOn_sale()?product.getSale_price():product.getRegular_price()+" EGP");
         holder.mQuantityTxt.setText("1");
         List<Image> images = product.getImages();
         if(images != null && images.size() > 0){
@@ -56,6 +60,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
                     .placeholder(R.drawable.notfound))
                     .into(holder.mCartItemImage);
         }else holder.mCartItemImage.setImageResource(R.drawable.notfound);
+
+
+        holder.mIncreaseQuantityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("fromcartadapter","increase");
+                int oldQuantity =Integer.valueOf(holder.mQuantityTxt.getText().toString());
+                Log.d("fromcartadapter","increase old : "+oldQuantity);
+                Log.d("fromcartadapter","stock is : "+product.getStockQuantity());
+
+                    int newQuantity = oldQuantity + 1;
+                    Log.d("fromcartadapter","increase new "+ newQuantity);
+                    holder.mQuantityTxt.setText(String.valueOf(newQuantity));
+                    mCartListener.increaseItemQuantity(product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
+
+            }
+        });
+
+        holder.mDecreaseQuantityBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int oldQuantity =Integer.valueOf(holder.mQuantityTxt.getText().toString());
+                if(oldQuantity > 1) {
+                    int newQuantity = oldQuantity - 1;
+                    holder.mQuantityTxt.setText(newQuantity + "");
+                    mCartListener.decreaseItemQuantity(product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
+                }
+            }
+        });
     }
 
     @Override

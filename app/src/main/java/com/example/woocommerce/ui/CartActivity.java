@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.woocommerce.adapter.CartAdapter;
 import com.example.woocommerce.model.CartItem;
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.utils.CartListener;
 import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.R;
 import com.example.woocommerce.viewmodel.CartViewModel;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity implements CartListener {
 
     @BindView(R.id.back_arrow)
     ImageView mBackArrowBtn;
@@ -52,6 +53,7 @@ public class CartActivity extends AppCompatActivity {
 
     CartViewModel mViewModel;
     CartAdapter mCartAdapter;
+    private float mTotalPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class CartActivity extends AppCompatActivity {
 
         // init recycler view
         mCartRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        mCartAdapter = new CartAdapter(this,null);
+        mCartAdapter = new CartAdapter(this,null,this);
         mCartRecyclerView.setHasFixedSize(true);
         mCartRecyclerView.setAdapter(mCartAdapter);
 
@@ -84,6 +86,7 @@ public class CartActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(@Nullable ArrayList<Product> products) {
                     mCartAdapter.notifyAdapter(products);
+                    calculateTotalPrice(products);
                 }
             });
         }
@@ -126,10 +129,31 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    private void calculateTotalPrice(ArrayList<Product> products) {
+        if(products != null && products.size() > 0) {
+            for (Product product : products) {
+                mTotalPrice += Integer.valueOf(product.getOn_sale()?product.getSale_price():product.getRegular_price());
+            }
+            mCartTotalValueTxt.setText(mTotalPrice+" EGP");
+        }
+    }
+
     private void showProgressBar(){
         mProgressBar.setVisibility(View.VISIBLE);
     }
     private void hideProgressBar(){
         mProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void increaseItemQuantity(String price) {
+        mTotalPrice += Integer.valueOf(price);
+        mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
+    }
+
+    @Override
+    public void decreaseItemQuantity(String price) {
+        mTotalPrice -= Integer.valueOf(price);
+        mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
     }
 }
