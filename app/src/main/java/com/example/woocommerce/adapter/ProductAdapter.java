@@ -34,7 +34,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         this.productsList = productsList;
     }
 
-    public RecentlyAddedAdapter(Context context, ArrayList<Product> productsList, boolean isMainSample) {
+    public ProductAdapter(Context context, ArrayList<Product> productsList, boolean isMainSample) {
         this.context = context;
         this.productsList = productsList;
         this.isMainSample = isMainSample;
