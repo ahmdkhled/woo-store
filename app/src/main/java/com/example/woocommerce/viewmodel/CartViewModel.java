@@ -55,9 +55,9 @@ public class CartViewModel extends AndroidViewModel {
         ArrayList<CartItem> cartItems = manager.getCartItems();
         if(cartItems != null && cartItems.size() > 0) {
             for (CartItem item : cartItems) {
-                cartItemsIds.append(item.getId());
+                cartItemsIds.append(item.getId()+",");
             }
-            cartItemsIds.delete(cartItemsIds.length()-4,cartItemsIds.length()-1);
+            cartItemsIds.deleteCharAt(cartItemsIds.length()-1);
             return cartItemsIds.toString();
         }
 

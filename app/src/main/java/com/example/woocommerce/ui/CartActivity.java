@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.woocommerce.adapter.CartAdapter;
 import com.example.woocommerce.model.CartItem;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.PrefManager;
@@ -34,7 +35,7 @@ public class CartActivity extends AppCompatActivity {
 
     @BindView(R.id.back_arrow)
     ImageView mBackArrowBtn;
-    @BindView(R.id.cart_done)
+    @BindView(R.id.done)
     ImageView mDoneBtn;
     @BindView(R.id.cart_title_txt)
     TextView mCartTitleTxt;
@@ -46,6 +47,8 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView mCartRecyclerView;
 
     CartViewModel mViewModel;
+    CartAdapter mCartAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +66,10 @@ public class CartActivity extends AppCompatActivity {
 
         // init recycler view
         mCartRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        
+        mCartAdapter = new CartAdapter(this,null);
+        mCartRecyclerView.setHasFixedSize(true);
+        mCartRecyclerView.setAdapter(mCartAdapter);
+
 
         mViewModel = ViewModelProviders.of(this).get(CartViewModel.class);
         mViewModel.getCartItems();
@@ -72,7 +78,7 @@ public class CartActivity extends AppCompatActivity {
         mViewModel.getmCartItems().observe(this, new Observer<ArrayList<Product>>() {
             @Override
             public void onChanged(@Nullable ArrayList<Product> products) {
-
+                mCartAdapter.notifyAdapter(products);
             }
         });
 

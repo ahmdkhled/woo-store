@@ -13,8 +13,8 @@
         >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:id="@+id/cart_item_image"
             android:src="@drawable/item_demo"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,10 +48,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/decrease_quantity_btn"
             android:src="@drawable/ic_remove_black_24dp"
-            android:background="#fffffff"
+            android:background="#ffffff"
             app:layout_constraintTop_toTopOf="@+id/cart_item_quantity"
             app:layout_constraintBottom_toBottomOf="@+id/cart_item_quantity"
-            app:layout_constraintLeft_toLeftOf="@+id/cart_item_name"/>
+            app:layout_constraintLeft_toLeftOf="@+id/cart_item_name"
+            android:contentDescription="decrease quantity" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,10 +74,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/increase_quantity_btn"
             android:src="@drawable/ic_add_black_24dp"
-            android:background="#fffffff"
+            android:background="#ffffff"
             app:layout_constraintTop_toTopOf="@+id/cart_item_quantity"
             app:layout_constraintBottom_toBottomOf="@+id/cart_item_quantity"
-            app:layout_constraintLeft_toRightOf="@+id/cart_item_quantity"/>
+            app:layout_constraintLeft_toRightOf="@+id/cart_item_quantity"
+            android:contentDescription="increase quantity" />
 
         <TextView
             android:layout_width="wrap_content"
