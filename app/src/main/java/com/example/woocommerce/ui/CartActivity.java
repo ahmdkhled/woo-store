@@ -33,6 +33,7 @@ import com.example.woocommerce.viewmodel.ProductDetailViewModel;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,8 +95,10 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                 public void onChanged(@Nullable ArrayList<Product> products) {
                     mEmptyCartView.setVisibility(View.GONE);
                     mDoneBtn.setVisibility(View.VISIBLE);
-                    mCartAdapter.notifyAdapter(products);
-                    calculateTotalPrice(products);
+                    mCartTotalTxt.setVisibility(View.VISIBLE);
+                    List<Integer> cartItemsQuantities = getCartItemsQuantities();
+                    mCartAdapter.notifyAdapter(products,cartItemsQuantities);
+                    calculateTotalPrice(products,cartItemsQuantities);
                 }
             });
         }
@@ -130,6 +133,7 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                         // empty cart
                         mEmptyCartView.setVisibility(View.VISIBLE);
                         mDoneBtn.setVisibility(View.GONE);
+                        mCartTotalTxt.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -137,6 +141,14 @@ public class CartActivity extends AppCompatActivity implements CartListener {
         }
 
 
+        mDoneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewModel.getCartItems();
+            }
+        });
+
+        // if there are no items in cart
         mStartShoppingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,12 +156,21 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             }
         });
 
+
     }
 
-    private void calculateTotalPrice(ArrayList<Product> products) {
+    private List<Integer> getCartItemsQuantities() {
+        return mViewModel.getCartItemsQuantities();
+    }
+
+
+    private void calculateTotalPrice(ArrayList<Product> products, List<Integer> quantities) {
         if(products != null && products.size() > 0) {
-            for (Product product : products) {
-                mTotalPrice += Integer.valueOf(product.getOn_sale()?product.getSale_price():product.getRegular_price());
+            mTotalPrice = 0;
+            for(int i = 0; i < products.size(); i++){
+                mTotalPrice += (Integer.valueOf(products.get(i).getOn_sale()?
+                        products.get(i).getSale_price():products.get(i).getRegular_price()))
+                        *quantities.get(i);
             }
             mCartTotalValueTxt.setText(mTotalPrice+" EGP");
         }
@@ -163,14 +184,16 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     }
 
     @Override
-    public void increaseItemQuantity(String price) {
+    public void increaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice += Integer.valueOf(price);
         mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
+        mViewModel.updateItemQuantity(position,newQuqntity);
     }
 
     @Override
-    public void decreaseItemQuantity(String price) {
+    public void decreaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice -= Integer.valueOf(price);
         mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
+        mViewModel.updateItemQuantity(position,newQuqntity);
     }
 }

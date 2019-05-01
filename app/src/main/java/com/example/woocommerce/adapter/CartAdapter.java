@@ -28,6 +28,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
 
     private Context context;
     private List<Product> products;
+    private List<Integer> quantities;
     private CartListener mCartListener;
 
 
@@ -46,11 +47,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CartHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CartHolder holder, final int position) {
         final Product product = products.get(position);
+        int itemQuantity = quantities.get(position);
         holder.mCartItemName.setText(product.getName());
         holder.mPrice.setText(product.getOn_sale()?product.getSale_price():product.getRegular_price()+" EGP");
-        holder.mQuantityTxt.setText("1");
+        holder.mQuantityTxt.setText(itemQuantity+"");
         List<Image> images = product.getImages();
         if(images != null && images.size() > 0){
             Glide.with(context)
@@ -65,15 +67,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         holder.mIncreaseQuantityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("fromcartadapter","increase");
                 int oldQuantity =Integer.valueOf(holder.mQuantityTxt.getText().toString());
-                Log.d("fromcartadapter","increase old : "+oldQuantity);
-                Log.d("fromcartadapter","stock is : "+product.getStockQuantity());
-
-                    int newQuantity = oldQuantity + 1;
-                    Log.d("fromcartadapter","increase new "+ newQuantity);
-                    holder.mQuantityTxt.setText(String.valueOf(newQuantity));
-                    mCartListener.increaseItemQuantity(product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
+                int newQuantity = oldQuantity + 1;
+                holder.mQuantityTxt.setText(String.valueOf(newQuantity));
+                Log.d("from_cart","pos : "+position+" new q : "+newQuantity);
+                mCartListener.increaseItemQuantity(position,newQuantity,product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
 
             }
         });
@@ -85,7 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
                 if(oldQuantity > 1) {
                     int newQuantity = oldQuantity - 1;
                     holder.mQuantityTxt.setText(newQuantity + "");
-                    mCartListener.decreaseItemQuantity(product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
+                    mCartListener.decreaseItemQuantity(position,newQuantity,product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
                 }
             }
         });
@@ -97,8 +95,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         return 0;
     }
 
-    public void notifyAdapter(List<Product> products){
+    public void notifyAdapter(List<Product> products,List<Integer> quantities){
         this.products = products;
+        this.quantities = quantities;
         this.notifyDataSetChanged();
     }
 

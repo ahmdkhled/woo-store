@@ -12,6 +12,7 @@ import com.example.woocommerce.repository.ProductsRepo;
 import com.example.woocommerce.utils.PrefManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartViewModel extends AndroidViewModel {
 
@@ -83,4 +84,11 @@ public class CartViewModel extends AndroidViewModel {
     }
 
 
+    public void updateItemQuantity(int position, int newQuantity) {
+        prefManager.updateQuantity(position, newQuantity);
+    }
+
+    public List<Integer> getCartItemsQuantities() {
+       return prefManager.getCartItemsQuantities();
+    }
 }
