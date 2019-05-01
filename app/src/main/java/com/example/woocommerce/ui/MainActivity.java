@@ -19,6 +19,7 @@ import com.example.woocommerce.model.Category;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ProductsViewModel productsViewModel;
     TextView showAllCategories,showAllRecently;
     ArrayList<Category> categoriesList;
+    ShimmerFrameLayout categoriesShimmer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         bestSellerRecycler=findViewById(R.id.bestRecycler);
         showAllRecently=findViewById(R.id.see_all_recently);
         showAllCategories=findViewById(R.id.seeAllCategories);
+        categoriesShimmer=findViewById(R.id.categoriesShimmer);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 null,null,null,null,null,null,null);
         observeCategories();
         observeCategoriesError();
+        observeCategoriesLoading();
 
         productsViewModel.getRecentlyAddedproducts(null,"5",null,null,null,
                 null,null,null,null,null,"publish",null,
@@ -105,6 +109,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    void observeCategoriesLoading(){
+        categoriesViewModel
+                .getIsCategoriesLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&!aBoolean){
+                            categoriesShimmer.stopShimmer();
+                            categoriesShimmer.setVisibility(View.GONE);
+                        }
+
+
+                    }
+                });
     }
 
     void observeCategoriesError(){
@@ -206,7 +226,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        categoriesShimmer.startShimmer();
+    }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        categoriesShimmer.stopShimmer();
+    }
 }
