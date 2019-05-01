@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,16 +52,16 @@ public class MainActivity extends AppCompatActivity {
         observeCategories();
         observeCategoriesError();
 
-        productsViewModel.getRecentlyAddedproducts(null,"5",null,null,"date",null,
+        productsViewModel.getRecentlyAddedproducts(null,"5",null,null,null,
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
         observeRecentlyAdded();
 
-
         productsViewModel.getDeals(null,"8",null,null ,
-                null ,null ,null ,null,"true",null,
+                null ,null ,null ,null,null,
                 null,null,null,null,null ,null,null,null);
         observeDeals();
+
 
         showAllRecently.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,10 +96,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAdded(){
+
         productsViewModel.getRecentlyAddedproducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
+                        Log.d("from_product_repo","observeRecentlyAdded");
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message
@@ -108,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
     void observeDeals(){
+
         productsViewModel.getDeals()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
+                        Log.d("from_product_repo","observeDeals");
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message

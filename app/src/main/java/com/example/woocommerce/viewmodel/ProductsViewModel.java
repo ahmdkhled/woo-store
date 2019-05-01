@@ -11,38 +11,38 @@ public class ProductsViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Product>> RecentlyAddedproducts;
     private MutableLiveData<ArrayList<Product>> deals;
 
-    public void getRecentlyAddedproducts(String page,  String per_page,
-                                                           String search,  String category,
-                                                           String order_by,  String order,
-                                                           String min_price,  String max_price,
-                                                           String on_sale,  String featured,
-                                                           String stock_status,  String status,
-                                                           String context,  String include,
-                                                           String sku,  String slug,
-                                                           String tag,  String shipping_class){
+    public void getRecentlyAddedproducts(String page, String per_page,
+                                         String search, String category,
+                                          String order,
+                                         String min_price, String max_price,
+                                         String on_sale, String featured,
+                                         String stock_status, String status,
+                                         String context, String include,
+                                         String sku, String slug,
+                                         String tag, String shipping_class){
 
 
         if (RecentlyAddedproducts ==null){
             RecentlyAddedproducts = ProductsRepo.getInstance()
-                        .getProducts(page,per_page,search,category,order_by,order,
+                        .getRecentProducts(page,per_page,search,category,order,
                                 min_price,max_price,on_sale,featured,stock_status,
                                 status,context,include,sku,slug,tag,shipping_class);
         }
     }
 
-    public void getDeals(String page,  String per_page,
-                                                        String search,  String category,
-                                                        String order_by,  String order,
-                                                        String min_price,  String max_price,
-                                                        String on_sale,  String featured,
-                                                        String stock_status,  String status,
-                                                        String context,  String include,
-                                                        String sku,  String slug,
-                                                        String tag,  String shipping_class){
+    public void getDeals( String page, String per_page,
+                          String search, String category,
+                          String order_by, String order,
+                          String min_price, String max_price,
+                          String featured,
+                          String stock_status, String status,
+                          String context, String include,
+                          String sku, String slug,
+                          String tag, String shipping_class){
         if (deals==null){
             deals=ProductsRepo.getInstance()
-                    .getProducts(page,per_page,search,category,order_by,order,
-                            min_price,max_price,on_sale,featured,stock_status,
+                    .getDeals(page,per_page,search,category,order_by,order,
+                            min_price,max_price,featured,stock_status,
                             status,context,include,sku,slug,tag,shipping_class);
 
         }

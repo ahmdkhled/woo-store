@@ -29,7 +29,7 @@ public class ProductsActivity extends AppCompatActivity {
                 .get(ProductsViewModel.class);
 
 
-        productsViewModel.getRecentlyAddedproducts(null,"10",null,null,"date",null,
+        productsViewModel.getRecentlyAddedproducts(null,"10",null,null,null,
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
 
