@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="none"
     android:fillViewport="true"
     android:background="#fff">
 
@@ -95,39 +96,6 @@
 
     <TextView
         android:textColor="#000"
-        android:id="@+id/BestSeller_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BestSeller"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@id/categories_label"
-        app:layout_constraintTop_toBottomOf="@id/deals_recycler"
-        android:layout_marginTop="5dp"
-        />
-
-    <TextView
-        android:textColor="#000"
-        android:id="@+id/see_all_bestsellers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="see all"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="@id/BestSeller_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/seeAllCategories"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:id="@+id/bestRecycler"
-        app:layout_constraintTop_toBottomOf="@id/BestSeller_label"
-        android:layout_height="70dp"/>
-
-
-
-    <TextView
-        android:textColor="#000"
         android:id="@+id/deals_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -153,12 +121,45 @@
         />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
+        android:minHeight="150dp"
         android:id="@+id/deals_recycler"
         app:layout_constraintTop_toBottomOf="@id/deals_label"
-        >
+        />
 
-    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/BestSeller_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BestSeller"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/categories_label"
+        app:layout_constraintTop_toBottomOf="@id/deals_recycler"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/see_all_bestsellers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="see all"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="@id/BestSeller_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/seeAllCategories"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="150dp"
+        android:id="@+id/bestRecycler"
+        app:layout_constraintTop_toBottomOf="@id/BestSeller_label"
+        />
 
 </android.support.constraint.ConstraintLayout>
 </ScrollView>

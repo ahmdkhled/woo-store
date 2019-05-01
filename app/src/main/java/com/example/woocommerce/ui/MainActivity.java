@@ -24,7 +24,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView categoriesRecycler,
-            recentlyAddedRecycler;
+            recentlyAddedRecycler,
+            dealsRecycler;
     CategoriesAdapter categoriesAdapter;
     CategoriesViewModel categoriesViewModel;
     ProductsViewModel productsViewModel;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         categoriesRecycler=findViewById(R.id.categoriesRecycler);
         recentlyAddedRecycler=findViewById(R.id.RecentlyRecycler);
+        dealsRecycler=findViewById(R.id.deals_recycler);
         showAllRecently=findViewById(R.id.see_all_recently);
         categoriesViewModel= ViewModelProviders
                 .of(this)
@@ -49,12 +51,16 @@ public class MainActivity extends AppCompatActivity {
         observeCategories();
         observeCategoriesError();
 
-        productsViewModel.getProducts(null,"10",null,null,"date",null,
+        productsViewModel.getRecentlyAddedproducts(null,"5",null,null,"date",null,
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
         observeRecentlyAdded();
-        observeRecentlyAddedError();
 
+
+        productsViewModel.getDeals(null,"8",null,null ,
+                null ,null ,null ,null,"true",null,
+                null,null,null,null,null ,null,null,null);
+        observeDeals();
 
         showAllRecently.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     void observeCategories(){
@@ -88,20 +95,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAdded(){
-        productsViewModel.getProducts()
+        productsViewModel.getRecentlyAddedproducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
                         if(products == null)
-                            Toast.makeText(MainActivity.this, com.example.woocommerce.R.string.error_message, Toast.LENGTH_SHORT).show();
-                        else showRecentlyAddedProducts(products);
+                            Toast.makeText(MainActivity.this,
+                                    R.string.error_message
+                                    , Toast.LENGTH_SHORT).show();
+                        else showRecentlyAddedProducts(recentlyAddedRecycler,products);
+                    }
+                });
+    }
+    void observeDeals(){
+        productsViewModel.getDeals()
+                .observe(this, new Observer<ArrayList<Product>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<Product> products) {
+                        if(products == null)
+                            Toast.makeText(MainActivity.this,
+                                    R.string.error_message
+                                    , Toast.LENGTH_SHORT).show();
+                        else showRecentlyAddedProducts(dealsRecycler,products);
                     }
                 });
     }
 
     void observeRecentlyAddedError(){
         productsViewModel
-                .getProductsLoadingError()
+                .getRecentlyAddedProductsLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
@@ -120,12 +142,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showRecentlyAddedProducts(ArrayList<Product> products) {
-        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products);
+    private void showRecentlyAddedProducts(RecyclerView recyclerView,ArrayList<Product> products) {
+        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products,true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
-        recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);
-        recentlyAddedRecycler.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(recentlyAddedAdapter);
+        recyclerView.setLayoutManager(layoutManager);
 
     }
 

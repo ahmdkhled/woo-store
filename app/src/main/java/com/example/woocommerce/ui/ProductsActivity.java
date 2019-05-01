@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
@@ -30,7 +29,7 @@ public class ProductsActivity extends AppCompatActivity {
                 .get(ProductsViewModel.class);
 
 
-        productsViewModel.getProducts(null,"10",null,null,"date",null,
+        productsViewModel.getRecentlyAddedproducts(null,"10",null,null,"date",null,
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
 
@@ -40,7 +39,7 @@ public class ProductsActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAdded(){
-        productsViewModel.getProducts()
+        productsViewModel.getRecentlyAddedproducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
@@ -51,7 +50,7 @@ public class ProductsActivity extends AppCompatActivity {
 
     void observeRecentlyAddedError(){
         productsViewModel
-                .getProductsLoadingError()
+                .getRecentlyAddedProductsLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
@@ -62,7 +61,7 @@ public class ProductsActivity extends AppCompatActivity {
     }
 
     private void showRecentlyAddedProducts(ArrayList<Product> products) {
-        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products);
+        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products,false);
         GridLayoutManager layoutManager=new GridLayoutManager(this,2);
         recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);
         recentlyAddedRecycler.setLayoutManager(layoutManager);

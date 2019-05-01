@@ -3,13 +3,15 @@ package com.example.woocommerce.viewmodel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.network.RetrofitClient;
 import com.example.woocommerce.repository.ProductsRepo;
 import java.util.ArrayList;
 
 public class ProductsViewModel extends ViewModel {
-    private MutableLiveData<ArrayList<Product>> products;
+    private MutableLiveData<ArrayList<Product>> RecentlyAddedproducts;
+    private MutableLiveData<ArrayList<Product>> deals;
 
-    public MutableLiveData<ArrayList<Product>> getProducts(String page,  String per_page,
+    public void getRecentlyAddedproducts(String page,  String per_page,
                                                            String search,  String category,
                                                            String order_by,  String order,
                                                            String min_price,  String max_price,
@@ -18,24 +20,49 @@ public class ProductsViewModel extends ViewModel {
                                                            String context,  String include,
                                                            String sku,  String slug,
                                                            String tag,  String shipping_class){
-        if (products==null){
-            products= ProductsRepo.getInstance()
+
+
+        if (RecentlyAddedproducts ==null){
+            RecentlyAddedproducts = ProductsRepo.getInstance()
                         .getProducts(page,per_page,search,category,order_by,order,
                                 min_price,max_price,on_sale,featured,stock_status,
                                 status,context,include,sku,slug,tag,shipping_class);
         }
-        return products;
     }
 
-    public MutableLiveData<ArrayList<Product>> getProducts() {
-        return products;
+    public void getDeals(String page,  String per_page,
+                                                        String search,  String category,
+                                                        String order_by,  String order,
+                                                        String min_price,  String max_price,
+                                                        String on_sale,  String featured,
+                                                        String stock_status,  String status,
+                                                        String context,  String include,
+                                                        String sku,  String slug,
+                                                        String tag,  String shipping_class){
+        if (deals==null){
+            deals=ProductsRepo.getInstance()
+                    .getProducts(page,per_page,search,category,order_by,order,
+                            min_price,max_price,on_sale,featured,stock_status,
+                            status,context,include,sku,slug,tag,shipping_class);
+
+        }
+
     }
 
-    public MutableLiveData<Boolean> getIsProductsLoading() {
+
+    public MutableLiveData<ArrayList<Product>> getRecentlyAddedproducts() {
+        return RecentlyAddedproducts;
+    }
+
+    public MutableLiveData<ArrayList<Product>> getDeals() {
+        return deals;
+    }
+
+    public MutableLiveData<Boolean> getIsRecentlyAddedProductsLoading() {
         return ProductsRepo.getInstance().getIsProductsLoading();
     }
 
-    public MutableLiveData<String> getProductsLoadingError() {
+    public MutableLiveData<String> getRecentlyAddedProductsLoadingError() {
         return ProductsRepo.getInstance().getProductsLoadingError();
     }
 
