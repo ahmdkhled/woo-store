@@ -7,6 +7,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     TabLayout tabLayout;
     Toolbar toolbar;
     ImageView navigationUp;
+    ConstraintLayout cartIcon;
     Button mAddToCartBtn;
     ProductDetailViewModel mViewModel;
     @Override
@@ -52,6 +54,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tabLayout=findViewById(R.id.product_detail_tabLayout);
         toolbar=findViewById(R.id.toolbar);
         navigationUp=findViewById(R.id.navigation_up);
+        cartIcon=findViewById(R.id.cart_icon);
         mAddToCartBtn=findViewById(R.id.addToCart);
 
 
@@ -115,6 +118,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        cartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),CartActivity.class);
+                startActivity(intent);
             }
         });
     }
