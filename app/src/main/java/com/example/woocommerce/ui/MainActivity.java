@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     void observeCategories(){
@@ -216,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
         categoriesRecycler.setLayoutManager(layoutManager);
 
     }
+
 
     private void showProducts(RecyclerView  recyclerView, ArrayList<Product> products) {
         ProductAdapter productAdapter=new ProductAdapter(this,products,true);

@@ -3,6 +3,7 @@ package com.example.woocommerce.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ import com.example.woocommerce.viewmodel.ProductDetailViewModel;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +54,10 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     RecyclerView mCartRecyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
+    @BindView(R.id.empty_cart)
+    ViewGroup mEmptyCartView;
+    @BindView(R.id.empty_cart_btn)
+    Button mStartShoppingBtn;
 
     CartViewModel mViewModel;
     CartAdapter mCartAdapter;
@@ -85,8 +93,12 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             mViewModel.getmCartItems().observe(this, new Observer<ArrayList<Product>>() {
                 @Override
                 public void onChanged(@Nullable ArrayList<Product> products) {
-                    mCartAdapter.notifyAdapter(products);
-                    calculateTotalPrice(products);
+                    mEmptyCartView.setVisibility(View.GONE);
+                    mDoneBtn.setVisibility(View.VISIBLE);
+                    mCartTotalTxt.setVisibility(View.VISIBLE);
+                    List<Integer> cartItemsQuantities = getCartItemsQuantities();
+                    mCartAdapter.notifyAdapter(products,cartItemsQuantities);
+                    calculateTotalPrice(products,cartItemsQuantities);
                 }
             });
         }
@@ -119,6 +131,9 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                 public void onChanged(@Nullable Boolean aBoolean) {
                     if (aBoolean) {
                         // empty cart
+                        mEmptyCartView.setVisibility(View.VISIBLE);
+                        mDoneBtn.setVisibility(View.GONE);
+                        mCartTotalTxt.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -132,12 +147,36 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             }
         });
 
+        mDoneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewModel.getCartItems();
+            }
+        });
+
+        // if there are no items in cart
+        mStartShoppingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CartActivity.this,MainActivity.class));
+            }
+        });
+
+
     }
 
-    private void calculateTotalPrice(ArrayList<Product> products) {
+    private List<Integer> getCartItemsQuantities() {
+        return mViewModel.getCartItemsQuantities();
+    }
+
+
+    private void calculateTotalPrice(ArrayList<Product> products, List<Integer> quantities) {
         if(products != null && products.size() > 0) {
-            for (Product product : products) {
-                mTotalPrice += Integer.valueOf(product.getOn_sale()?product.getSale_price():product.getRegular_price());
+            mTotalPrice = 0;
+            for(int i = 0; i < products.size(); i++){
+                mTotalPrice += (Integer.valueOf(products.get(i).getOn_sale()?
+                        products.get(i).getSale_price():products.get(i).getRegular_price()))
+                        *quantities.get(i);
             }
             mCartTotalValueTxt.setText(mTotalPrice+" EGP");
         }
@@ -151,14 +190,16 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     }
 
     @Override
-    public void increaseItemQuantity(String price) {
+    public void increaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice += Integer.valueOf(price);
         mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
+        mViewModel.updateItemQuantity(position,newQuqntity);
     }
 
     @Override
-    public void decreaseItemQuantity(String price) {
+    public void decreaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice -= Integer.valueOf(price);
         mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
+        mViewModel.updateItemQuantity(position,newQuqntity);
     }
 }

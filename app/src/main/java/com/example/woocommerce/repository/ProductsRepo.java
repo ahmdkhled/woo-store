@@ -69,6 +69,21 @@ public class ProductsRepo {
     }
 
 
+    public MutableLiveData<ArrayList<Product>> getProducts(String page,  String per_page,
+                                                                 String search,  String category,
+                                                                 String order_by , String order,
+                                                                 String min_price,  String max_price,
+                                                                 String on_sale,  String featured,
+                                                                 String stock_status,  String status,
+                                                                 String context,  String include,
+                                                                 String sku,  String slug,
+
+                                                                 String tag,  String shipping_class) {
+        getProducts(products, page,   per_page, search,category, order_by,order, min_price,
+                max_price, on_sale,featured, stock_status,status, context,include, sku,slug,
+                tag ,shipping_class);
+        return products;
+    }
 
     public MutableLiveData<ArrayList<Product>> getRecentProducts(String page,  String per_page,
                                                                  String search,  String category,

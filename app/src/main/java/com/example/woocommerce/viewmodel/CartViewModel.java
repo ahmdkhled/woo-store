@@ -12,6 +12,7 @@ import com.example.woocommerce.repository.ProductsRepo;
 import com.example.woocommerce.utils.PrefManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartViewModel extends AndroidViewModel {
 
@@ -33,9 +34,9 @@ public class CartViewModel extends AndroidViewModel {
 
         String cartItemsIds = getCartItemsIds();
         if(cartItemsIds != null) {
-//            mCartItems = productsRepo.getProducts(null, String.valueOf(getCartSize()), null, null, null, null, null,
-//                    null, null, null, null, "publish", null, cartItemsIds,
-//                    null, null, null, null);
+            mCartItems = productsRepo.getProducts(null, String.valueOf(getCartSize()), null, null, null, null, null,
+                    null, null, null, null, "publish", null, cartItemsIds,
+                    null, null, null, null);
             isCartEmpty.setValue(false);
             isProductLoading = productsRepo.getIsProductsLoading();
             productLoadingError = productsRepo.getProductsLoadingError();
@@ -83,4 +84,11 @@ public class CartViewModel extends AndroidViewModel {
     }
 
 
+    public void updateItemQuantity(int position, int newQuantity) {
+        prefManager.updateQuantity(position, newQuantity);
+    }
+
+    public List<Integer> getCartItemsQuantities() {
+       return prefManager.getCartItemsQuantities();
+    }
 }

@@ -52,7 +52,7 @@
         android:id="@+id/cart_title_txt"
         android:text="Your Cart"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/cart_total_txt"
         android:text="Total"
-        android:textColor="@android:color/black"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/cart_title_txt"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/cart_total_value"
         tools:text="500.00 EGP"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/cart_title_txt"
@@ -103,6 +103,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/progress_bar"
         android:visibility="invisible"/>
+
+    <include layout="@layout/empty_cart"
+        android:id="@+id/empty_cart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/cart_total_txt"
+        android:layout_marginTop="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
 
 
 
