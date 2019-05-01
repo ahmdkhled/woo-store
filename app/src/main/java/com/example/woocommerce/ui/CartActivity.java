@@ -3,6 +3,7 @@ package com.example.woocommerce.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -50,6 +53,10 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     RecyclerView mCartRecyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
+    @BindView(R.id.empty_cart)
+    ViewGroup mEmptyCartView;
+    @BindView(R.id.empty_cart_btn)
+    Button mStartShoppingBtn;
 
     CartViewModel mViewModel;
     CartAdapter mCartAdapter;
@@ -85,6 +92,8 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             mViewModel.getmCartItems().observe(this, new Observer<ArrayList<Product>>() {
                 @Override
                 public void onChanged(@Nullable ArrayList<Product> products) {
+                    mEmptyCartView.setVisibility(View.GONE);
+                    mDoneBtn.setVisibility(View.VISIBLE);
                     mCartAdapter.notifyAdapter(products);
                     calculateTotalPrice(products);
                 }
@@ -119,6 +128,8 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                 public void onChanged(@Nullable Boolean aBoolean) {
                     if (aBoolean) {
                         // empty cart
+                        mEmptyCartView.setVisibility(View.VISIBLE);
+                        mDoneBtn.setVisibility(View.GONE);
                         Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -126,6 +137,12 @@ public class CartActivity extends AppCompatActivity implements CartListener {
         }
 
 
+        mStartShoppingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CartActivity.this,MainActivity.class));
+            }
+        });
 
     }
 
