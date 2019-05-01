@@ -33,9 +33,9 @@ public class CartViewModel extends AndroidViewModel {
 
         String cartItemsIds = getCartItemsIds();
         if(cartItemsIds != null) {
-            mCartItems = productsRepo.getProducts(null, String.valueOf(getCartSize()), null, null, null, null, null,
-                    null, null, null, null, "publish", null, cartItemsIds,
-                    null, null, null, null);
+//            mCartItems = productsRepo.getProducts(null, String.valueOf(getCartSize()), null, null, null, null, null,
+//                    null, null, null, null, "publish", null, cartItemsIds,
+//                    null, null, null, null);
             isCartEmpty.setValue(false);
             isProductLoading = productsRepo.getIsProductsLoading();
             productLoadingError = productsRepo.getProductsLoadingError();
