@@ -26,7 +26,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     RecyclerView categoriesRecycler,
             recentlyAddedRecycler,
-            dealsRecycler;
+            dealsRecycler,
+            bestSellerRecycler;
     CategoriesAdapter categoriesAdapter;
     CategoriesViewModel categoriesViewModel;
     ProductsViewModel productsViewModel;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         categoriesRecycler=findViewById(R.id.categoriesRecycler);
         recentlyAddedRecycler=findViewById(R.id.RecentlyRecycler);
         dealsRecycler=findViewById(R.id.deals_recycler);
+        bestSellerRecycler=findViewById(R.id.bestRecycler);
         showAllRecently=findViewById(R.id.see_all_recently);
         showAllCategories=findViewById(R.id.seeAllCategories);
         categoriesViewModel= ViewModelProviders
@@ -58,12 +60,19 @@ public class MainActivity extends AppCompatActivity {
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
         observeRecentlyAdded();
+        observeRecentlyAddedError();
 
         productsViewModel.getDeals(null,"8",null,null ,
                 null ,null ,null ,null,null,
                 null,null,null,null,null ,null,null,null);
         observeDeals();
 
+        productsViewModel.getBestSellers(null,null ,null,null,null,
+                                        null ,null ,"date",null,null,
+                                     null, null,null,null,null,
+                                    null,null, null,null,null);
+        observeBestSeller();
+        observeBestSellerError();
 
         showAllRecently.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,12 +124,12 @@ public class MainActivity extends AppCompatActivity {
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        Log.d("from_product_repo","observeRecentlyAdded");
+                        //Log.d("from_product_repo","observeRecentlyAdded");
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message
                                     , Toast.LENGTH_SHORT).show();
-                        else showRecentlyAddedProducts(recentlyAddedRecycler,products);
+                        else showProducts(recentlyAddedRecycler,products);
                     }
                 });
     }
@@ -130,12 +139,28 @@ public class MainActivity extends AppCompatActivity {
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        Log.d("from_product_repo","observeDeals");
+                        //Log.d("from_product_repo","observeDeals");
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message
                                     , Toast.LENGTH_SHORT).show();
-                        else showRecentlyAddedProducts(dealsRecycler,products);
+                        else showProducts(dealsRecycler,products);
+                    }
+                });
+    }
+
+    void observeBestSeller(){
+
+        productsViewModel.getBestSellers()
+                .observe(this, new Observer<ArrayList<Product>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<Product> products) {
+                        Log.d("from_product_repo","observe bestseller");
+                        if(products == null)
+                            Toast.makeText(MainActivity.this,
+                                    R.string.error_message
+                                    , Toast.LENGTH_SHORT).show();
+                        else showProducts(bestSellerRecycler,products);
                     }
                 });
     }
@@ -143,6 +168,17 @@ public class MainActivity extends AppCompatActivity {
     void observeRecentlyAddedError(){
         productsViewModel
                 .getRecentlyAddedProductsLoadingError()
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+                        Toast.makeText(MainActivity.this, s
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    void observeBestSellerError(){
+        productsViewModel
+                .getBestSellerError()
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
@@ -161,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showRecentlyAddedProducts(RecyclerView  recyclerView,ArrayList<Product> products) {
+    private void showProducts(RecyclerView  recyclerView, ArrayList<Product> products) {
         ProductAdapter productAdapter=new ProductAdapter(this,products,true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);

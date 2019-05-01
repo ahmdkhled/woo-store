@@ -4,9 +4,11 @@ import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.model.TopSeller;
 import com.example.woocommerce.network.RetrofitClient;
+import com.example.woocommerce.utils.ProductUtils;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,10 +18,12 @@ public class ProductsRepo {
 
     private static ProductsRepo productsRepo;
     private MutableLiveData<ArrayList<Product>> products=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Product>> mRecentProducts = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Product>> mSaleproducts=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Product>> bestSellers=new MutableLiveData<>();
     private MutableLiveData<Boolean> isProductsLoading=new MutableLiveData<>();
     private MutableLiveData<String> productsLoadingError=new MutableLiveData<>();
-    private MutableLiveData<ArrayList<Product>> mRecentProducts = new MutableLiveData<>();
+    private MutableLiveData<String> bestSellersLoadingError=new MutableLiveData<>();
 
     public static ProductsRepo getInstance() {
         if (productsRepo==null)
@@ -55,6 +59,7 @@ public class ProductsRepo {
             }
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+
                 productsLoadingError.setValue(t.getMessage());
                 isProductsLoading.setValue(false);
             }
@@ -100,6 +105,45 @@ public class ProductsRepo {
         return mSaleproducts;
     }
 
+    public MutableLiveData<ArrayList<Product>> getBestSellers(String period, String date_min, String date_max,
+                                                              final String page, final String per_page,
+                                                              final String search, final String category,
+                                                              final String order_by, final String order,
+                                                              final String min_price, final String max_price,
+                                                              final String on_sale, final String featured,
+                                                              final String stock_status, final String status,
+                                                              final String context,
+                                                              final String sku, final String slug,
+                                                              final String tag, final String shipping_class
+                            ){
+        RetrofitClient
+                .getInstance()
+                .getApiService()
+                .getTopSeller(period,date_min,date_max)
+                .enqueue(new Callback<ArrayList<TopSeller>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<TopSeller>> call, Response<ArrayList<TopSeller>> response) {
+                        ArrayList<TopSeller> topSellerList=response.body();
+                        if (topSellerList!=null){
+                            String include= ProductUtils.getProductIdsAsString(topSellerList);
+                            Log.d("from_product_repo","ids bestseller "+include);
+                            getProducts(bestSellers,page,per_page, search, category, order_by, order, min_price, max_price,
+                                    on_sale, featured, stock_status, status, context,include , sku, slug,
+                                    tag, shipping_class);
+                        }
+                        else {
+                            bestSellersLoadingError.setValue("error loading best sellers");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<TopSeller>> call, Throwable t) {
+                        bestSellersLoadingError.setValue("error loading best sellers");
+                    }
+                });
+        return bestSellers;
+    }
+
 
 
     public MutableLiveData<Boolean> getIsProductsLoading() {
@@ -110,5 +154,7 @@ public class ProductsRepo {
         return productsLoadingError;
     }
 
-
+    public MutableLiveData<String> getBestSellersLoadingError() {
+        return bestSellersLoadingError;
+    }
 }
