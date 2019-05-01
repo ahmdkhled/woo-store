@@ -39,7 +39,7 @@ public class ProductsActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAdded(){
-        productsViewModel.getRecentlyAddedproducts()
+        productsViewModel.getRecentlyAddedProducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {

@@ -57,7 +57,7 @@
         android:id="@+id/categoriesShimmer"
         android:layout_height="0dp"
         android:layout_width="match_parent"
-        layout="@layout/shimmer_product_item_layout"
+        layout="@layout/shimmer_category_item_layout"
         app:layout_constraintTop_toTopOf="@id/categoriesRecycler"
         app:layout_constraintBottom_toBottomOf="@id/categoriesRecycler"
 
@@ -95,13 +95,19 @@
         android:id="@+id/RecentlyRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="150dp"
+        android:minHeight="200dp"
         app:layout_constraintTop_toBottomOf="@id/RecentlyAdded_label"
         android:layout_marginTop="1dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"/>
 
 
+    <include layout="@layout/product_samples_shimmer_layout"
+        android:id="@+id/recentlyAdded_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/RecentlyRecycler"
+        app:layout_constraintBottom_toBottomOf="@id/RecentlyRecycler"/>
 
     <TextView
         android:textColor="#000"

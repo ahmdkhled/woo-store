@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     ProductsViewModel productsViewModel;
     TextView showAllCategories,showAllRecently;
     ArrayList<Category> categoriesList;
-    ShimmerFrameLayout categoriesShimmer;
+    ShimmerFrameLayout categoriesShimmer
+            ,recentlyAddedShimmer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         showAllRecently=findViewById(R.id.see_all_recently);
         showAllCategories=findViewById(R.id.seeAllCategories);
         categoriesShimmer=findViewById(R.id.categoriesShimmer);
+        recentlyAddedShimmer=findViewById(R.id.recentlyAdded_shimmer);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -65,11 +67,14 @@ public class MainActivity extends AppCompatActivity {
                 null,null,null,null,null);
         observeRecentlyAdded();
         observeRecentlyAddedError();
+        observeRecentlyAddedLoading();
 
         productsViewModel.getDeals(null,"8",null,null ,
                 null ,null ,null ,null,null,
                 null,null,null,null,null ,null,null,null);
         observeDeals();
+        observeDealsError();
+        observeDealsLoading();
 
         productsViewModel.getBestSellers(null,null ,null,null,null,
                                         null ,null ,"date",null,null,
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                                     null,null, null,null,null);
         observeBestSeller();
         observeBestSellerError();
+        observeBestSellersLoading();
 
         showAllRecently.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
                             categoriesShimmer.stopShimmer();
                             categoriesShimmer.setVisibility(View.GONE);
                         }
-
-
                     }
                 });
     }
@@ -140,8 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAdded(){
-
-        productsViewModel.getRecentlyAddedproducts()
+        productsViewModel.getRecentlyAddedProducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
@@ -154,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
     void observeDeals(){
 
         productsViewModel.getDeals()
@@ -186,6 +190,46 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    void observeRecentlyAddedLoading(){
+        productsViewModel
+                .getIsRecentlyAddedProductsLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&!aBoolean){
+                            recentlyAddedShimmer.stopShimmer();
+                            recentlyAddedShimmer.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
+    void observeDealsLoading(){
+        productsViewModel
+                .getIsDealsLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&!aBoolean){
+
+                        }
+                    }
+                });
+    }
+
+    void observeBestSellersLoading(){
+        productsViewModel
+                .getIsBestSellersLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&!aBoolean){
+
+                        }
+                    }
+                });
+    }
+
     void observeRecentlyAddedError(){
         productsViewModel
                 .getRecentlyAddedProductsLoadingError()
@@ -197,9 +241,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    void observeDealsError(){
+        productsViewModel
+                .getDealsLoadingError()
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+                        Toast.makeText(MainActivity.this, s
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     void observeBestSellerError(){
         productsViewModel
-                .getBestSellerError()
+                .getBestSellersLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
@@ -232,11 +289,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         categoriesShimmer.startShimmer();
+        recentlyAddedShimmer.startShimmer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         categoriesShimmer.stopShimmer();
+        recentlyAddedShimmer.stopShimmer();
     }
 }

@@ -21,8 +21,16 @@ public class ProductsRepo {
     private MutableLiveData<ArrayList<Product>> mRecentProducts = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Product>> mSaleproducts=new MutableLiveData<>();
     private MutableLiveData<ArrayList<Product>> bestSellers=new MutableLiveData<>();
+
     private MutableLiveData<Boolean> isProductsLoading=new MutableLiveData<>();
+    private MutableLiveData<Boolean> isRecentlyAddedLoading=new MutableLiveData<>();
+    private MutableLiveData<Boolean> isDealsLoading=new MutableLiveData<>();
+    private MutableLiveData<Boolean> isBestSellersLoading=new MutableLiveData<>();
+
+
     private MutableLiveData<String> productsLoadingError=new MutableLiveData<>();
+    private MutableLiveData<String> RecentlyAddedLoadingError=new MutableLiveData<>();
+    private MutableLiveData<String> dealsLoadingError=new MutableLiveData<>();
     private MutableLiveData<String> bestSellersLoadingError=new MutableLiveData<>();
 
     public static ProductsRepo getInstance() {
@@ -160,13 +168,32 @@ public class ProductsRepo {
     }
 
 
-
     public MutableLiveData<Boolean> getIsProductsLoading() {
         return isProductsLoading;
     }
 
+    public MutableLiveData<Boolean> getIsRecentlyAddedLoading() {
+        return isRecentlyAddedLoading;
+    }
+
+    public MutableLiveData<Boolean> getIsDealsLoading() {
+        return isDealsLoading;
+    }
+
+    public MutableLiveData<Boolean> getIsBestSellersLoading() {
+        return isBestSellersLoading;
+    }
+
     public MutableLiveData<String> getProductsLoadingError() {
         return productsLoadingError;
+    }
+
+    public MutableLiveData<String> getRecentlyAddedLoadingError() {
+        return RecentlyAddedLoadingError;
+    }
+
+    public MutableLiveData<String> getDealsLoadingError() {
+        return dealsLoadingError;
     }
 
     public MutableLiveData<String> getBestSellersLoadingError() {
