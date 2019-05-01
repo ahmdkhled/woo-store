@@ -53,6 +53,15 @@
         app:layout_constraintTop_toBottomOf="@id/categories_label"
         />
 
+    <include
+        android:id="@+id/categoriesShimmer"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        layout="@layout/shimmer_product_item_layout"
+        app:layout_constraintTop_toTopOf="@id/categoriesRecycler"
+        app:layout_constraintBottom_toBottomOf="@id/categoriesRecycler"
+
+        />
 
     <TextView
         android:textColor="#000"

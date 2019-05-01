@@ -3,6 +3,7 @@ package com.example.woocommerce.network;
 import com.example.woocommerce.model.Category;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.model.Review;
+import com.example.woocommerce.model.TopSeller;
 
 import java.util.ArrayList;
 
@@ -37,4 +38,9 @@ public interface ApiService {
 
     @GET("products/reviews")
     Call<ArrayList<Review>> getReviews(@Query("page") String page,@Query("product") int product_id);
+
+    @GET("reports/top_sellers")
+    Call<ArrayList<TopSeller>> getTopSeller(@Query("period")String period,
+                                            @Query("date_min")String date_min,
+                                            @Query("date_max")String date_max);
 }

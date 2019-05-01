@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ProductsViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Product>> RecentlyAddedproducts;
     private MutableLiveData<ArrayList<Product>> deals;
+    private MutableLiveData<ArrayList<Product>> bestSellers;
 
     public void getRecentlyAddedproducts(String page, String per_page,
                                          String search, String category,
@@ -49,6 +50,26 @@ public class ProductsViewModel extends ViewModel {
 
     }
 
+    public void getBestSellers(String period, String date_min, String date_max,
+                               final String page, final String per_page,
+                               final String search, final String category,
+                               final String order_by, final String order,
+                               final String min_price, final String max_price,
+                               final String on_sale, final String featured,
+                               final String stock_status, final String status,
+                               final String context,
+                               final String sku, final String slug,
+                               final String tag, final String shipping_class
+    ){
+        if (bestSellers==null) {
+            bestSellers=ProductsRepo.getInstance()
+                    .getBestSellers(period, date_min, date_max,
+                            page, per_page, search, category, order_by,
+                            order, min_price, max_price, on_sale, featured,
+                            stock_status, status, context, sku, slug, tag, shipping_class);
+        }
+    }
+
 
     public MutableLiveData<ArrayList<Product>> getRecentlyAddedproducts() {
         return RecentlyAddedproducts;
@@ -56,6 +77,10 @@ public class ProductsViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<Product>> getDeals() {
         return deals;
+    }
+
+    public MutableLiveData<ArrayList<Product>> getBestSellers() {
+        return bestSellers;
     }
 
     public MutableLiveData<Boolean> getIsRecentlyAddedProductsLoading() {
@@ -66,6 +91,9 @@ public class ProductsViewModel extends ViewModel {
         return ProductsRepo.getInstance().getProductsLoadingError();
     }
 
+    public MutableLiveData<String> getBestSellerError(){
+        return ProductsRepo.getInstance().getBestSellersLoadingError();
+    }
 
 
 }
