@@ -11,8 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ProductDetailActivity"
-            android:theme="@style/NoActionBarTheme"/>
+        <activity android:name=".ui.CategoriesActivity"></activity>
+        <activity
+            android:name=".ui.ProductDetailActivity"
+            android:theme="@style/NoActionBarTheme" />
         <activity android:name=".ui.ProductsActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
@@ -21,8 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.CartActivity"
-            android:exported="true"></activity>
+        <activity
+            android:name=".ui.CartActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

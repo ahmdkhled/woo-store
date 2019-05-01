@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     CategoriesAdapter categoriesAdapter;
     CategoriesViewModel categoriesViewModel;
     ProductsViewModel productsViewModel;
-    TextView showAllRecently;
+    TextView showAllCategories,showAllRecently;
+    ArrayList<Category> categoriesList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         categoriesRecycler=findViewById(R.id.categoriesRecycler);
         recentlyAddedRecycler=findViewById(R.id.RecentlyRecycler);
         showAllRecently=findViewById(R.id.see_all_recently);
+        showAllCategories=findViewById(R.id.seeAllCategories);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         categoriesViewModel.getCategories(null,"5","0",null,
-                null,null,null,null,false,null,null);
+                null,null,null,null,null,null,null);
         observeCategories();
         observeCategoriesError();
 
@@ -63,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        showAllCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),CategoriesActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     void observeCategories(){
@@ -71,7 +81,11 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(@Nullable ArrayList<Category> categories) {
                 if(categories == null)
                     Toast.makeText(MainActivity.this, com.example.woocommerce.R.string.error_message, Toast.LENGTH_SHORT).show();
-                else showCategories(categories);
+                else {
+                    showCategories(categories);
+                    categoriesList=categories;
+
+                }
             }
         });
     }
@@ -112,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showCategories(ArrayList<Category> categories) {
-        categoriesAdapter=new CategoriesAdapter(this,categories);
+        categoriesAdapter=new CategoriesAdapter(this,categories,true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
         categoriesRecycler.setAdapter(categoriesAdapter);
@@ -121,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showRecentlyAddedProducts(ArrayList<Product> products) {
-        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products);
+        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products,true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
         recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);

@@ -32,7 +32,7 @@ public class CategoriesRepo {
                                                     String parent, String product,
                                                     String search,
                                                     String include,String exclude,
-                                                    String slug, boolean hide_empty,
+                                                    String slug, String hide_empty,
                                                     String order_by, String order){
 
          isCategoriesLoading.setValue(true);

@@ -11,12 +11,13 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         >
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_height="150dp"
         android:id="@+id/category_image"
         android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +33,7 @@
         tools:text="Flowers"
         app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="#E01E5B"
-        android:textSize="25sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:background="#8D000000"
         android:paddingStart="5dp"

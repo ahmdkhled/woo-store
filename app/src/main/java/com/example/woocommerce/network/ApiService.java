@@ -31,7 +31,7 @@ public interface ApiService {
                                 @Query("parent")  String parent,@Query("product") String product,
                                 @Query("search")  String search,
                                 @Query("include")  String include,@Query("exclude")  String exclude,
-                                @Query("slug") String slug,@Query("hide_empty")  boolean hide_empty,
+                                @Query("slug") String slug,@Query("hide_empty")  String hide_empty,
                                 @Query("order_by")  String order_by,@Query("order")  String order
                                   );
 

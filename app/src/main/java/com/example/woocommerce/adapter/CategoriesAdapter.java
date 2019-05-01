@@ -2,6 +2,7 @@ package com.example.woocommerce.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
     private Context context;
     private ArrayList<Category> categoriesList;
+    private boolean isMainSample;
+
+    public CategoriesAdapter(Context context, ArrayList<Category> categoriesList,boolean isMainSample) {
+        this.context = context;
+        this.categoriesList = categoriesList;
+        this.isMainSample=isMainSample;
+    }
 
     public CategoriesAdapter(Context context, ArrayList<Category> categoriesList) {
         this.context = context;
@@ -31,9 +39,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     @Override
     public CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.category_item,parent,false);
-        RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.MATCH_PARENT);
-        layoutParams.setMargins(5,5,5,5);
-        v.setLayoutParams(layoutParams);
+        if (isMainSample){
+            RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(5,5,5,5);
+            v.setLayoutParams(layoutParams);
+        }
         return new CategoryHolder(v);
     }
 
@@ -65,7 +75,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             super(itemView);
             image=itemView.findViewById(R.id.category_image);
             name=itemView.findViewById(R.id.category_name);
-            name.setTextSize(15);
+
+            if (isMainSample){
+                ConstraintLayout.LayoutParams params=new ConstraintLayout
+                        .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300);
+                image.setLayoutParams(params);
+            }
         }
     }
 }

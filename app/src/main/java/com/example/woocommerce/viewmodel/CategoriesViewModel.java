@@ -18,7 +18,7 @@ public class CategoriesViewModel extends ViewModel {
                                                    String parent,String product,
                                                    String search,
                                                    String include,String exclude,
-                                                   String slug,boolean hide_empty,
+                                                   String slug,String hide_empty,
                                                    String order_by,String order) {
         if (categories==null)
             categories= CategoriesRepo.getInstance()
