@@ -125,7 +125,12 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             });
         }
 
-
+        mBackArrowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
     }
 
