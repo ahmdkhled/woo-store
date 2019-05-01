@@ -27,12 +27,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     private Context context;
     private ArrayList<Product> productsList;
-    boolean isMainSample;
+    private boolean isMainSample;
 
-    public ProductAdapter(Context context, ArrayList<Product> productsList) {
-        this.context = context;
-        this.productsList = productsList;
-    }
+
 
     public ProductAdapter(Context context, ArrayList<Product> productsList, boolean isMainSample) {
         this.context = context;
