@@ -148,6 +148,10 @@ public class ProductsRepo {
                     public void onResponse(Call<ArrayList<TopSeller>> call, Response<ArrayList<TopSeller>> response) {
                         ArrayList<TopSeller> topSellerList=response.body();
                         if (topSellerList!=null){
+                            if (topSellerList.isEmpty()){
+                                products.setValue(new ArrayList<Product>());
+                                return;
+                            }
                             String include= ProductUtils.getProductIdsAsString(topSellerList);
                             Log.d("from_product_repo","ids bestseller "+include);
                             getProducts(bestSellers,page,per_page, search, category, order_by, order, min_price, max_price,
