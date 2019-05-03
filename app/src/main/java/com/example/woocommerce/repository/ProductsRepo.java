@@ -85,8 +85,8 @@ public class ProductsRepo {
                                                                  String stock_status,  String status,
                                                                  String context,  String include,
                                                                  String sku,  String slug,
-
                                                                  String tag,  String shipping_class) {
+
         getProducts(products, page,   per_page, search,category, order_by,order, min_price,
                 max_price, on_sale,featured, stock_status,status, context,include, sku,slug,
                 tag ,shipping_class);

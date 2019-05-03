@@ -18,7 +18,7 @@ import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Category;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
-import com.example.woocommerce.viewmodel.ProductsViewModel;
+import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             bestSellerRecycler;
     CategoriesAdapter categoriesAdapter;
     CategoriesViewModel categoriesViewModel;
-    ProductsViewModel productsViewModel;
+    MainAcrivityViewModel mainAcrivityViewModel;
     TextView showAllCategories,showAllRecently;
     ArrayList<Category> categoriesList;
     ShimmerFrameLayout categoriesShimmer
@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
-        productsViewModel=ViewModelProviders.of(this)
-                .get(ProductsViewModel.class);
+        mainAcrivityViewModel =ViewModelProviders.of(this)
+                .get(MainAcrivityViewModel.class);
 
 
         categoriesViewModel.getCategories(null,"5","0",null,
@@ -62,21 +62,21 @@ public class MainActivity extends AppCompatActivity {
         observeCategoriesError();
         observeCategoriesLoading();
 
-        productsViewModel.getRecentlyAddedproducts(null,"5",null,null,null,
+        mainAcrivityViewModel.getRecentlyAddedproducts(null,"5",null,null,null,
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
         observeRecentlyAdded();
         observeRecentlyAddedError();
         observeRecentlyAddedLoading();
 
-        productsViewModel.getDeals(null,"8",null,null ,
+        mainAcrivityViewModel.getDeals(null,"8",null,null ,
                 null ,null ,null ,null,null,
                 null,null,null,null,null ,null,null,null);
         observeDeals();
         observeDealsError();
         observeDealsLoading();
 
-        productsViewModel.getBestSellers(null,null ,null,null,null,
+        mainAcrivityViewModel.getBestSellers(null,null ,null,null,null,
                                         null ,null ,"date",null,null,
                                      null, null,null,null,null,
                                     null,null, null,null,null);
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
+                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.RA_TARGET);
                 startActivity(intent);
             }
         });
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAdded(){
-        productsViewModel.getRecentlyAddedProducts()
+        mainAcrivityViewModel.getRecentlyAddedProducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     void observeDeals(){
 
-        productsViewModel.getDeals()
+        mainAcrivityViewModel.getDeals()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
@@ -176,11 +177,11 @@ public class MainActivity extends AppCompatActivity {
 
     void observeBestSeller(){
 
-        productsViewModel.getBestSellers()
+        mainAcrivityViewModel.getBestSellers()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        Log.d("from_product_repo","observe bestseller");
+                        Log.d("from_product_repo","observe bestseller "+products.size());
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAddedLoading(){
-        productsViewModel
+        mainAcrivityViewModel
                 .getIsRecentlyAddedProductsLoading()
                 .observe(this, new Observer<Boolean>() {
                     @Override
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeDealsLoading(){
-        productsViewModel
+        mainAcrivityViewModel
                 .getIsDealsLoading()
                 .observe(this, new Observer<Boolean>() {
                     @Override
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeBestSellersLoading(){
-        productsViewModel
+        mainAcrivityViewModel
                 .getIsBestSellersLoading()
                 .observe(this, new Observer<Boolean>() {
                     @Override
@@ -231,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAddedError(){
-        productsViewModel
+        mainAcrivityViewModel
                 .getRecentlyAddedProductsLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
@@ -243,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeDealsError(){
-        productsViewModel
+        mainAcrivityViewModel
                 .getDealsLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeBestSellerError(){
-        productsViewModel
+        mainAcrivityViewModel
                 .getBestSellersLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
