@@ -96,7 +96,7 @@ public class MainAcrivityViewModel extends ViewModel {
     }
 
     public MutableLiveData<String> getRecentlyAddedProductsLoadingError() {
-        return ProductsRepo.getInstance().getProductsLoadingError();
+        return ProductsRepo.getInstance().getRecentlyAddedLoadingError();
     }
 
     public MutableLiveData<String> getDealsLoadingError(){

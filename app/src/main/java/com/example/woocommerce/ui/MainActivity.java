@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         observeDealsError();
         observeDealsLoading();
 
-        mainAcrivityViewModel.getBestSellers(null,null ,null,null,null,
+        mainAcrivityViewModel.getBestSellers("month",null ,null,null,null,
                                         null ,null ,"date",null,null,
                                      null, null,null,null,null,
                                     null,null, null,null,null);
