@@ -84,7 +84,7 @@ public class MainAcrivityViewModel extends ViewModel {
     }
 
     public MutableLiveData<Boolean> getIsRecentlyAddedProductsLoading() {
-        return ProductsRepo.getInstance().getIsProductsLoading();
+        return ProductsRepo.getInstance().getIsRecentlyAddedLoading();
     }
 
     public MutableLiveData<Boolean> getIsDealsLoading() {
