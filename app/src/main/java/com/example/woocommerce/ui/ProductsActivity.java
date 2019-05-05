@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Product;
-import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
 
 import java.util.ArrayList;
@@ -52,6 +50,12 @@ public class ProductsActivity extends AppCompatActivity {
                     null,null,null,"true",null,null,null,
                     null,null,null,null,null,null);
 
+        else if (target.equals(BESTSELLERS_TARGET))
+            productsViewModel.getBestSellers("month",null ,null,null,null,
+                    null ,null ,"date",null,null,
+                    null, null,null,null,null,
+                    null,null, null,null,null);
+
         else if (target.equals(CATEGORIES_TARGET)){
             int categoruId=getIntent().getIntExtra(CATEGORY_ID,-1);
             productsViewModel.getProducts(null,null,null, String.valueOf(categoruId),null,
@@ -59,15 +63,24 @@ public class ProductsActivity extends AppCompatActivity {
                     null,null,null,null,null,null);
         }
 
-        observeRecentlyAdded();
-        observeProductsLoading();
-        observeProductsLoadingError();
+        if (productsViewModel.getProducts()!=null){
+            observeProducts();
+            observeProductsLoading();
+            observeProductsLoadingError();
+        }
+        if (productsViewModel.getBestSellers()!=null){
+            observeBestSeller();
+            observebestSellerLoading();
+            observebestSellersLoadingError();
+        }
+
+
+
+
 
     }
 
-    void observeRecentlyAdded(){
-        if (productsViewModel.getProducts().hasObservers())
-            return;
+    void observeProducts(){
         productsViewModel.getProducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
@@ -102,6 +115,44 @@ public class ProductsActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    void observeBestSeller(){
+        productsViewModel.getBestSellers()
+                .observe(this, new Observer<ArrayList<Product>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<Product> products) {
+                        showProducts(products);
+                    }
+                });
+    }
+
+    void observebestSellersLoadingError(){
+        productsViewModel
+                .getBestSellersLoadingError()
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+                        Toast.makeText(getApplicationContext(), s
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    void observebestSellerLoading(){
+        productsViewModel
+                .getIsBestSellersLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&aBoolean)
+                            progressBar.setVisibility(View.VISIBLE);
+                        else
+                            progressBar.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+
 
     private void showProducts(ArrayList<Product> products) {
         ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products,false);

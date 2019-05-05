@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     CategoriesAdapter categoriesAdapter;
     CategoriesViewModel categoriesViewModel;
     MainAcrivityViewModel mainAcrivityViewModel;
-    TextView showAllCategories,showAllRecently;
+    TextView showAllCategories,showAllRecently,
+            showAllDeals,showAllBestSeller;
     ArrayList<Category> categoriesList;
     ShimmerFrameLayout categoriesShimmer
             ,recentlyAddedShimmer;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         bestSellerRecycler=findViewById(R.id.bestRecycler);
         showAllRecently=findViewById(R.id.see_all_recently);
         showAllCategories=findViewById(R.id.seeAllCategories);
+        showAllDeals=findViewById(R.id.see_all_deals);
+        showAllBestSeller=findViewById(R.id.see_all_bestsellers);
         categoriesShimmer=findViewById(R.id.categoriesShimmer);
         recentlyAddedShimmer=findViewById(R.id.recentlyAdded_shimmer);
         categoriesViewModel= ViewModelProviders
@@ -101,6 +104,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        showAllDeals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
+                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.DEALS_TARGET);
+                startActivity(intent);
+            }
+        });
+
+        showAllBestSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
+                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.BESTSELLERS_TARGET);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -149,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        //Log.d("from_product_repo","observeRecentlyAdded");
+                        //Log.d("from_product_repo","observeProducts");
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message

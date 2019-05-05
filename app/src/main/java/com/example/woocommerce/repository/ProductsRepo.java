@@ -20,7 +20,7 @@ public class ProductsRepo {
     private MutableLiveData<ArrayList<Product>> products;
     private MutableLiveData<ArrayList<Product>> mRecentProducts = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Product>> mSaleproducts=new MutableLiveData<>();
-    private MutableLiveData<ArrayList<Product>> bestSellers=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Product>> bestSellers;
 
     private MutableLiveData<Boolean> isProductsLoading=new MutableLiveData<>();
     private MutableLiveData<Boolean> isRecentlyAddedLoading=new MutableLiveData<>();
@@ -63,11 +63,14 @@ public class ProductsRepo {
             @Override
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                 target.setValue(response.body());
+                if (target.equals(bestSellers))
+                    isBestSellersLoading.setValue(false);
                 isProductsLoading.setValue(false);
             }
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-
+                if (target.equals(bestSellers))
+                    isBestSellersLoading.setValue(false);
                 productsLoadingError.setValue(t.getMessage());
                 isProductsLoading.setValue(false);
             }
@@ -140,6 +143,8 @@ public class ProductsRepo {
                                                               final String sku, final String slug,
                                                               final String tag, final String shipping_class
                             ){
+        bestSellers=new MutableLiveData<>();
+        isBestSellersLoading.setValue(true);
         RetrofitClient
                 .getInstance()
                 .getApiService()
@@ -150,7 +155,7 @@ public class ProductsRepo {
                         ArrayList<TopSeller> topSellerList=response.body();
                         if (topSellerList!=null){
                             if (topSellerList.isEmpty()){
-                                products.setValue(new ArrayList<Product>());
+                                bestSellers.setValue(new ArrayList<Product>());
                                 return;
                             }
                             String include= ProductUtils.getProductIdsAsString(topSellerList);
