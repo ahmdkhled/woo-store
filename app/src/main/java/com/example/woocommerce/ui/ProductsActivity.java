@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.woocommerce.R;
@@ -22,6 +24,7 @@ public class ProductsActivity extends AppCompatActivity {
 
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
+    ProgressBar progressBar;
     String target="";
     public static final String TARGET_KEY="target_key";
     public static final String RA_TARGET="recently_added";
@@ -34,6 +37,7 @@ public class ProductsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
         recentlyAddedRecycler=findViewById(R.id.recentlyRecycler);
+        progressBar=findViewById(R.id.products_PB);
         productsViewModel =ViewModelProviders.of(this)
                 .get(ProductsViewModel.class);
 
@@ -91,7 +95,10 @@ public class ProductsActivity extends AppCompatActivity {
                 .observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-
+                        if (aBoolean!=null&&aBoolean)
+                            progressBar.setVisibility(View.VISIBLE);
+                        else
+                            progressBar.setVisibility(View.GONE);
                     }
                 });
     }
