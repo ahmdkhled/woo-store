@@ -35,8 +35,10 @@ public class MainActivity extends AppCompatActivity {
     TextView showAllCategories,showAllRecently,
             showAllDeals,showAllBestSeller;
     ArrayList<Category> categoriesList;
-    ShimmerFrameLayout categoriesShimmer
-            ,recentlyAddedShimmer;
+    ShimmerFrameLayout categoriesShimmer,
+                recentlyAddedShimmer,
+                dealsShimmer,
+                bestsellerShimmer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         showAllBestSeller=findViewById(R.id.see_all_bestsellers);
         categoriesShimmer=findViewById(R.id.categoriesShimmer);
         recentlyAddedShimmer=findViewById(R.id.recentlyAdded_shimmer);
+        dealsShimmer=findViewById(R.id.deals_shimmer);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -185,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        //Log.d("from_product_repo","observeDeals");
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message
@@ -232,7 +234,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
                         if (aBoolean!=null&&!aBoolean){
-
+                            dealsShimmer.stopShimmer();
+                            dealsShimmer.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -311,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         categoriesShimmer.startShimmer();
         recentlyAddedShimmer.startShimmer();
+        dealsShimmer.startShimmer();
     }
 
     @Override
@@ -318,5 +322,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         categoriesShimmer.stopShimmer();
         recentlyAddedShimmer.stopShimmer();
+        dealsShimmer.stopShimmer();
     }
 }

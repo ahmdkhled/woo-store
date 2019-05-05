@@ -18,11 +18,15 @@
 
         <include layout="@layout/product_item_shimmer"
             android:layout_width="135dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"/>
 
         <include layout="@layout/product_item_shimmer"
             android:layout_width="135dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"/>
 
         <include layout="@layout/product_item_shimmer"
             android:layout_width="135dp"
