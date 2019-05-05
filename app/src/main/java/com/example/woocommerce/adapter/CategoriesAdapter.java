@@ -1,6 +1,7 @@
 package com.example.woocommerce.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.woocommerce.R;
 import com.example.woocommerce.model.Category;
+import com.example.woocommerce.ui.ProductsActivity;
 
 import java.util.ArrayList;
 
@@ -81,6 +83,16 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
                         .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300);
                 image.setLayoutParams(params);
             }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, ProductsActivity.class);
+                    intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.CATEGORIES_TARGET);
+                    intent.putExtra(ProductsActivity.CATEGORY_ID,categoriesList.get(getAdapterPosition()).getId());
+                    context.startActivity(intent);
+
+                }
+            });
         }
     }
 }

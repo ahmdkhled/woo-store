@@ -17,7 +17,7 @@ import retrofit2.Response;
 public class ProductsRepo {
 
     private static ProductsRepo productsRepo;
-    private MutableLiveData<ArrayList<Product>> products=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Product>> products;
     private MutableLiveData<ArrayList<Product>> mRecentProducts = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Product>> mSaleproducts=new MutableLiveData<>();
     private MutableLiveData<ArrayList<Product>> bestSellers=new MutableLiveData<>();
@@ -87,6 +87,7 @@ public class ProductsRepo {
                                                                  String sku,  String slug,
                                                                  String tag,  String shipping_class) {
 
+        products=new MutableLiveData<>();
         getProducts(products, page,   per_page, search,category, order_by,order, min_price,
                 max_price, on_sale,featured, stock_status,status, context,include, sku,slug,
                 tag ,shipping_class);

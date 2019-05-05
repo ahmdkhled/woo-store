@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.woocommerce.R;
@@ -48,8 +49,8 @@ public class ProductsActivity extends AppCompatActivity {
                     null,null,null,null,null,null);
 
         else if (target.equals(CATEGORIES_TARGET)){
-            String categoruId=getIntent().getStringExtra(CATEGORY_ID);
-            productsViewModel.getProducts(null,null,null,categoruId,null,
+            int categoruId=getIntent().getIntExtra(CATEGORY_ID,-1);
+            productsViewModel.getProducts(null,null,null, String.valueOf(categoruId),null,
                     null,null,null,null,null,null,null,
                     null,null,null,null,null,null);
         }
@@ -61,6 +62,8 @@ public class ProductsActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAdded(){
+        if (productsViewModel.getProducts().hasObservers())
+            return;
         productsViewModel.getProducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
