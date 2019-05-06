@@ -176,13 +176,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/seeAllCategories"
         />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="150dp"
+        android:minHeight="200dp"
         android:id="@+id/bestRecycler"
         app:layout_constraintTop_toBottomOf="@id/BestSeller_label"
         />
 
+    <include layout="@layout/product_samples_shimmer_layout"
+        android:id="@+id/bestSeller_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/bestRecycler"
+        app:layout_constraintBottom_toBottomOf="@id/bestRecycler"/>
 </android.support.constraint.ConstraintLayout>
 </ScrollView>

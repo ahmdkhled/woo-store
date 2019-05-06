@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         categoriesShimmer=findViewById(R.id.categoriesShimmer);
         recentlyAddedShimmer=findViewById(R.id.recentlyAdded_shimmer);
         dealsShimmer=findViewById(R.id.deals_shimmer);
+        bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -248,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
                         if (aBoolean!=null&&!aBoolean){
-
+                            bestsellerShimmer.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -315,6 +316,7 @@ public class MainActivity extends AppCompatActivity {
         categoriesShimmer.startShimmer();
         recentlyAddedShimmer.startShimmer();
         dealsShimmer.startShimmer();
+        bestsellerShimmer.startShimmer();
     }
 
     @Override
@@ -323,5 +325,6 @@ public class MainActivity extends AppCompatActivity {
         categoriesShimmer.stopShimmer();
         recentlyAddedShimmer.stopShimmer();
         dealsShimmer.stopShimmer();
+        bestsellerShimmer.stopShimmer();
     }
 }
