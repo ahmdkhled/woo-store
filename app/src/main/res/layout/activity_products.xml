@@ -17,7 +17,7 @@
         android:background="@null"
         android:drawableStart="@drawable/ic_updown"
         android:drawableLeft="@drawable/ic_updown"
-        android:drawablePadding="5dp"/>
+        />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,13 +30,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:drawableStart="@drawable/ic_filter"
         android:drawableLeft="@drawable/ic_filter"
-        android:drawablePadding="10dp"/>
+        android:drawablePadding="5dp"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/recentlyRecycler"
         app:layout_constraintTop_toBottomOf="@id/filter_button"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/products_PB"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

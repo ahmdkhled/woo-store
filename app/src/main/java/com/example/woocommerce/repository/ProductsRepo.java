@@ -17,12 +17,20 @@ import retrofit2.Response;
 public class ProductsRepo {
 
     private static ProductsRepo productsRepo;
-    private MutableLiveData<ArrayList<Product>> products=new MutableLiveData<>();
-    private MutableLiveData<ArrayList<Product>> mRecentProducts = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<Product>> mSaleproducts=new MutableLiveData<>();
-    private MutableLiveData<ArrayList<Product>> bestSellers=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Product>> products;
+    private MutableLiveData<ArrayList<Product>> mRecentProducts ;
+    private MutableLiveData<ArrayList<Product>> mSaleproducts;
+    private MutableLiveData<ArrayList<Product>> bestSellers;
+
     private MutableLiveData<Boolean> isProductsLoading=new MutableLiveData<>();
+    private MutableLiveData<Boolean> isRecentlyAddedLoading=new MutableLiveData<>();
+    private MutableLiveData<Boolean> isDealsLoading=new MutableLiveData<>();
+    private MutableLiveData<Boolean> isBestSellersLoading=new MutableLiveData<>();
+
+
     private MutableLiveData<String> productsLoadingError=new MutableLiveData<>();
+    private MutableLiveData<String> RecentlyAddedLoadingError=new MutableLiveData<>();
+    private MutableLiveData<String> dealsLoadingError=new MutableLiveData<>();
     private MutableLiveData<String> bestSellersLoadingError=new MutableLiveData<>();
 
     public static ProductsRepo getInstance() {
@@ -45,7 +53,15 @@ public class ProductsRepo {
 
                 final String tag, String shipping_class){
 
-        isProductsLoading.setValue(true);
+        if (target.equals(products))
+            isProductsLoading.setValue(true);
+        else if (target.equals(mRecentProducts))
+            isRecentlyAddedLoading.setValue(true);
+        else if (target.equals(mSaleproducts))
+            isDealsLoading.setValue(true);
+        else if (target.equals(bestSellers))
+            isBestSellersLoading.setValue(true);
+
         Call<ArrayList<Product>> call = RetrofitClient.getInstance().getApiService()
                 .getProducts(page,per_page,search,category,order_by,
                         order,min_price,max_price,on_sale,featured,
@@ -55,13 +71,36 @@ public class ProductsRepo {
             @Override
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                 target.setValue(response.body());
-                isProductsLoading.setValue(false);
+                if (target.equals(products))
+                    isProductsLoading.setValue(false);
+                else if (target.equals(mRecentProducts))
+                    isRecentlyAddedLoading.setValue(false);
+                else if (target.equals(mSaleproducts))
+                    isDealsLoading.setValue(false);
+                else if (target.equals(bestSellers))
+                    isBestSellersLoading.setValue(false);
             }
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
 
-                productsLoadingError.setValue(t.getMessage());
-                isProductsLoading.setValue(false);
+                if (target.equals(products))
+                    productsLoadingError.setValue(t.getMessage());
+                else if (target.equals(mRecentProducts))
+                    RecentlyAddedLoadingError.setValue(t.getMessage());
+                else if (target.equals(mSaleproducts))
+                    dealsLoadingError.setValue(t.getMessage());
+                else if (target.equals(bestSellers))
+                    bestSellersLoadingError.setValue(t.getMessage());
+
+
+                if (target.equals(products))
+                    isProductsLoading.setValue(false);
+                else if (target.equals(mRecentProducts))
+                    isRecentlyAddedLoading.setValue(false);
+                else if (target.equals(mSaleproducts))
+                    isDealsLoading.setValue(false);
+                else if (target.equals(bestSellers))
+                    isBestSellersLoading.setValue(false);
             }
         });
 
@@ -77,8 +116,9 @@ public class ProductsRepo {
                                                                  String stock_status,  String status,
                                                                  String context,  String include,
                                                                  String sku,  String slug,
-
                                                                  String tag,  String shipping_class) {
+
+        products=new MutableLiveData<>();
         getProducts(products, page,   per_page, search,category, order_by,order, min_price,
                 max_price, on_sale,featured, stock_status,status, context,include, sku,slug,
                 tag ,shipping_class);
@@ -95,6 +135,7 @@ public class ProductsRepo {
                                                                  String sku,  String slug,
 
                                                                  String tag,  String shipping_class) {
+        mRecentProducts=new MutableLiveData<>();
         getProducts(mRecentProducts, page,   per_page, search,category, "date",order, min_price,
                 max_price, on_sale,featured, stock_status,status, context,include, sku,slug,
                 tag ,shipping_class);
@@ -112,7 +153,7 @@ public class ProductsRepo {
 
                                                         String tag, String shipping_class){
 
-
+        mSaleproducts=new MutableLiveData<>();
         getProducts(mSaleproducts,page,per_page, search, category, order_by, order, min_price, max_price,
                  "true", featured, stock_status, status, context, include, sku, slug,
                  tag, shipping_class);
@@ -131,6 +172,8 @@ public class ProductsRepo {
                                                               final String sku, final String slug,
                                                               final String tag, final String shipping_class
                             ){
+        bestSellers=new MutableLiveData<>();
+        isBestSellersLoading.setValue(true);
         RetrofitClient
                 .getInstance()
                 .getApiService()
@@ -140,6 +183,10 @@ public class ProductsRepo {
                     public void onResponse(Call<ArrayList<TopSeller>> call, Response<ArrayList<TopSeller>> response) {
                         ArrayList<TopSeller> topSellerList=response.body();
                         if (topSellerList!=null){
+                            if (topSellerList.isEmpty()){
+                                bestSellers.setValue(new ArrayList<Product>());
+                                return;
+                            }
                             String include= ProductUtils.getProductIdsAsString(topSellerList);
                             Log.d("from_product_repo","ids bestseller "+include);
                             getProducts(bestSellers,page,per_page, search, category, order_by, order, min_price, max_price,
@@ -160,13 +207,31 @@ public class ProductsRepo {
     }
 
 
-
     public MutableLiveData<Boolean> getIsProductsLoading() {
         return isProductsLoading;
     }
 
+    public MutableLiveData<Boolean> getIsRecentlyAddedLoading() {
+        return isRecentlyAddedLoading;
+    }
+
+    public MutableLiveData<Boolean> getIsDealsLoading() {
+        return isDealsLoading;
+    }
+
+    public MutableLiveData<Boolean> getIsBestSellersLoading() {
+        return isBestSellersLoading;
+    }
+
+
     public MutableLiveData<String> getProductsLoadingError() {
         return productsLoadingError;
+    }
+
+    public MutableLiveData<String> getRecentlyAddedLoadingError() { return RecentlyAddedLoadingError; }
+
+    public MutableLiveData<String> getDealsLoadingError() {
+        return dealsLoadingError;
     }
 
     public MutableLiveData<String> getBestSellersLoadingError() {

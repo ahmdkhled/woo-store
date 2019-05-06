@@ -18,7 +18,7 @@ import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Category;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
-import com.example.woocommerce.viewmodel.ProductsViewModel;
+import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -31,10 +31,14 @@ public class MainActivity extends AppCompatActivity {
             bestSellerRecycler;
     CategoriesAdapter categoriesAdapter;
     CategoriesViewModel categoriesViewModel;
-    ProductsViewModel productsViewModel;
-    TextView showAllCategories,showAllRecently;
+    MainAcrivityViewModel mainAcrivityViewModel;
+    TextView showAllCategories,showAllRecently,
+            showAllDeals,showAllBestSeller;
     ArrayList<Category> categoriesList;
-    ShimmerFrameLayout categoriesShimmer;
+    ShimmerFrameLayout categoriesShimmer,
+                recentlyAddedShimmer,
+                dealsShimmer,
+                bestsellerShimmer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +50,17 @@ public class MainActivity extends AppCompatActivity {
         bestSellerRecycler=findViewById(R.id.bestRecycler);
         showAllRecently=findViewById(R.id.see_all_recently);
         showAllCategories=findViewById(R.id.seeAllCategories);
+        showAllDeals=findViewById(R.id.see_all_deals);
+        showAllBestSeller=findViewById(R.id.see_all_bestsellers);
         categoriesShimmer=findViewById(R.id.categoriesShimmer);
+        recentlyAddedShimmer=findViewById(R.id.recentlyAdded_shimmer);
+        dealsShimmer=findViewById(R.id.deals_shimmer);
+        bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
-        productsViewModel=ViewModelProviders.of(this)
-                .get(ProductsViewModel.class);
+        mainAcrivityViewModel =ViewModelProviders.of(this)
+                .get(MainAcrivityViewModel.class);
 
 
         categoriesViewModel.getCategories(null,"5","0",null,
@@ -60,28 +69,33 @@ public class MainActivity extends AppCompatActivity {
         observeCategoriesError();
         observeCategoriesLoading();
 
-        productsViewModel.getRecentlyAddedproducts(null,"5",null,null,null,
+        mainAcrivityViewModel.getRecentlyAddedproducts(null,"5",null,null,null,
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
         observeRecentlyAdded();
         observeRecentlyAddedError();
+        observeRecentlyAddedLoading();
 
-        productsViewModel.getDeals(null,"8",null,null ,
+        mainAcrivityViewModel.getDeals(null,"8",null,null ,
                 null ,null ,null ,null,null,
                 null,null,null,null,null ,null,null,null);
         observeDeals();
+        observeDealsError();
+        observeDealsLoading();
 
-        productsViewModel.getBestSellers(null,null ,null,null,null,
+        mainAcrivityViewModel.getBestSellers("month",null ,null,null,null,
                                         null ,null ,"date",null,null,
                                      null, null,null,null,null,
                                     null,null, null,null,null);
         observeBestSeller();
         observeBestSellerError();
+        observeBestSellersLoading();
 
         showAllRecently.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
+                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.RA_TARGET);
                 startActivity(intent);
             }
         });
@@ -93,10 +107,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-<<<<<<< HEAD
-=======
 
->>>>>>> 319e3e27ee090bd74486cbeceef96d8ed87c3c35
+        showAllDeals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
+                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.DEALS_TARGET);
+                startActivity(intent);
+            }
+        });
+
+        showAllBestSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
+                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.BESTSELLERS_TARGET);
+                startActivity(intent);
+            }
+        });
+
     }
 
     void observeCategories(){
@@ -124,8 +153,6 @@ public class MainActivity extends AppCompatActivity {
                             categoriesShimmer.stopShimmer();
                             categoriesShimmer.setVisibility(View.GONE);
                         }
-
-
                     }
                 });
     }
@@ -142,12 +169,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void observeRecentlyAdded(){
-
-        productsViewModel.getRecentlyAddedproducts()
+        mainAcrivityViewModel.getRecentlyAddedProducts()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        //Log.d("from_product_repo","observeRecentlyAdded");
+                        //Log.d("from_product_repo","observeProducts");
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message
@@ -156,13 +182,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
     void observeDeals(){
 
-        productsViewModel.getDeals()
+        mainAcrivityViewModel.getDeals()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        //Log.d("from_product_repo","observeDeals");
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message
@@ -174,11 +200,11 @@ public class MainActivity extends AppCompatActivity {
 
     void observeBestSeller(){
 
-        productsViewModel.getBestSellers()
+        mainAcrivityViewModel.getBestSellers()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        Log.d("from_product_repo","observe bestseller");
+                        Log.d("from_product_repo","observe bestseller "+products.size());
                         if(products == null)
                             Toast.makeText(MainActivity.this,
                                     R.string.error_message
@@ -188,8 +214,49 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    void observeRecentlyAddedLoading(){
+        mainAcrivityViewModel
+                .getIsRecentlyAddedProductsLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&!aBoolean){
+                            recentlyAddedShimmer.stopShimmer();
+                            recentlyAddedShimmer.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
+    void observeDealsLoading(){
+        mainAcrivityViewModel
+                .getIsDealsLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&!aBoolean){
+                            dealsShimmer.stopShimmer();
+                            dealsShimmer.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
+    void observeBestSellersLoading(){
+        mainAcrivityViewModel
+                .getIsBestSellersLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&!aBoolean){
+                            bestsellerShimmer.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
     void observeRecentlyAddedError(){
-        productsViewModel
+        mainAcrivityViewModel
                 .getRecentlyAddedProductsLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
@@ -199,9 +266,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    void observeDealsError(){
+        mainAcrivityViewModel
+                .getDealsLoadingError()
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+                        Toast.makeText(MainActivity.this, s
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     void observeBestSellerError(){
-        productsViewModel
-                .getBestSellerError()
+        mainAcrivityViewModel
+                .getBestSellersLoadingError()
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
@@ -220,14 +300,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-<<<<<<< HEAD
 
-    private void showRecentlyAddedProducts(RecyclerView recyclerView,ArrayList<Product> products) {
-        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products,true);
-=======
     private void showProducts(RecyclerView  recyclerView, ArrayList<Product> products) {
         ProductAdapter productAdapter=new ProductAdapter(this,products,true);
->>>>>>> 319e3e27ee090bd74486cbeceef96d8ed87c3c35
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setAdapter(productAdapter);
@@ -239,11 +314,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         categoriesShimmer.startShimmer();
+        recentlyAddedShimmer.startShimmer();
+        dealsShimmer.startShimmer();
+        bestsellerShimmer.startShimmer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         categoriesShimmer.stopShimmer();
+        recentlyAddedShimmer.stopShimmer();
+        dealsShimmer.stopShimmer();
+        bestsellerShimmer.stopShimmer();
     }
 }

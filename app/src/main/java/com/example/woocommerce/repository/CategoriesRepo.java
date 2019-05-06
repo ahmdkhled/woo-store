@@ -15,7 +15,7 @@ import retrofit2.Response;
 public class CategoriesRepo {
 
     private static CategoriesRepo categoriesRepo;
-    private MutableLiveData<ArrayList<Category>> categories=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Category>> categories;
     private MutableLiveData<Boolean> isCategoriesLoading=new MutableLiveData<>();
     private MutableLiveData<String> categoriesLoadingError=new MutableLiveData<>();
 
@@ -35,6 +35,7 @@ public class CategoriesRepo {
                                                     String slug, String hide_empty,
                                                     String order_by, String order){
 
+         categories=new MutableLiveData<>();
          isCategoriesLoading.setValue(true);
          RetrofitClient.getInstance()
                 .getApiService()
