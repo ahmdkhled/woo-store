@@ -70,15 +70,18 @@ public class ProductsRepo {
         call.enqueue(new Callback<ArrayList<Product>>() {
             @Override
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                target.setValue(response.body());
-                if (target.equals(products))
-                    isProductsLoading.setValue(false);
-                else if (target.equals(mRecentProducts))
-                    isRecentlyAddedLoading.setValue(false);
-                else if (target.equals(mSaleproducts))
-                    isDealsLoading.setValue(false);
-                else if (target.equals(bestSellers))
-                    isBestSellersLoading.setValue(false);
+                if(response.isSuccessful()) {
+                    Log.d("fromProductActivity",response.body().get(0).getName());
+                    target.setValue(response.body());
+                    if (target.equals(products))
+                        isProductsLoading.setValue(false);
+                    else if (target.equals(mRecentProducts))
+                        isRecentlyAddedLoading.setValue(false);
+                    else if (target.equals(mSaleproducts))
+                        isDealsLoading.setValue(false);
+                    else if (target.equals(bestSellers))
+                        isBestSellersLoading.setValue(false);
+                }
             }
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
@@ -119,10 +122,10 @@ public class ProductsRepo {
                                                                  String tag,  String shipping_class) {
 
         products=new MutableLiveData<>();
-        getProducts(products, page,   per_page, search,category, order_by,order, min_price,
+        return getProducts(products, page,   per_page, search,category, order_by,order, min_price,
                 max_price, on_sale,featured, stock_status,status, context,include, sku,slug,
                 tag ,shipping_class);
-        return products;
+
     }
 
     public MutableLiveData<ArrayList<Product>> getRecentProducts(String page,  String per_page,

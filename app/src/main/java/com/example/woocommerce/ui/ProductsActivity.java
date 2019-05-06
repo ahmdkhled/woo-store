@@ -93,13 +93,16 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     }
 
     void observeProducts(){
-        productsViewModel.getProducts()
-                .observe(this, new Observer<ArrayList<Product>>() {
-                    @Override
-                    public void onChanged(@Nullable ArrayList<Product> products) {
-                        showProducts(products);
-                    }
-                });
+        if(!productsViewModel.getProducts().hasActiveObservers()) {
+            productsViewModel.getProducts()
+                    .observe(this, new Observer<ArrayList<Product>>() {
+                        @Override
+                        public void onChanged(@Nullable ArrayList<Product> products) {
+                            Log.d("fromProductActivity", "products " + products.size());
+                            showProducts(products);
+                        }
+                    });
+        }
     }
 
     void observeProductsLoadingError(){
@@ -177,7 +180,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         String orderBy = null;
         String order = "desc";
         Log.d("fromProductActivity","sort by "+sortBy);
-        if(!mSortByOption.equals(sortBy)) {
+        if(mSortByOption == null || !mSortByOption.equals(sortBy)) {
             mSortByOption = sortBy;
             switch (sortBy) {
                 case SortByBottomSheet.SORT_BY_POPULARITY:
@@ -198,9 +201,11 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                     break;
             }
 
+            Log.d("fromProductActivity","order_by = "+orderBy+" order = "+order);
             productsViewModel.getProducts(null,null,null, null,orderBy,
                     order,null,null,null,null,null,null,
                     null,null,null,null,null,null);
+            observeProducts();
         }
 
     }

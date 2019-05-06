@@ -17,7 +17,7 @@ public interface ApiService {
     @GET("products")
     Call<ArrayList<Product>> getProducts(@Query("page") String page, @Query("per_page") String per_page,
                                          @Query("search")String search, @Query("category") String category,
-                                         @Query("order_by")String order_by, @Query("order") String order,
+                                         @Query("orderby")String order_by, @Query("order") String order,
                                          @Query("min_price")String min_price, @Query("max_price") String max_price,
                                          @Query("on_sale")String on_sale, @Query("featured") String featured,
                                          @Query("stock_status")String stock_status, @Query("status") String status,

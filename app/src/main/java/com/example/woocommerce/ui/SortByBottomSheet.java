@@ -34,7 +34,8 @@ public class SortByBottomSheet extends BottomSheetDialogFragment {
     @BindView(R.id.radio_price_high_low)
     RadioButton mRadioPriceHighToLow;
 
-    BottomSheetListener mListener;
+    private BottomSheetListener mListener;
+    private RadioButton msortBy;
 
     @Nullable
     @Override
