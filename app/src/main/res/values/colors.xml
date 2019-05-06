@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#B81B4C</color>
     <color name="colorAccent">#C44141</color>
     <color name="red">#FF0000</color>
+    <color name="sheet_bg_pressed_color">#00E676</color>
+    <color name="sheet_bg_default">#EBEBEB</color>
+    <color name="sheet_default_text">#AFAEAE</color>
 </resources>

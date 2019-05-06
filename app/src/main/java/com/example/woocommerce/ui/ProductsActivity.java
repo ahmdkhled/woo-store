@@ -85,7 +85,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             @Override
             public void onClick(View v) {
                 SortByBottomSheet mSortBottomSheet=new SortByBottomSheet();
-                mSortBottomSheet.show(getSupportFragmentManager(),"sort by bottom sheet");
+                mSortBottomSheet.show(getSupportFragmentManager(),mSortBottomSheet.getTag());
             }
         });
 
