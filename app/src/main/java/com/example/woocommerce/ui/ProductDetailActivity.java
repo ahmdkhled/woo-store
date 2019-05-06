@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.woocommerce.R;
@@ -32,7 +33,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     public static final String PRODUCT_KEY="product_key";
     public Product product;
-    TextView name,price,sale_price;
+    TextView name,price,sale_price,ratingCount;
     ViewPager DetailsPager,imagesPager;
     PageIndicatorView indicator;
     TabLayout tabLayout;
@@ -40,6 +41,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageView navigationUp;
     ConstraintLayout cartIcon;
     Button mAddToCartBtn;
+    RatingBar avgRating;
     ProductDetailViewModel mViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         name=findViewById(R.id.product_name);
         price=findViewById(R.id.product_price);
         sale_price=findViewById(R.id.price_after);
+        ratingCount=findViewById(R.id.ratingCount);
+        avgRating=findViewById(R.id.product_avgRating);
         DetailsPager =findViewById(R.id.product_detail_viewPager);
         imagesPager =findViewById(R.id.product_images_viewPager);
         indicator=findViewById(R.id.product_images_indicator);
@@ -63,7 +67,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         product =getIntent().getParcelableExtra(PRODUCT_KEY);
-        Log.d("PRODUCCTTT", "product : "+product.getName());
+        Log.d("PRODUCCTTT", "product : "+product.getAverage_rating()+"count"+product.getRating_count());
         populateProductDetail(product);
 
         mAddToCartBtn.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +144,10 @@ public class ProductDetailActivity extends AppCompatActivity {
             price.setTypeface(price.getTypeface(), Typeface.NORMAL);
             sale_price.setText(product.getSale_price());
         }
+
+        if (product.getAverage_rating()!=null)
+            avgRating.setRating(Float.parseFloat(product.getAverage_rating()));
+        ratingCount.setText(String.valueOf(product.getRating_count())+" reviews");
 
         DetailsAdapter detailsAdapter=new DetailsAdapter(getSupportFragmentManager());
         DetailsPager.setAdapter(detailsAdapter);

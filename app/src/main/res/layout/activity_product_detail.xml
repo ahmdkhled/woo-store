@@ -106,10 +106,9 @@
         android:textStyle="bold"
         android:id="@+id/product_price"
         android:textColor="#302F2F"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/product_name"
         app:layout_constraintTop_toBottomOf="@+id/product_name"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
+
         android:layout_marginTop="10dp"
         />
 
@@ -127,6 +126,27 @@
         />
 
 
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_avgRating"
+        style="?ratingBarStyleSmall"
+        android:isIndicator="true"
+        app:layout_constraintTop_toBottomOf="@id/product_images_viewPager"
+        app:layout_constraintBottom_toTopOf="@id/product_detail_tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias=".6"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingCount"
+        app:layout_constraintTop_toBottomOf="@id/product_avgRating"
+        tools:text="100 reviews"
+        app:layout_constraintStart_toStartOf="@id/product_avgRating"
+        app:layout_constraintEnd_toEndOf="@id/product_avgRating"/>
 
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
