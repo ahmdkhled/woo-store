@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.DetailsAdapter;
 import com.example.woocommerce.adapter.ProductMediaAdapter;
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.ProductDetailViewModel;
 import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
@@ -41,6 +44,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     ConstraintLayout cartIcon;
     Button mAddToCartBtn;
     ProductDetailViewModel mViewModel;
+    private TextView mCartBadgeTxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,13 +124,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        cartIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),CartActivity.class);
-                startActivity(intent);
-            }
-        });
+
     }
 
     void populateProductDetail(Product product){
@@ -150,6 +149,60 @@ public class ProductDetailActivity extends AppCompatActivity {
             indicator.setAnimationType(AnimationType.WORM);
             indicator.setCount(product.getImages().size());
         }
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu,menu);
+        final MenuItem cartItem = menu.findItem(R.id.menu_cart);
+        View view = cartItem.getActionView();
+        mCartBadgeTxt = view.findViewById(R.id.cart_badge_txt);
+        setupBadge();
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onOptionsItemSelected(cartItem);
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_cart:
+                // go to cart activity
+                startActivity(new Intent(ProductDetailActivity.this,CartActivity.class));
+                break;
+        }
+        return true;
+    }
+
+    private void setupBadge() {
+        PrefManager manager = PrefManager.getInstance(this);
+        manager.getCartSize();
+        manager.getmCartSize().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer cartSize) {
+                if(cartSize != null){
+                    if(mCartBadgeTxt != null){
+                        if(cartSize == 0){
+                            if(mCartBadgeTxt.getVisibility() != View.GONE){
+                                mCartBadgeTxt.setVisibility(View.GONE);
+                            }
+                        }else{
+                            mCartBadgeTxt.setText(String.valueOf(cartSize));
+                            if(mCartBadgeTxt.getVisibility() != View.VISIBLE){
+                                mCartBadgeTxt.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
 
     }
