@@ -52,8 +52,8 @@ public class Product implements Parcelable {
     private String shippingClass;
     private Integer shippingClassId;
     private Boolean reviewsAllowed;
-    private String averageRating;
-    private int ratingCount;
+    private String average_rating;
+    private int rating_count;
     private int parent_id;
     private int menu_order;
     private String purchase_note;
@@ -143,8 +143,8 @@ public class Product implements Parcelable {
         }
         byte tmpReviewsAllowed = in.readByte();
         reviewsAllowed = tmpReviewsAllowed == 0 ? null : tmpReviewsAllowed == 1;
-        averageRating = in.readString();
-        ratingCount = in.readInt();
+        average_rating = in.readString();
+        rating_count = in.readInt();
         parent_id = in.readInt();
         menu_order = in.readInt();
         purchase_note = in.readString();
@@ -356,12 +356,12 @@ public class Product implements Parcelable {
         return reviewsAllowed;
     }
 
-    public String getAverageRating() {
-        return averageRating;
+    public String getAverage_rating() {
+        return average_rating;
     }
 
-    public int getRatingCount() {
-        return ratingCount;
+    public int getRating_count() {
+        return rating_count;
     }
 
     public int getParent_id() {
@@ -489,8 +489,8 @@ public class Product implements Parcelable {
             dest.writeInt(shippingClassId);
         }
         dest.writeByte((byte) (reviewsAllowed == null ? 0 : reviewsAllowed ? 1 : 2));
-        dest.writeString(averageRating);
-        dest.writeInt(ratingCount);
+        dest.writeString(average_rating);
+        dest.writeInt(rating_count);
         dest.writeInt(parent_id);
         dest.writeInt(menu_order);
         dest.writeString(purchase_note);
