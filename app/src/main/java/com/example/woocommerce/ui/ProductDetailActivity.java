@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +29,7 @@ import com.example.woocommerce.adapter.DetailsAdapter;
 import com.example.woocommerce.adapter.ProductMediaAdapter;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.PrefManager;
+import com.example.woocommerce.utils.HtmlUtil;
 import com.example.woocommerce.viewmodel.ProductDetailViewModel;
 import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
@@ -71,7 +73,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         product =getIntent().getParcelableExtra(PRODUCT_KEY);
-        Log.d("PRODUCCTTT", "product : "+product.getAverage_rating()+"count"+product.getRating_count());
+        //Log.d("PRODUCCTTT", "price "+ HtmlUtil.getCurrency(""));
         populateProductDetail(product);
 
         mAddToCartBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,19 +135,23 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     void populateProductDetail(Product product){
         name.setText(product.getName());
-        price.setText(product.getPrice());
+
+        String currency=HtmlUtil.getCurrency(product.getPrice_html());
+        price.setText(getString(R.string.product_price,product.getPrice(),currency));
 
         if (product.getSale_price()!=null&& !TextUtils.isEmpty(product.getSale_price())){
             sale_price.setVisibility(View.VISIBLE);
             price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             price.setTextColor(Color.parseColor("#A7A5A5"));
             price.setTypeface(price.getTypeface(), Typeface.NORMAL);
-            sale_price.setText(product.getSale_price());
+
+            sale_price.setText(getString(R.string.product_price,product.getSale_price(),currency));
+
         }
 
         if (product.getAverage_rating()!=null)
             avgRating.setRating(Float.parseFloat(product.getAverage_rating()));
-        ratingCount.setText(String.valueOf(product.getRating_count())+" reviews");
+        ratingCount.setText(getString(R.string.product_reviews,product.getRating_count()));
 
         DetailsAdapter detailsAdapter=new DetailsAdapter(getSupportFragmentManager());
         DetailsPager.setAdapter(detailsAdapter);
