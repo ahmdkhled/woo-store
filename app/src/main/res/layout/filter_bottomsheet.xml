@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="5dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sortBy_label"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Sort by"
+        android:fontFamily="casual"
+        android:textSize="25sp"
+        android:textColor="#3C3C3C"
+        android:layout_margin="5dp"/>
+
+    <View
+        android:id="@+id/line_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C4C4C4"
+        app:layout_constraintTop_toBottomOf="@id/sortBy_label" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/date"
+        app:layout_constraintTop_toTopOf="@id/line_divider"
+        android:text="date"
+        android:textSize="20sp"
+        android:textColor="#3C3C3C"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/priceLTH"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        android:text="price : low to high"
+        android:textSize="20sp"
+        android:textColor="#3C3C3C"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/priceHTL"
+        app:layout_constraintTop_toBottomOf="@id/priceLTH"
+        android:text="price : high to low"
+        android:textSize="20sp"
+        android:textColor="#3C3C3C"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bestSelling"
+        app:layout_constraintTop_toBottomOf="@id/priceHTL"
+        android:text="best selling"
+        android:textSize="20sp"
+        android:textColor="#3C3C3C"
+        android:layout_margin="5dp"/>
+
+    
+</android.support.constraint.ConstraintLayout>

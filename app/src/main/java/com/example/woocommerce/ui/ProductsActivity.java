@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class ProductsActivity extends AppCompatActivity {
 
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
+    Button sortBy;
     ProgressBar progressBar;
     String target="";
     public static final String TARGET_KEY="target_key";
@@ -36,6 +38,7 @@ public class ProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_products);
         recentlyAddedRecycler=findViewById(R.id.recentlyRecycler);
         progressBar=findViewById(R.id.products_PB);
+        sortBy=findViewById(R.id.sortBy_button);
         productsViewModel =ViewModelProviders.of(this)
                 .get(ProductsViewModel.class);
 
@@ -74,8 +77,13 @@ public class ProductsActivity extends AppCompatActivity {
             observebestSellersLoadingError();
         }
 
-
-
+        sortBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilterSheetFrag filterSheetFrag=new FilterSheetFrag();
+                filterSheetFrag.show(getSupportFragmentManager(),filterSheetFrag.getTag());
+            }
+        });
 
 
     }
