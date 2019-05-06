@@ -160,8 +160,6 @@ public class ProductsActivity extends AppCompatActivity {
                 });
     }
 
-
-
     private void showProducts(ArrayList<Product> products) {
         ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products,false);
         GridLayoutManager layoutManager=new GridLayoutManager(this,2);
