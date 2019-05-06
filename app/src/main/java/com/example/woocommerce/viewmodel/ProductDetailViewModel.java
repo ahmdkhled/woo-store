@@ -19,7 +19,7 @@ public class ProductDetailViewModel extends AndroidViewModel {
     }
 
     public void addProductToCart(int id, int quantity){
-        PrefManager manager = new PrefManager(getApplication());
+        PrefManager manager = PrefManager.getInstance(getApplication());
         isItemSavedIntoCart.setValue(manager.addItemToCart(id,quantity));
     }
 

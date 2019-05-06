@@ -26,7 +26,7 @@ public class CartViewModel extends AndroidViewModel {
     public CartViewModel(@NonNull Application application) {
         super(application);
         productsRepo = ProductsRepo.getInstance();
-        prefManager = new PrefManager(getApplication());
+        prefManager = PrefManager.getInstance(getApplication());
         if(isCartEmpty == null) isCartEmpty = new MutableLiveData<>();
     }
 

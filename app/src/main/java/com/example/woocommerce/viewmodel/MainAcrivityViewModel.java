@@ -1,15 +1,24 @@
 package com.example.woocommerce.viewmodel;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.repository.ProductsRepo;
+import com.example.woocommerce.utils.PrefManager;
+
 import java.util.ArrayList;
 
 public class MainAcrivityViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Product>> RecentlyAddedProducts;
     private MutableLiveData<ArrayList<Product>> deals;
     private MutableLiveData<ArrayList<Product>> bestSellers;
+
+
 
     public void getRecentlyAddedproducts(String page, String per_page,
                                          String search, String category,
@@ -106,6 +115,9 @@ public class MainAcrivityViewModel extends ViewModel {
     public MutableLiveData<String> getBestSellersLoadingError(){
         return ProductsRepo.getInstance().getBestSellersLoadingError();
     }
+
+
+
 
 
 }

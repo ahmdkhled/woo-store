@@ -23,6 +23,7 @@ import com.example.woocommerce.adapter.CategoriesAdapter;
 import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Category;
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 dealsShimmer,
                 bestsellerShimmer;
     TextView mCartBadgeTxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -366,7 +368,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupBadge() {
-        
+        PrefManager manager = PrefManager.getInstance(this);
+        manager.getCartSize();
+        manager.getmCartSize().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer cartSize) {
+                if(cartSize != null){
+                    if(mCartBadgeTxt != null){
+                        if(cartSize == 0){
+                            if(mCartBadgeTxt.getVisibility() != View.GONE){
+                                mCartBadgeTxt.setVisibility(View.GONE);
+                            }
+                        }else{
+                            mCartBadgeTxt.setText(String.valueOf(cartSize));
+                            if(mCartBadgeTxt.getVisibility() != View.VISIBLE){
+                                mCartBadgeTxt.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
 
     }
 }

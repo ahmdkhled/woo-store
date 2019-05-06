@@ -1,5 +1,6 @@
 package com.example.woocommerce.utils;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -18,9 +19,17 @@ public class PrefManager {
     private static final String CART_EDITOR = "cart_editor";
     private SharedPreferences mSharedPref;
     private SharedPreferences.Editor mEditor;
+    private static PrefManager instance;
+    private MutableLiveData<Integer> mCartSize;
 
-    public PrefManager(Context context) {
+    public static PrefManager getInstance(Context context) {
+        if(instance == null) instance = new PrefManager(context);
+        return instance;
+    }
+
+    private PrefManager(Context context) {
         mSharedPref = context.getSharedPreferences(CART_SHARED_PREF,Context.MODE_PRIVATE);
+        mCartSize = new MutableLiveData<>();
     }
 
     public int addItemToCart(int id, int quantity){
@@ -57,8 +66,14 @@ public class PrefManager {
 
     public int getCartSize() {
         ArrayList<CartItem> cartItems = getCartItems();
-        if(cartItems != null && cartItems.size() > 0)return cartItems.size();
-        return 0;
+        if(cartItems != null) {
+            mCartSize.setValue(cartItems.size());
+            return cartItems.size();
+        }
+        else {
+            mCartSize.setValue(0);
+            return 0;
+        }
     }
 
     public void updateQuantity(int position, int newQuantity) {
@@ -87,5 +102,10 @@ public class PrefManager {
         }
 
         return cartItemsQuantities;
+    }
+
+    public MutableLiveData<Integer> getmCartSize() {
+        if(mCartSize == null) mCartSize = new MutableLiveData<>();
+        return mCartSize;
     }
 }
