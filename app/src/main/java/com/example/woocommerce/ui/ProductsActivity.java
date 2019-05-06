@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -15,11 +16,12 @@ import android.widget.Toast;
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Product;
+import com.example.woocommerce.utils.BottomSheetListener;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
 
 import java.util.ArrayList;
 
-public class ProductsActivity extends AppCompatActivity {
+public class ProductsActivity extends AppCompatActivity implements BottomSheetListener {
 
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
@@ -32,6 +34,8 @@ public class ProductsActivity extends AppCompatActivity {
     public static final String DEALS_TARGET="deals";
     public static final String BESTSELLERS_TARGET="best_seller";
     public static final String CATEGORY_ID="category_id";
+    private String mSortByOption;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +84,8 @@ public class ProductsActivity extends AppCompatActivity {
         sortBy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FilterSheetFrag filterSheetFrag=new FilterSheetFrag();
-                filterSheetFrag.show(getSupportFragmentManager(),filterSheetFrag.getTag());
+                SortByBottomSheet mSortBottomSheet=new SortByBottomSheet();
+                mSortBottomSheet.show(getSupportFragmentManager(),"sort by bottom sheet");
             }
         });
 
@@ -168,4 +172,36 @@ public class ProductsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBottomSheetOptionClicked(String sortBy) {
+        String orderBy = null;
+        String order = "desc";
+        Log.d("fromProductActivity","sort by "+sortBy);
+        if(!mSortByOption.equals(sortBy)) {
+            mSortByOption = sortBy;
+            switch (sortBy) {
+                case SortByBottomSheet.SORT_BY_POPULARITY:
+                    orderBy = "popularity";
+                    break;
+                case SortByBottomSheet.SORT_BY_LATEST:
+                    orderBy = "date";
+                    break;
+                case SortByBottomSheet.SORT_BY_AVG_RATE:
+                    orderBy = "rating";
+                    break;
+                case SortByBottomSheet.SORT_BY_PRICE_LOW_HIGH:
+                    orderBy = "price";
+                    order = "asc";
+                    break;
+                case SortByBottomSheet.SORT_BY_PRICE_HIGH_LOW:
+                    orderBy = "price";
+                    break;
+            }
+
+            productsViewModel.getProducts(null,null,null, null,orderBy,
+                    order,null,null,null,null,null,null,
+                    null,null,null,null,null,null);
+        }
+
+    }
 }
