@@ -54,7 +54,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         tabLayout=findViewById(R.id.product_detail_tabLayout);
         toolbar=findViewById(R.id.toolbar);
         navigationUp=findViewById(R.id.navigation_up);
-        cartIcon=findViewById(R.id.cart_icon);
         mAddToCartBtn=findViewById(R.id.addToCart);
 
 
