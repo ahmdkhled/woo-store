@@ -11,7 +11,7 @@ import com.example.woocommerce.ui.PaymentFrag;
 public class CheckoutAdapter extends FragmentPagerAdapter {
 
     private Fragment[] fragments={new AddressFrag(),new PaymentFrag()};
-    String[] tabs={"address","payment"};
+    private String[] tabs={"address","payment"};
 
     public CheckoutAdapter(FragmentManager fm) {
         super(fm);
@@ -30,6 +30,6 @@ public class CheckoutAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return super.getPageTitle(position);
+        return tabs[position];
     }
 }
