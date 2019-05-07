@@ -19,4 +19,8 @@
     <style name="MyRatingBar" parent="Widget.AppCompat.RatingBar.Small">
 
     </style>
+
+    <style name="erroStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/holo_red_light</item>
+    </style>
 </resources>
