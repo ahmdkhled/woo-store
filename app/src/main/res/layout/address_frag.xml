@@ -45,7 +45,7 @@
             app:errorTextAppearance="@style/erroStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/fname_textInputLayout"
-            app:layout_constraintTop_toTopOf="fname_textInputLayout">
+            app:layout_constraintTop_toTopOf="@id/fname_textInputLayout">
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/lname_edittext"
