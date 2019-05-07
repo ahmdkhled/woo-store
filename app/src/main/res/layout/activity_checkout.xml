@@ -106,6 +106,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/proceedToPayment"
                 android:background="@color/colorPrimary"
                 android:text="continue to payment"
                 android:textColor="#fff"
