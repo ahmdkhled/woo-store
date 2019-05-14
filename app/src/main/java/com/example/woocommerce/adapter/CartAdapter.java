@@ -98,11 +98,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         holder.mRemoveItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCartListener.removeItem(position);
-                products.remove(position);
-                notifyDataSetChanged();
+                mCartListener.removeItem(position,products.size());
+
             }
         });
+    }
+
+    public void removeItem(int position){
+        products.remove(position);
+        notifyDataSetChanged();
     }
 
     @Override

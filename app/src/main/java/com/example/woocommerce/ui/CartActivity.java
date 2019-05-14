@@ -204,26 +204,28 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     @Override
     public void decreaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice -= Integer.valueOf(price);
-        mCartTotalValueTxt.setText(R.string.product_price,mTotalPrice);
+        mCartTotalValueTxt.setText(getString(R.string.product_price,String.valueOf(mTotalPrice)));
         mViewModel.updateItemQuantity(position,newQuqntity);
     }
 
     @Override
-    public void removeItem(final int position) {
+    public void removeItem(final int position, final int cartSize) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("You are about delete this item from your cart.\nAre you sure");
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                mCartAdapter.removeItem(position);
                 showProgressBar();
                 mViewModel.removeCartItem(position);
-                mViewModel.getIsItemsDeleted().observe(this, new Observer<Boolean>() {
+                mViewModel.getIsItemsDeleted().observe(CartActivity.this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
                         hideProgressBar();
                         if(aBoolean)
                             Toast.makeText(CartActivity.this, R.string.success_deleted, Toast.LENGTH_SHORT).show();
                         else Toast.makeText(CartActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
+                        if(cartSize == 1) mViewModel.getIsCartEmpty().setValue(true);
                     }
                 });
             }
