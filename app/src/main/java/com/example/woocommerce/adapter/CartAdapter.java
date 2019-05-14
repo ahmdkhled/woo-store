@@ -99,6 +99,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
             @Override
             public void onClick(View view) {
                 mCartListener.removeItem(position);
+                products.remove(position);
                 notifyDataSetChanged();
             }
         });
