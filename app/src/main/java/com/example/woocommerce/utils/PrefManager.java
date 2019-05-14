@@ -110,7 +110,7 @@ public class PrefManager {
         return mCartSize;
     }
 
-    public void deleteItem(int position) {
+    public boolean deleteItem(int position) {
         ArrayList<CartItem> cartItems = getCartItems();
         cartItems.remove(position);
         deleteCartItems();
@@ -118,6 +118,6 @@ public class PrefManager {
         String json = gson.toJson(cartItems);
         mEditor = mSharedPref.edit();
         mEditor.putString(CART_EDITOR,json);
-        mEditor.apply();
+        return mEditor.commit();
     }
 }

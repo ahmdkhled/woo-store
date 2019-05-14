@@ -94,12 +94,14 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             mViewModel.getmCartItems().observe(this, new Observer<ArrayList<Product>>() {
                 @Override
                 public void onChanged(@Nullable ArrayList<Product> products) {
-                    mEmptyCartView.setVisibility(View.GONE);
-                    mDoneBtn.setVisibility(View.VISIBLE);
-                    mCartTotalTxt.setVisibility(View.VISIBLE);
-                    List<Integer> cartItemsQuantities = getCartItemsQuantities();
-                    mCartAdapter.notifyAdapter(products,cartItemsQuantities);
-                    calculateTotalPrice(products,cartItemsQuantities);
+                    if(products != null && products.size() > 0) {
+                        mEmptyCartView.setVisibility(View.GONE);
+                        mDoneBtn.setVisibility(View.VISIBLE);
+                        mCartTotalTxt.setVisibility(View.VISIBLE);
+                        List<Integer> cartItemsQuantities = getCartItemsQuantities();
+                        mCartAdapter.notifyAdapter(products, cartItemsQuantities);
+                        calculateTotalPrice(products, cartItemsQuantities);
+                    }
                 }
             });
         }
@@ -206,6 +208,16 @@ public class CartActivity extends AppCompatActivity implements CartListener {
 
     @Override
     public void removeItem(int position) {
+        showProgressBar();
         mViewModel.removeCartItem(position);
+        mViewModel.getIsItemsDeleted().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                hideProgressBar();
+                if(aBoolean)
+                    Toast.makeText(CartActivity.this, R.string.success_deleted, Toast.LENGTH_SHORT).show();
+                else Toast.makeText(CartActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

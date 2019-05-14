@@ -17,4 +17,5 @@
     <string name="country_edit_hint">country</string>
 
     <string name="roboto_regular">fonts/Roboto-Regular.ttf</string>
+    <string name="success_deleted">successfully deleted</string>
 </resources>
