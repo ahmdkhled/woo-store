@@ -94,6 +94,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
                 }
             }
         });
+
+        holder.mRemoveItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCartListener.removeItem(position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -123,6 +131,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         TextView mPrice;
         @BindView(R.id.cart_item_old_price)
         TextView mOldPrice;
+        @BindView(R.id.remove_cart_item)
+        TextView mRemoveItem;
         public CartHolder(@NonNull View itemView) {
             super(itemView);
 

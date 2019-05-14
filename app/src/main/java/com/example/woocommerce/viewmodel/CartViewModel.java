@@ -91,4 +91,8 @@ public class CartViewModel extends AndroidViewModel {
     public List<Integer> getCartItemsQuantities() {
        return prefManager.getCartItemsQuantities();
     }
+
+    public void removeCartItem(int position) {
+        prefManager.deleteItem(position);
+    }
 }

@@ -109,4 +109,15 @@ public class PrefManager {
         if(mCartSize == null) mCartSize = new MutableLiveData<>();
         return mCartSize;
     }
+
+    public void deleteItem(int position) {
+        ArrayList<CartItem> cartItems = getCartItems();
+        cartItems.remove(position);
+        deleteCartItems();
+        Gson gson = new Gson();
+        String json = gson.toJson(cartItems);
+        mEditor = mSharedPref.edit();
+        mEditor.putString(CART_EDITOR,json);
+        mEditor.apply();
+    }
 }

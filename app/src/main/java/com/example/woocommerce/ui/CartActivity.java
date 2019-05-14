@@ -203,4 +203,9 @@ public class CartActivity extends AppCompatActivity implements CartListener {
         mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
         mViewModel.updateItemQuantity(position,newQuqntity);
     }
+
+    @Override
+    public void removeItem(int position) {
+        mViewModel.removeCartItem(position);
+    }
 }
