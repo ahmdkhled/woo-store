@@ -94,6 +94,7 @@ public class CartViewModel extends AndroidViewModel {
     }
 
     public void removeCartItem(int position) {
+        if(isItemsDeleted == null) isItemsDeleted = new MutableLiveData<>();
         isItemsDeleted.setValue(prefManager.deleteItem(position));
     }
 

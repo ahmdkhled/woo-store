@@ -3,9 +3,11 @@ package com.example.woocommerce.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -202,22 +204,33 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     @Override
     public void decreaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice -= Integer.valueOf(price);
-        mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
+        mCartTotalValueTxt.setText(R.string.product_price,mTotalPrice);
         mViewModel.updateItemQuantity(position,newQuqntity);
     }
 
     @Override
-    public void removeItem(int position) {
-        showProgressBar();
-        mViewModel.removeCartItem(position);
-        mViewModel.getIsItemsDeleted().observe(this, new Observer<Boolean>() {
+    public void removeItem(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You are about delete this item from your cart.\nAre you sure");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                hideProgressBar();
-                if(aBoolean)
-                    Toast.makeText(CartActivity.this, R.string.success_deleted, Toast.LENGTH_SHORT).show();
-                else Toast.makeText(CartActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialogInterface, int i) {
+                showProgressBar();
+                mViewModel.removeCartItem(position);
+                mViewModel.getIsItemsDeleted().observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        hideProgressBar();
+                        if(aBoolean)
+                            Toast.makeText(CartActivity.this, R.string.success_deleted, Toast.LENGTH_SHORT).show();
+                        else Toast.makeText(CartActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+
+        builder.setNegativeButton("Cancel",null);
+        builder.show();
+
     }
 }
