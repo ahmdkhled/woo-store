@@ -139,6 +139,7 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                         mEmptyCartView.setVisibility(View.VISIBLE);
                         mDoneBtn.setVisibility(View.GONE);
                         mCartTotalTxt.setVisibility(View.INVISIBLE);
+                        mCartTotalValueTxt.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -209,13 +210,15 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     }
 
     @Override
-    public void removeItem(final int position, final int cartSize) {
+    public void removeItem(final Product deletedProduct, final int quantity, final int position, final int cartSize) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("You are about delete this item from your cart.\nAre you sure");
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 mCartAdapter.removeItem(position);
+                mTotalPrice -= quantity * Integer.valueOf(deletedProduct.getOn_sale()?deletedProduct.getSale_price():deletedProduct.getRegular_price());
+                mCartTotalValueTxt.setText(String.valueOf(getString(R.string.product_price,String.valueOf(mTotalPrice))));
                 showProgressBar();
                 mViewModel.removeCartItem(position);
                 mViewModel.getIsItemsDeleted().observe(CartActivity.this, new Observer<Boolean>() {
