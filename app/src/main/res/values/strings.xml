@@ -15,4 +15,6 @@
     <string name="phone_edit_hint">phone number</string>
     <string name="email_edit_hint">Email address</string>
     <string name="country_edit_hint">country</string>
+
+    <string name="roboto_regular">fonts/Roboto-Regular.ttf</string>
 </resources>

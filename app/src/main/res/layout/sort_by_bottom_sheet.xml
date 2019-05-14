@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="10dp">
+    
+    
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="popularity"
+        android:textSize="16dp"
+        android:id="@+id/btn_popularity"
+        android:textColor="@drawable/sheet_txt_color"
+        android:background="@drawable/sheet_bg"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_avg_rate"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="average rate"
+        android:textSize="16dp"
+        android:textColor="@drawable/sheet_txt_color"
+        android:background="@drawable/sheet_bg"
+        android:id="@+id/btn_avg_rate"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toTopOf="@+id/btn_popularity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="latest"
+        android:textSize="16dp"
+        android:id="@+id/btn_latest"
+        android:textColor="@drawable/sheet_txt_color"
+        android:background="@drawable/sheet_bg"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toTopOf="@+id/btn_popularity"
+        app:layout_constraintStart_toEndOf="@+id/btn_avg_rate"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="price : low to high"
+        android:id="@+id/btn_price_low_high"
+        android:textSize="16dp"
+        android:textColor="@drawable/sheet_txt_color"
+        android:background="@drawable/sheet_bg"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="@+id/btn_popularity"
+        app:layout_constraintTop_toBottomOf="@+id/btn_popularity"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="price : high to low "
+        android:id="@+id/btn_price_high_low"
+        android:textSize="16dp"
+        android:textColor="@drawable/sheet_txt_color"
+        android:background="@drawable/sheet_bg"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toTopOf="@+id/btn_price_low_high"
+        app:layout_constraintStart_toEndOf="@+id/btn_price_low_high"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

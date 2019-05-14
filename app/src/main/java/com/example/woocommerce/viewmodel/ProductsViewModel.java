@@ -24,12 +24,12 @@ public class ProductsViewModel extends ViewModel {
                              final String tag, String shipping_class){
 
 
-        if (Products ==null){
+
             Products = ProductsRepo.getInstance()
                     .getProducts(page,per_page,search,category,order_by,order,
                             min_price,max_price,on_sale,featured,stock_status,
                             status,context,include,sku,slug,tag,shipping_class);
-        }
+
     }
 
     public void getBestSellers(String period, String date_min, String date_max,
