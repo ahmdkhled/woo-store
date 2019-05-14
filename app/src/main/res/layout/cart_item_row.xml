@@ -13,38 +13,42 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
 
-
         >
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
             android:id="@+id/cart_item_image"
             android:src="@drawable/item_demo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="5dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E8E8E8"
-            android:id="@+id/cart_item_border"
-            app:layout_constraintTop_toBottomOf="@+id/cart_item_image"
-            />
+        <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:background="#E8E8E8"-->
+            <!--android:id="@+id/cart_item_border"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/cart_item_image"-->
+            <!--app:layout_constraintEnd_toEndOf="@+id/cart_item_image"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/cart_item_image"-->
+            <!---->
+            <!--/>-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cart_item_name"
             android:text="Mavic Pro"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
-            app:layout_constraintTop_toBottomOf="@+id/cart_item_border"
+            app:layout_constraintStart_toEndOf="@+id/cart_item_image"
+            app:layout_constraintTop_toTopOf="@+id/cart_item_image"
             android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp" />
 
         <ImageButton
@@ -68,9 +72,10 @@
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/cart_item_name"
+            app:layout_constraintTop_toBottomOf="@+id/cart_item_price"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toRightOf="@+id/decrease_quantity_btn"
             />
 
@@ -91,13 +96,25 @@
             android:id="@+id/cart_item_price"
             android:text="150.00 EGP"
             android:textColor="@color/red"
-            android:textSize="15sp"
-            app:layout_constraintTop_toTopOf="@+id/cart_item_quantity"
-            app:layout_constraintBottom_toBottomOf="@+id/cart_item_quantity"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginRight="10dp"
-
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/cart_item_name"
+            app:layout_constraintStart_toStartOf="@+id/cart_item_name"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/cart_item_quantity"
+            android:layout_marginBottom="5dp"
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/remove_cart_item"
+            android:text="Remove This Item"
+            android:textColor="@color/remove_cart_item_txt"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp" />
 
 
     </android.support.constraint.ConstraintLayout>

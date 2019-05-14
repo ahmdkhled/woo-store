@@ -7,4 +7,5 @@
     <color name="sheet_bg_pressed_color">#00E676</color>
     <color name="sheet_bg_default">#EBEBEB</color>
     <color name="sheet_default_text">#AFAEAE</color>
+    <color name="remove_cart_item_txt">#7E6BF8</color>
 </resources>
