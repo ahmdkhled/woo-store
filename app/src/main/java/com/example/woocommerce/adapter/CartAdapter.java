@@ -114,6 +114,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         TextView mQuantityTxt;
         @BindView(R.id.cart_item_price)
         TextView mPrice;
+        @BindView(R.id.cart_item_old_price)
+        TextView mOldPrice;
         public CartHolder(@NonNull View itemView) {
             super(itemView);
 
