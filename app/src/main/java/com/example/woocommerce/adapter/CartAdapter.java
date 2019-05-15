@@ -51,8 +51,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         final Product product = products.get(position);
         int itemQuantity = quantities.get(position);
         holder.mCartItemName.setText(product.getName());
+        if(product.getOn_sale()){
+            holder.mPrice.setText(context.getString(R.string.product_price,product.getSale_price()));
+            holder.mOldPrice.setVisibility(View.VISIBLE);
+            holder.mOldPrice.setText(context.getString(R.string.product_price,product.getRegular_price()));
+        }else{
+            holder.mOldPrice.setVisibility(View.GONE);
+            holder.mPrice.setText(context.getString(R.string.product_price,product.getRegular_price()));
+        }
         holder.mPrice.setText(product.getOn_sale()?product.getSale_price():product.getRegular_price()+" EGP");
-        holder.mQuantityTxt.setText(itemQuantity+"");
+        holder.mQuantityTxt.setText(String.valueOf(itemQuantity));
         List<Image> images = product.getImages();
         if(images != null && images.size() > 0){
             Glide.with(context)
@@ -70,7 +78,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
                 int oldQuantity =Integer.valueOf(holder.mQuantityTxt.getText().toString());
                 int newQuantity = oldQuantity + 1;
                 holder.mQuantityTxt.setText(String.valueOf(newQuantity));
-                Log.d("from_cart","pos : "+position+" new q : "+newQuantity);
                 mCartListener.increaseItemQuantity(position,newQuantity,product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
 
             }
@@ -82,11 +89,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
                 int oldQuantity =Integer.valueOf(holder.mQuantityTxt.getText().toString());
                 if(oldQuantity > 1) {
                     int newQuantity = oldQuantity - 1;
-                    holder.mQuantityTxt.setText(newQuantity + "");
+                    holder.mQuantityTxt.setText(String.valueOf(newQuantity));
                     mCartListener.decreaseItemQuantity(position,newQuantity,product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
                 }
             }
         });
+
+        holder.mRemoveItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCartListener.removeItem(product,Integer.valueOf(holder.mQuantityTxt.getText().toString()),position,products.size());
+
+            }
+        });
+    }
+
+    public void removeItem(int position){
+        products.remove(position);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -114,6 +134,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         TextView mQuantityTxt;
         @BindView(R.id.cart_item_price)
         TextView mPrice;
+        @BindView(R.id.cart_item_old_price)
+        TextView mOldPrice;
+        @BindView(R.id.remove_cart_item)
+        TextView mRemoveItem;
         public CartHolder(@NonNull View itemView) {
             super(itemView);
 

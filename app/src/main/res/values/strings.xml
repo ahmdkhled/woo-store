@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">woocommerce</string>
     <string name="error_message">something went wrong, please try again</string>
-    <string name="product_price">%1$s %2$s </string>
+    <string name="product_price">%1$s EGP </string>
     <string name="product_reviews">%1$d reviews </string>
 
     <string name="name_edit_hint">Name</string>
@@ -15,4 +15,7 @@
     <string name="phone_edit_hint">phone number</string>
     <string name="email_edit_hint">Email address</string>
     <string name="country_edit_hint">country</string>
+
+    <string name="roboto_regular">fonts/Roboto-Regular.ttf</string>
+    <string name="success_deleted">successfully deleted</string>
 </resources>

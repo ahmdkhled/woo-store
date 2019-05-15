@@ -22,6 +22,7 @@ public class CartViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isProductLoading;
     private MutableLiveData<String> productLoadingError;
     private PrefManager prefManager;
+    private MutableLiveData<Boolean> isItemsDeleted;
 
     public CartViewModel(@NonNull Application application) {
         super(application);
@@ -90,5 +91,15 @@ public class CartViewModel extends AndroidViewModel {
 
     public List<Integer> getCartItemsQuantities() {
        return prefManager.getCartItemsQuantities();
+    }
+
+    public void removeCartItem(int position) {
+        if(isItemsDeleted == null) isItemsDeleted = new MutableLiveData<>();
+        isItemsDeleted.setValue(prefManager.deleteItem(position));
+    }
+
+    public MutableLiveData<Boolean> getIsItemsDeleted() {
+        if(isItemsDeleted == null) isItemsDeleted = new MutableLiveData<>();
+        return isItemsDeleted;
     }
 }

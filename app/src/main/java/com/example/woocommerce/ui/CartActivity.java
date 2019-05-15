@@ -3,12 +3,15 @@ package com.example.woocommerce.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -79,7 +82,7 @@ public class CartActivity extends AppCompatActivity implements CartListener {
 
 
         // init recycler view
-        mCartRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        mCartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCartAdapter = new CartAdapter(this,null,this);
         mCartRecyclerView.setHasFixedSize(true);
         mCartRecyclerView.setAdapter(mCartAdapter);
@@ -93,12 +96,14 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             mViewModel.getmCartItems().observe(this, new Observer<ArrayList<Product>>() {
                 @Override
                 public void onChanged(@Nullable ArrayList<Product> products) {
-                    mEmptyCartView.setVisibility(View.GONE);
-                    mDoneBtn.setVisibility(View.VISIBLE);
-                    mCartTotalTxt.setVisibility(View.VISIBLE);
-                    List<Integer> cartItemsQuantities = getCartItemsQuantities();
-                    mCartAdapter.notifyAdapter(products,cartItemsQuantities);
-                    calculateTotalPrice(products,cartItemsQuantities);
+                    if(products != null && products.size() > 0) {
+                        mEmptyCartView.setVisibility(View.GONE);
+                        mDoneBtn.setVisibility(View.VISIBLE);
+                        mCartTotalTxt.setVisibility(View.VISIBLE);
+                        List<Integer> cartItemsQuantities = getCartItemsQuantities();
+                        mCartAdapter.notifyAdapter(products, cartItemsQuantities);
+                        calculateTotalPrice(products, cartItemsQuantities);
+                    }
                 }
             });
         }
@@ -134,6 +139,7 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                         mEmptyCartView.setVisibility(View.VISIBLE);
                         mDoneBtn.setVisibility(View.GONE);
                         mCartTotalTxt.setVisibility(View.INVISIBLE);
+                        mCartTotalValueTxt.setVisibility(View.INVISIBLE);
                         Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -199,7 +205,37 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     @Override
     public void decreaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice -= Integer.valueOf(price);
-        mCartTotalValueTxt.setText(String.valueOf(mTotalPrice)+" EGP");
+        mCartTotalValueTxt.setText(getString(R.string.product_price,String.valueOf(mTotalPrice)));
         mViewModel.updateItemQuantity(position,newQuqntity);
+    }
+
+    @Override
+    public void removeItem(final Product deletedProduct, final int quantity, final int position, final int cartSize) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You are about delete this item from your cart.\nAre you sure");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mCartAdapter.removeItem(position);
+                mTotalPrice -= quantity * Integer.valueOf(deletedProduct.getOn_sale()?deletedProduct.getSale_price():deletedProduct.getRegular_price());
+                mCartTotalValueTxt.setText(String.valueOf(getString(R.string.product_price,String.valueOf(mTotalPrice))));
+                showProgressBar();
+                mViewModel.removeCartItem(position);
+                mViewModel.getIsItemsDeleted().observe(CartActivity.this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        hideProgressBar();
+                        if(aBoolean)
+                            Toast.makeText(CartActivity.this, R.string.success_deleted, Toast.LENGTH_SHORT).show();
+                        else Toast.makeText(CartActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
+                        if(cartSize == 1) mViewModel.getIsCartEmpty().setValue(true);
+                    }
+                });
+            }
+        });
+
+        builder.setNegativeButton("Cancel",null);
+        builder.show();
+
     }
 }
