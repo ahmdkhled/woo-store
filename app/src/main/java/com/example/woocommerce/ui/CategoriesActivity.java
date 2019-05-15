@@ -32,7 +32,7 @@ public class CategoriesActivity extends AppCompatActivity {
         progressBar=findViewById(R.id.categories_PB);
         categoriesViewModel= ViewModelProviders.of(this).get(CategoriesViewModel.class);
 
-        categoriesViewModel.getCategories(null,null,null,null,null ,
+        categoriesViewModel.getCategories(null,null,"0",null,null ,
                 null ,null,null ,null,null,null);
         observeCategories();
         observeCategoriesError();
