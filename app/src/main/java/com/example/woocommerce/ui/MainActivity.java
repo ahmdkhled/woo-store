@@ -3,13 +3,19 @@ package com.example.woocommerce.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
                 dealsShimmer,
                 bestsellerShimmer;
     TextView mCartBadgeTxt;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +74,20 @@ public class MainActivity extends AppCompatActivity {
         recentlyAddedShimmer=findViewById(R.id.recentlyAdded_shimmer);
         dealsShimmer=findViewById(R.id.deals_shimmer);
         bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
+        drawerLayout=findViewById(R.id.drawerLayout);
+        navigationView=findViewById(R.id.navigationView);
+        toolbar=findViewById(R.id.toolbar);
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
         mainAcrivityViewModel =ViewModelProviders.of(this)
                 .get(MainAcrivityViewModel.class);
 
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,
+                toolbar,R.string.open_drawer, R.string.close_drawer);
+        toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
 
         categoriesViewModel.getCategories(null,"5","0",null,
                 null,null,null,null,null,null,null);
@@ -365,6 +382,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 
     private void setupBadge() {
