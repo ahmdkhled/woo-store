@@ -3,6 +3,7 @@ package com.example.woocommerce.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +29,13 @@ import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.holder.BadgeStyle;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 
@@ -47,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 dealsShimmer,
                 bestsellerShimmer;
     TextView mCartBadgeTxt;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
         recentlyAddedShimmer=findViewById(R.id.recentlyAdded_shimmer);
         dealsShimmer=findViewById(R.id.deals_shimmer);
         bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
+        mToolbar=findViewById(R.id.toolbar);
+
+        // setup toolbar
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(R.string.main_activity_title);
+
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -134,6 +150,41 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        // setup navigation drawer
+        //if you want to update the items at a later time it is recommended to keep it in a variable
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1)
+                .withName("Home")
+                .withIcon(R.drawable.ic_home_black_24dp)
+                .withBadge("1")
+                .withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.colorPrimary));
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2)
+                .withName("Setting")
+                .withIcon(R.drawable.ic_settings_black_24dp);
+
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3)
+                .withName("Account")
+                .withIcon(R.drawable.ic_account_box_black_24dp);
+
+        //create the drawer and remember the `Drawer` result object
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(mToolbar)
+                .addDrawerItems(
+                        item1,item2,item3,
+                        new DividerDrawerItem()
+
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        return true;
+                    }
+                })
+                .build();
+
 
     }
 

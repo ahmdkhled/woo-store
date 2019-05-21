@@ -18,4 +18,5 @@
 
     <string name="roboto_regular">fonts/Roboto-Regular.ttf</string>
     <string name="success_deleted">successfully deleted</string>
+    <string name="main_activity_title">Home</string>
 </resources>
