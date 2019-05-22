@@ -167,6 +167,10 @@ public class MainActivity extends AppCompatActivity {
                 .withName("Account")
                 .withIcon(R.drawable.ic_account_box_black_24dp);
 
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4)
+                .withName("Deals")
+                .withIcon(R.drawable.deals);
+
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
