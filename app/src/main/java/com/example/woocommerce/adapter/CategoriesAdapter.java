@@ -41,11 +41,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     @Override
     public CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.category_item,parent,false);
-        if (isMainSample){
-            RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(5,5,5,5);
-            v.setLayoutParams(layoutParams);
-        }
+//        if (isMainSample){
+//            RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.MATCH_PARENT);
+//            layoutParams.setMargins(5,5,5,5);
+//            v.setLayoutParams(layoutParams);
+//        }
         return new CategoryHolder(v);
     }
 

@@ -9,6 +9,7 @@ import android.support.v4.view.MenuCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         observeCategoriesError();
         observeCategoriesLoading();
 
-        mainAcrivityViewModel.getRecentlyAddedproducts(null,"5",null,null,null,
+        mainAcrivityViewModel.getRecentlyAddedproducts(null,"6",null,null,null,
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
         observeRecentlyAdded();
@@ -367,9 +368,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showProducts(RecyclerView  recyclerView, ArrayList<Product> products) {
         ProductAdapter productAdapter=new ProductAdapter(this,products,true);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this
-                ,LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager layoutManager=new GridLayoutManager(this,3);
+
         recyclerView.setAdapter(productAdapter);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
     }
