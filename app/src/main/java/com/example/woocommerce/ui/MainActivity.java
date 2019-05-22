@@ -368,7 +368,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showProducts(RecyclerView  recyclerView, ArrayList<Product> products) {
         ProductAdapter productAdapter=new ProductAdapter(this,products,true);
-        LinearLayoutManager layoutManager=new GridLayoutManager(this,3);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this
+                ,LinearLayoutManager.HORIZONTAL,false);
+        
 
         recyclerView.setAdapter(productAdapter);
         recyclerView.setHasFixedSize(true);
