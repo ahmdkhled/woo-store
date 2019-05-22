@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(mToolbar)
                 .addDrawerItems(
-                        item1,item2,item3,
+                        item1,item2,item3,item4,
                         new DividerDrawerItem()
 
                 )
