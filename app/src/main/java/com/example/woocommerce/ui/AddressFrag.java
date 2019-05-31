@@ -21,6 +21,7 @@ public class AddressFrag extends Fragment {
     TextInputLayout fname_IL,lname_IL,
             address1_IL,address2_IL,city,state_IL,
             zipcode_IL,country_IL,phoneNum_IL,email_IL;
+    Button proceedToPayment;
     OnAddressFieldsValidated onAddressFieldsValidated;
     @Nullable
     @Override
@@ -36,10 +37,10 @@ public class AddressFrag extends Fragment {
         country_IL=v.findViewById(R.id.country_textInputLayout);
         phoneNum_IL=v.findViewById(R.id.phone_textInputLayout);
         email_IL=v.findViewById(R.id.email_textInputLayout);
+        proceedToPayment=v.findViewById(R.id.proceedToPayment);
 
-        Button procedToPayment=((CheckoutActivity)getActivity()).proceedToPayment;
 
-        procedToPayment.setOnClickListener(new View.OnClickListener() {
+        proceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateInput()){

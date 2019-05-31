@@ -156,7 +156,8 @@ public class CartActivity extends AppCompatActivity implements CartListener {
         mDoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewModel.getCartItems();
+                Intent intent=new Intent(getApplicationContext(),CheckoutActivity.class);
+                startActivity(intent);
             }
         });
 

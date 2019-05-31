@@ -1,6 +1,9 @@
 package com.example.woocommerce.model;
 
-public class Shipping {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Shipping implements Parcelable {
 
     private String first_name;
     private String last_name;
@@ -25,6 +28,30 @@ public class Shipping {
         this.country = country;
     }
 
+
+    protected Shipping(Parcel in) {
+        first_name = in.readString();
+        last_name = in.readString();
+        company = in.readString();
+        address_1 = in.readString();
+        address_2 = in.readString();
+        city = in.readString();
+        state = in.readString();
+        postcode = in.readString();
+        country = in.readString();
+    }
+
+    public static final Creator<Shipping> CREATOR = new Creator<Shipping>() {
+        @Override
+        public Shipping createFromParcel(Parcel in) {
+            return new Shipping(in);
+        }
+
+        @Override
+        public Shipping[] newArray(int size) {
+            return new Shipping[size];
+        }
+    };
 
     public String getFirst_name() {
         return first_name;
@@ -60,5 +87,23 @@ public class Shipping {
 
     public String getCountry() {
         return country;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(first_name);
+        dest.writeString(last_name);
+        dest.writeString(company);
+        dest.writeString(address_1);
+        dest.writeString(address_2);
+        dest.writeString(city);
+        dest.writeString(state);
+        dest.writeString(postcode);
+        dest.writeString(country);
     }
 }
