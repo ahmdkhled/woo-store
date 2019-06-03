@@ -15,6 +15,9 @@ public class Shipping implements Parcelable {
     private String postcode;
     private String country;
 
+    public Shipping() {
+    }
+
     public Shipping(String first_name, String last_name, String address_1,
                     String address_2,
                     String city, String state, String postcode, String country) {

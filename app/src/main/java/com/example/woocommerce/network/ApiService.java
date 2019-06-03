@@ -1,6 +1,8 @@
 package com.example.woocommerce.network;
 
 import com.example.woocommerce.model.Category;
+import com.example.woocommerce.model.Order;
+import com.example.woocommerce.model.OrderPayload;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.model.Review;
 import com.example.woocommerce.model.TopSeller;
@@ -9,7 +11,10 @@ import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -43,4 +48,10 @@ public interface ApiService {
     Call<ArrayList<TopSeller>> getTopSeller(@Query("period")String period,
                                             @Query("date_min")String date_min,
                                             @Query("date_max")String date_max);
+
+    @POST("orders")
+    Call<Order> createOrder(@Body OrderPayload orderPayload);
+
+
+
 }

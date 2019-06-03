@@ -20,4 +20,5 @@
     <string name="success_deleted">successfully deleted</string>
     <string name="open_drawer">open drawer</string>
     <string name="close_drawer">close drawer</string>
+    <string name="cod_description">order will be delivered to your shipping address and money will be collected</string>
 </resources>

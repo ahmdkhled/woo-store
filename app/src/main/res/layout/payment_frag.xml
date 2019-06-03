@@ -65,10 +65,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="order will be delivered to your shipping address and money will be collected"
+                android:text="@string/cod_description"
                 app:layout_constraintTop_toBottomOf="@id/cashOndelivery"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"/>
+                android:layout_marginStart="35dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="20dp" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -103,6 +105,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/total"
                 tools:text="150 EGP"
                 app:layout_constraintStart_toEndOf="@id/total_label"
                 app:layout_constraintTop_toTopOf="@id/total_label"
@@ -124,7 +127,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15 EGP"
+                android:id="@+id/shpiingCost"
+                tools:text="15 EGP"
                 app:layout_constraintTop_toTopOf="@id/shipping_label"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -152,7 +156,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="165 EGP"
+                android:id="@+id/subtotal"
+                tools:text="165 EGP"
                 app:layout_constraintTop_toTopOf="@id/subTotal_label"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -171,5 +176,19 @@
         android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/totalCv"
         android:layout_marginTop="15dp"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/order_PB"
+        app:layout_constraintTop_toTopOf="@id/placeOrder"
+        app:layout_constraintBottom_toBottomOf="@id/placeOrder"
+        app:layout_constraintStart_toStartOf="@id/placeOrder"
+        app:layout_constraintEnd_toEndOf="@id/placeOrder"
+        android:elevation="3dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:theme="@style/orderPbStrye"
+        />
 
 </android.support.constraint.ConstraintLayout>

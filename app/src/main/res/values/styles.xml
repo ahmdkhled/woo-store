@@ -23,4 +23,9 @@
     <style name="erroStyle" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/holo_red_light</item>
     </style>
+
+    <style name="orderPbStrye">
+        <item name="colorAccent">@color/white</item>
+
+    </style>
 </resources>

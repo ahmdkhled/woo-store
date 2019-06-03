@@ -1,20 +1,20 @@
 package com.example.woocommerce.model;
 
 public class CartItem {
-    private int id;
+    private int product_id;
     private int quantity;
 
-    public CartItem(int id, int quantity) {
-        this.id = id;
+    public CartItem(int product_id, int quantity) {
+        this.product_id = product_id;
         this.quantity = quantity;
     }
 
     public int getId() {
-        return id;
+        return product_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.product_id = id;
     }
 
     public int getQuantity() {

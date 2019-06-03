@@ -71,7 +71,7 @@ public class ProductsRepo {
             @Override
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                 if(response.isSuccessful()) {
-                    Log.d("fromProductActivity",response.body().get(0).getName());
+                    //Log.d("fromProductActivity",response.body().get(0).getName());
                     target.setValue(response.body());
                     if (target.equals(products))
                         isProductsLoading.setValue(false);

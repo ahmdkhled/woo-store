@@ -49,6 +49,7 @@ public class CheckoutActivity extends AppCompatActivity implements AddressFrag.O
         paymentFrag=new PaymentFrag();
         Bundle b= new Bundle();
         b.putParcelable(PaymentFrag.ADDRESS_KEY,shippingAddres);
+        b.putParcelable(PaymentFrag.BILLING_KEY,billingAddress);
         paymentFrag.setArguments(b);
         getSupportFragmentManager()
                     .beginTransaction()
