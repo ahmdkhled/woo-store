@@ -71,7 +71,7 @@ public class ProductsRepo {
             @Override
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                 if(response.isSuccessful()) {
-                    //Log.d("fromProductActivity",response.body().get(0).getName());
+                    Log.d("fromProductRepo","onResponse");
                     target.setValue(response.body());
                     if (target.equals(products))
                         isProductsLoading.setValue(false);
@@ -85,7 +85,7 @@ public class ProductsRepo {
             }
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-
+                Log.d("fromProductRepo","onFailure "+t.getMessage());
                 if (target.equals(products))
                     productsLoadingError.setValue(t.getMessage());
                 else if (target.equals(mRecentProducts))

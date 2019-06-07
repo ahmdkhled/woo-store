@@ -118,6 +118,7 @@ public class PrefManager {
         String json = gson.toJson(cartItems);
         mEditor = mSharedPref.edit();
         mEditor.putString(CART_EDITOR,json);
+        mCartSize.setValue(cartItems.size());
         return mEditor.commit();
     }
 }
