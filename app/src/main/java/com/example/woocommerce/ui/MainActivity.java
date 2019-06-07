@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
         ProductAdapter productAdapter=new ProductAdapter(this,products,true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
-        
+
 
         recyclerView.setAdapter(productAdapter);
         recyclerView.setHasFixedSize(true);
