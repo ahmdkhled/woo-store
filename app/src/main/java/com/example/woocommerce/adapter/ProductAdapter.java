@@ -41,11 +41,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.product_row,parent,false);
-        if (isMainSample){
-            RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(270, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(5,5,5,5);
-            v.setLayoutParams(layoutParams);
-        }
+//        if (isMainSample){
+//            RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(270, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            layoutParams.setMargins(5,5,5,5);
+//            v.setLayoutParams(layoutParams);
+//        }
 
         return new ProductHolder(v);
     }
@@ -54,7 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
         Product product=productsList.get(position);
         holder.name.setText(product.getName());
-        holder.price.setText(product.getPrice());
+        holder.price.setText(context.getString(R.string.product_price,product.getPrice()));
         ArrayList<Image> images=product.getImages();
         if (images!=null&&!images.isEmpty()){
             Glide.with(context).load(images.get(0).getSrc()).into(holder.image);
@@ -66,7 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
             holder.price.setPaintFlags(holder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             holder.price.setTextColor(Color.parseColor("#A7A5A5"));
             holder.price.setTypeface(holder.price.getTypeface(), Typeface.NORMAL);
-            holder.sale_price.setText(product.getSale_price());
+            holder.sale_price.setText(context.getString(R.string.product_price,product.getSale_price()));
         }
         Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSale_price());
     }

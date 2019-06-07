@@ -9,4 +9,6 @@
     <color name="sheet_default_text">#AFAEAE</color>
     <color name="remove_cart_item_txt">#7E6BF8</color>
     <color name="white">#fff</color>
+    <color name="orange">#FF6F00</color>
+    <color name="black">#000000</color>
 </resources>

@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +34,13 @@ import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.holder.BadgeStyle;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 
@@ -77,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout=findViewById(R.id.drawerLayout);
         navigationView=findViewById(R.id.navigationView);
         toolbar=findViewById(R.id.toolbar);
+
+        // setup toolbar
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(R.string.main_activity_title);
+
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -95,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         observeCategoriesError();
         observeCategoriesLoading();
 
-        mainAcrivityViewModel.getRecentlyAddedproducts(null,"5",null,null,null,
+        mainAcrivityViewModel.getRecentlyAddedproducts(null,"6",null,null,null,
                 null,null,null,null,null,"publish",null,
                 null,null,null,null,null);
         observeRecentlyAdded();
@@ -151,6 +164,45 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        // setup navigation drawer
+        //if you want to update the items at a later time it is recommended to keep it in a variable
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1)
+                .withName("Home")
+                .withIcon(R.drawable.ic_home_black_24dp)
+                .withBadge("1")
+                .withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.colorPrimary));
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2)
+                .withName("Setting")
+                .withIcon(R.drawable.ic_settings_black_24dp);
+
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3)
+                .withName("Account")
+                .withIcon(R.drawable.ic_account_box_black_24dp);
+
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4)
+                .withName("Deals")
+                .withIcon(R.drawable.deals);
+
+        //create the drawer and remember the `Drawer` result object
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                        item1,item2,item3,item4,
+                        new DividerDrawerItem()
+
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        return true;
+                    }
+                })
+                .build();
+
 
     }
 
@@ -331,7 +383,10 @@ public class MainActivity extends AppCompatActivity {
         ProductAdapter productAdapter=new ProductAdapter(this,products,true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this
                 ,LinearLayoutManager.HORIZONTAL,false);
+
+
         recyclerView.setAdapter(productAdapter);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
     }
