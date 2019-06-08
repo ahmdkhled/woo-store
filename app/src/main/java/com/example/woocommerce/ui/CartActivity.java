@@ -212,6 +212,7 @@ public class CartActivity extends AppCompatActivity implements CartListener {
 
     @Override
     public void removeItem(final Product deletedProduct, final int quantity, final int position, final int cartSize) {
+        Log.d("cart_activity","removed position "+position);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("You are about delete this item from your cart.\nAre you sure");
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {

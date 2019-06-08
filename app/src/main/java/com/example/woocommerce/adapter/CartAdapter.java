@@ -78,6 +78,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
                 int oldQuantity =Integer.valueOf(holder.mQuantityTxt.getText().toString());
                 int newQuantity = oldQuantity + 1;
                 holder.mQuantityTxt.setText(String.valueOf(newQuantity));
+                quantities.set(position,newQuantity);
                 mCartListener.increaseItemQuantity(position,newQuantity,product.getOn_sale() ? product.getSale_price() : product.getRegular_price());
 
             }
@@ -106,6 +107,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
 
     public void removeItem(int position){
         products.remove(position);
+        quantities.remove(position);
         notifyDataSetChanged();
     }
 

@@ -112,6 +112,7 @@ public class PrefManager {
 
     public boolean deleteItem(int position) {
         ArrayList<CartItem> cartItems = getCartItems();
+        Log.d("cart_activity","removed name "+cartItems.get(position).getQuantity());
         cartItems.remove(position);
         deleteCartItems();
         Gson gson = new Gson();
