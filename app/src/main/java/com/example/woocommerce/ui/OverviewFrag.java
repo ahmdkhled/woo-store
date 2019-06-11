@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,20 @@ public class OverviewFrag extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.overview_frag,container,false);
         overview=v.findViewById(R.id.overview);
-        Product product=((ProductDetailActivity)getActivity()).product;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            overview.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
-        } else {
-            overview.setText(Html.fromHtml(product.getDescription()));
+        if(getActivity() != null) {
+            Product product = ((ProductDetailActivity) getActivity()).product;
+            if(product.getDescription() != null){
+                Log.d("over_frag","desc "+product.getDescription());
+            }
+
+            if(product.getShortDescription() != null){
+                Log.d("over_frag","desc "+product.getShortDescription());
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                overview.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                overview.setText(Html.fromHtml(product.getDescription()));
+            }
         }
         return v;
     }

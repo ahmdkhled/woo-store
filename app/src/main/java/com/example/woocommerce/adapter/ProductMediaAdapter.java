@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.woocommerce.R;
 import com.example.woocommerce.model.Image;
 
@@ -41,7 +42,9 @@ public class ProductMediaAdapter extends PagerAdapter {
                 .inflate(R.layout.product_images_slider,container,false);
 
         ImageView imageView=view.findViewById(R.id.product_slider_image);
-        Glide.with(context).load(imagesList.get(position).getSrc()).into(imageView);
+        Glide.with(context)
+                .load(imagesList.get(position).getSrc())
+                .into(imageView);
         container.addView(view);
         return view;
     }

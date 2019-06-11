@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Button;
 import android.widget.RatingBar;
@@ -38,14 +39,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     public static final String PRODUCT_KEY="product_key";
     public Product product;
-    TextView name,price,sale_price,ratingCount;
+    TextView name,price,sale_price;
     ViewPager DetailsPager,imagesPager;
     PageIndicatorView indicator;
     TabLayout tabLayout;
     Toolbar toolbar;
     ImageView navigationUp;
-    ConstraintLayout cartIcon;
-    Button mAddToCartBtn;
+    ImageButton mAddToCartBtn;
     RatingBar avgRating;
     ProductDetailViewModel mViewModel;
     private TextView mCartBadgeTxt;
@@ -57,7 +57,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         name=findViewById(R.id.product_name);
         price=findViewById(R.id.product_price);
         sale_price=findViewById(R.id.price_after);
-        ratingCount=findViewById(R.id.ratingCount);
         avgRating=findViewById(R.id.product_avgRating);
         DetailsPager =findViewById(R.id.product_detail_viewPager);
         imagesPager =findViewById(R.id.product_images_viewPager);
@@ -65,7 +64,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tabLayout=findViewById(R.id.product_detail_tabLayout);
         toolbar=findViewById(R.id.toolbar);
         navigationUp=findViewById(R.id.navigation_up);
-        mAddToCartBtn=findViewById(R.id.addToCart);
+        mAddToCartBtn=findViewById(R.id.add_to_cart_btn);
 
 
         mViewModel = ViewModelProviders.of(this).get(ProductDetailViewModel.class);
@@ -151,7 +150,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         if (product.getAverage_rating()!=null)
             avgRating.setRating(Float.parseFloat(product.getAverage_rating()));
-        ratingCount.setText(getString(R.string.product_reviews,product.getRating_count()));
 
         DetailsAdapter detailsAdapter=new DetailsAdapter(getSupportFragmentManager());
         DetailsPager.setAdapter(detailsAdapter);
