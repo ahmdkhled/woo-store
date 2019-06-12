@@ -30,7 +30,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.woocommerce.R;
-import com.example.woocommerce.adapter.DetailsAdapter;
 import com.example.woocommerce.adapter.ProductMediaAdapter;
 import com.example.woocommerce.adapter.ReviewsAdapter;
 import com.example.woocommerce.model.Product;
@@ -174,6 +173,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         // product price
         String currency=HtmlUtil.getCurrency(product.getPrice_html());
         price.setText(getString(R.string.product_price,product.getPrice(),currency));
+
+
 
         // if there is a sale on product then display sale_price
         if (product.getSale_price()!=null&& !TextUtils.isEmpty(product.getSale_price())){
