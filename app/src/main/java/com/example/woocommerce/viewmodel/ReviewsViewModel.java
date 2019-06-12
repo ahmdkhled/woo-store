@@ -12,7 +12,7 @@ public class ReviewsViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Review>> reviews;
 
     public MutableLiveData<ArrayList<Review>> getReviews(String page,int product_id) {
-        if (reviews==null)
+//        if (reviews==null)
             reviews= ReviewsRepo.getInstance().getReviews(page,product_id);
         return reviews;
     }

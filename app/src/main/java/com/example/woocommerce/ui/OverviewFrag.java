@@ -27,7 +27,9 @@ public class OverviewFrag extends Fragment {
         if(getActivity() != null) {
             Product product = ((ProductDetailActivity) getActivity()).product;
             if(product.getDescription() != null){
-                Log.d("over_frag","desc "+product.getDescription());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d("over_frag","desc "+Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                }
             }
 
             if(product.getShortDescription() != null){

@@ -30,6 +30,7 @@ public class ReviewsRepo {
     public MutableLiveData<ArrayList<Review>> getReviews(String page,int product_id){
         Log.d("REVIEWW", "getting Reviews: ");
 
+        reviews = new MutableLiveData<>();
         isReviewsLoading.setValue(true);
         RetrofitClient.getInstance()
                 .getApiService()
@@ -50,6 +51,8 @@ public class ReviewsRepo {
                 });
         return reviews;
     }
+
+    
 
     public MutableLiveData<Boolean> getIsReviewsLoading() {
         return isReviewsLoading;

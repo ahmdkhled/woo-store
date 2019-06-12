@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,10 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewHo
     public void onBindViewHolder(@NonNull ReviewHolder holder, int position) {
         Review review=reviewsList.get(position);
 
+//        if(position == reviewsList.size()-1){
+//
+//        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.review.setText(Html.fromHtml(review.getReview(), Html.FROM_HTML_MODE_LEGACY));
         } else {
@@ -45,23 +50,32 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewHo
         holder.review.setText(holder.review.getText().toString().replace("\n", " "));
         holder.reviewer.setText(review.getReviewer());
         holder.ratingBar.setRating(review.getRating());
+        Log.d("single_item","date "+review.getDateCreatedGmt());
     }
 
     @Override
     public int getItemCount() {
-        if (reviewsList==null)
+        if (reviewsList==null && reviewsList.size() == 0)
             return 0;
         return reviewsList.size();
     }
 
+    public void swapAdapter(ArrayList<Review> reviews) {
+        if(reviews != null && reviews.size() > 0){
+            this.reviewsList = reviews;
+            this.notifyDataSetChanged();
+        }
+    }
+
     class ReviewHolder extends RecyclerView.ViewHolder{
         RatingBar ratingBar;
-        TextView reviewer,review;
+        TextView reviewer,review,date;
         public ReviewHolder(@NonNull View itemView) {
             super(itemView);
             ratingBar=itemView.findViewById(R.id.review_ratingBar);
             reviewer=itemView.findViewById(R.id.reviewer_name);
             review=itemView.findViewById(R.id.review_content);
+            date=itemView.findViewById(R.id.review_date);
         }
     }
 }
