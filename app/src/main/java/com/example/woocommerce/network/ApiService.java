@@ -55,8 +55,8 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("products/reviews")
-    Call<Review> createReview(@Field("product_id") int productId, @Field("reviewer") String reviewer,
-                              @Field("reviewer_email") String reviewerEmail,@Field("review") String review,
+    Call<Review> createReview(@Field("product_id") int productId, @Field("review") String review,
+                              @Field("reviewer") String reviewer,@Field("reviewer_email") String reviewerEmail,
                               @Field("rating") int rating);
 
 

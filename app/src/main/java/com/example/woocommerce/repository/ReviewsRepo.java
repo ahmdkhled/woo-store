@@ -54,14 +54,15 @@ public class ReviewsRepo {
         return reviews;
     }
 
-    public MutableLiveData<Review> createReview(int productId, String reviewer, String reviewerEmail,
-                                                String review,int rating){
+    public MutableLiveData<Review> createReview(int productId,String review, String reviewer,
+                                                String reviewerEmail,int rating){
 
 
+        Log.d("create_review",productId+review+reviewer+reviewerEmail+rating);
         reviewMutableLiveData = new MutableLiveData<>();
         RetrofitClient.getInstance()
                 .getApiService()
-                .createReview(productId,reviewer,reviewerEmail,review,rating)
+                .createReview(productId,review,reviewer,reviewerEmail,rating)
                 .enqueue(new Callback<Review>() {
                     @Override
                     public void onResponse(Call<Review> call, Response<Review> response) {

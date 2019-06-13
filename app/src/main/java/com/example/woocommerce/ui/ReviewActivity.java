@@ -69,8 +69,8 @@ public class ReviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkAvailablity()){
                     mProgressBar.setVisibility(View.VISIBLE);
-                    mViewModel.createReview(mProductId,mNameTxt.getText().toString(),
-                            mEmailTxt.getText().toString(),mReviewTxt.getText().toString(),
+                    mViewModel.createReview(mProductId,mReviewTxt.getText().toString(),
+                            mNameTxt.getText().toString(), mEmailTxt.getText().toString(),
                             mRating.getNumStars());
                     newReview = new Review(mNameTxt.getText().toString(),mReviewTxt.getText().toString(),
                             mRating.getNumStars());
