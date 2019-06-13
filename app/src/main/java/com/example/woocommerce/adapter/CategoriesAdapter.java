@@ -78,11 +78,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             image=itemView.findViewById(R.id.category_image);
             name=itemView.findViewById(R.id.category_name);
 
-            if (isMainSample){
-                ConstraintLayout.LayoutParams params=new ConstraintLayout
-                        .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300);
-                image.setLayoutParams(params);
-            }
+//            if (isMainSample){
+//                ConstraintLayout.LayoutParams params=new ConstraintLayout
+//                        .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300);
+//                image.setLayoutParams(params);
+//            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

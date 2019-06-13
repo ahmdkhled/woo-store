@@ -14,9 +14,11 @@ import retrofit2.Response;
 
 public class ReviewsRepo {
     private static ReviewsRepo reviewsRepo;
-    private MutableLiveData<ArrayList<Review>> reviews=new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Review>> reviews;
     private MutableLiveData<Boolean> isReviewsLoading=new MutableLiveData<>();
+    private MutableLiveData<Boolean> isReviewsCreated=new MutableLiveData<>();
     private MutableLiveData<String> reviewsLoadingError=new MutableLiveData<>();
+    private MutableLiveData<Review> reviewMutableLiveData;
 
     public  static ReviewsRepo getInstance() {
         if (reviewsRepo==null)
@@ -52,7 +54,37 @@ public class ReviewsRepo {
         return reviews;
     }
 
-    
+    public MutableLiveData<Review> createReview(int productId, String reviewer, String reviewerEmail,
+                                                String review,int rating){
+
+
+        reviewMutableLiveData = new MutableLiveData<>();
+        RetrofitClient.getInstance()
+                .getApiService()
+                .createReview(productId,reviewer,reviewerEmail,review,rating)
+                .enqueue(new Callback<Review>() {
+                    @Override
+                    public void onResponse(Call<Review> call, Response<Review> response) {
+                        if(response.isSuccessful()){
+                            Log.d("create_review","isSuccessful");
+                            isReviewsCreated.setValue(true);
+                        }else{
+                            Log.d("create_review","isNotSuccessful");
+                            isReviewsCreated.setValue(false);
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Review> call, Throwable t) {
+                        Log.d("create_review","error while creating a review "+t.getMessage());
+                        isReviewsCreated.setValue(false);
+
+                    }
+                });
+        return reviewMutableLiveData;
+    }
 
     public MutableLiveData<Boolean> getIsReviewsLoading() {
         return isReviewsLoading;
@@ -60,5 +92,9 @@ public class ReviewsRepo {
 
     public MutableLiveData<String> getReviewsLoadingError() {
         return reviewsLoadingError;
+    }
+
+    public MutableLiveData<Boolean> getIsReviewsCreated() {
+        return isReviewsCreated;
     }
 }

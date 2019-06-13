@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -51,6 +52,12 @@ public interface ApiService {
 
     @POST("orders")
     Call<Order> createOrder(@Body OrderPayload orderPayload);
+
+    @FormUrlEncoded
+    @POST("products/reviews")
+    Call<Review> createReview(@Field("product_id") int productId, @Field("reviewer") String reviewer,
+                              @Field("reviewer_email") String reviewerEmail,@Field("review") String review,
+                              @Field("rating") int rating);
 
 
 

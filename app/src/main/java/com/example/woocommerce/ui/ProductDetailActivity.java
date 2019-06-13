@@ -8,7 +8,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,15 +21,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.woocommerce.R;
-import com.example.woocommerce.adapter.DetailsAdapter;
 import com.example.woocommerce.adapter.ProductMediaAdapter;
 import com.example.woocommerce.adapter.ReviewsAdapter;
 import com.example.woocommerce.model.Product;
@@ -48,6 +44,7 @@ import java.util.ArrayList;
 public class ProductDetailActivity extends AppCompatActivity {
 
     public static final String PRODUCT_KEY="product_key";
+    private static final int REVIEW_REQUEST_CODE =1005 ;
     public Product product;
     TextView name,price,sale_price;
     ViewPager DetailsPager,imagesPager;
@@ -64,6 +61,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     ReviewsViewModel mReviewsViewModel;
     private ReviewsAdapter reviewsAdapter;
     ShimmerFrameLayout mReviewsShimmer;
+    TextView mAddReview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +81,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         mProductDescriptionTxt=findViewById(R.id.product_desc_content);
         mProductReviewsRecuRecyclerView=findViewById(R.id.reviews_recyclerview);
         mReviewsShimmer=findViewById(R.id.reviews_shimmer);
+        mAddReview=findViewById(R.id.add_review_btn);
 
 
 
@@ -162,6 +161,15 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        mAddReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProductDetailActivity.this,ReviewActivity.class);
+                intent.putExtra("product_id",product.getId());
+                startActivityForResult(intent,REVIEW_REQUEST_CODE);
             }
         });
 
@@ -309,6 +317,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REVIEW_REQUEST_CODE && resultCode == RESULT_OK && data != null){
+            Review newReview = data.getParcelableExtra("new_review");
+            reviewsAdapter.addNewReview(newReview);
+        }
     }
 
     @Override

@@ -277,7 +277,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/proceedToPayment"
-            app:layout_constraintTop_toBottomOf="@id/email_textInputLayout"
+            app:layout_constraintTop_toBottomOf="@id/reviewer_email_textInputLayout"
             android:background="@color/colorPrimary"
             android:text="Proceed to payment"
             android:textAllCaps="false"
