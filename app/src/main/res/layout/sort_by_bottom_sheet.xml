@@ -3,11 +3,160 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingBottom="10dp">
-    
-    
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="20dp"
+    android:background="@color/white">
 
-    <
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/by_popularity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/by_popularity_img"
+            app:layout_constraintTop_toTopOf="@id/by_popularity_txt"
+            app:layout_constraintBottom_toBottomOf="@id/by_popularity_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_trending_up_black_24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/by_popularity_txt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/by_popularity_img"
+            android:layout_marginLeft="10dp"
+            android:text="SORT BY POPULARITY"
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/by_date"
+       app:layout_constraintTop_toBottomOf="@id/by_popularity"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/by_popularity">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/by_date_img"
+            app:layout_constraintTop_toTopOf="@id/by_date_txt"
+            app:layout_constraintBottom_toBottomOf="@id/by_date_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_update_black_24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/by_date_txt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/by_date_img"
+            android:layout_marginLeft="10dp"
+            android:text="SORT BY LATEST"
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/by_avg"
+        app:layout_constraintTop_toBottomOf="@id/by_date"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/by_popularity">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/by_avg_img"
+            app:layout_constraintTop_toTopOf="@id/by_avg_txt"
+            app:layout_constraintBottom_toBottomOf="@id/by_avg_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_rate_review_black_24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/by_avg_txt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/by_avg_img"
+            android:layout_marginLeft="10dp"
+            android:text="SORT BY AVERAGE RATING"
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/by_price_low_high"
+        app:layout_constraintTop_toBottomOf="@id/by_avg"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/by_popularity">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/by_price_low_high_img"
+            app:layout_constraintTop_toTopOf="@id/by_price_low_high_txt"
+            app:layout_constraintBottom_toBottomOf="@id/by_price_low_high_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_arrow_upward_black_24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/by_price_low_high_txt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/by_price_low_high_img"
+            android:layout_marginLeft="10dp"
+            android:text="SORT BY PRICE LOW TO HIGH"
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/by_price_high_low"
+        app:layout_constraintTop_toBottomOf="@id/by_price_low_high"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/by_popularity">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/by_price_high_low_img"
+            app:layout_constraintTop_toTopOf="@id/by_price_high_low_txt"
+            app:layout_constraintBottom_toBottomOf="@id/by_price_high_low_txt"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_arrow_downward_black_24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/by_price_high_low_txt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/by_price_high_low_img"
+            android:layout_marginLeft="10dp"
+            android:text="SORT BY PRICE HIGH TO LOW"
+            android:textSize="18sp"
+            android:gravity="center"
+            />
+    </android.support.constraint.ConstraintLayout>
 
 
 

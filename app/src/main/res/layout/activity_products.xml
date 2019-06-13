@@ -5,14 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.ProductsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_keyboard_backspace_black_24dp"
+                android:id="@+id/back_arrow"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="GIFTS "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="18sp"
+                android:textColor="@color/red"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/search_product"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_search_black_24dp"
+                android:layout_marginRight="10dp"/>
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sort By"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".3"
+        android:layout_marginLeft="50dp"
         android:id="@+id/sortBy_button"
         android:background="@null"
         android:drawableStart="@drawable/ic_updown"
@@ -22,22 +70,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/filter_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sortBy_button"
         android:text="Filter By"
         android:background="@null"
-        app:layout_constraintHorizontal_bias=".7"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="50dp"
         android:drawableStart="@drawable/ic_filter"
         android:drawableLeft="@drawable/ic_filter"
         android:drawablePadding="5dp"
-        />
+        android:layout_marginRight="50dp" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/recentlyRecycler"
         app:layout_constraintTop_toBottomOf="@id/filter_button"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ProgressBar
