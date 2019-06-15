@@ -61,7 +61,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     ReviewsViewModel mReviewsViewModel;
     private ReviewsAdapter reviewsAdapter;
     ShimmerFrameLayout mReviewsShimmer;
-    TextView mAddReview;
+    TextView mAddReview,mToolbarTitle;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +77,18 @@ public class ProductDetailActivity extends AppCompatActivity {
         indicator=findViewById(R.id.product_images_indicator);
 //        tabLayout=findViewById(R.id.product_detail_tabLayout);
         toolbar=findViewById(R.id.toolbar);
-        navigationUp=findViewById(R.id.navigation_up);
+        navigationUp=findViewById(R.id.back_arrow);
         mAddToCartBtn=findViewById(R.id.add_to_cart_btn);
         mProductDescriptionTxt=findViewById(R.id.product_desc_content);
         mProductReviewsRecuRecyclerView=findViewById(R.id.reviews_recyclerview);
         mReviewsShimmer=findViewById(R.id.reviews_shimmer);
         mAddReview=findViewById(R.id.add_review_btn);
+        mToolbarTitle=findViewById(R.id.toolbar_title);
+        mToolbar=findViewById(R.id.toolbar);
 
+
+        // setup toolbar
+        setSupportActionBar(mToolbar);
 
 
 
@@ -95,6 +101,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         product =getIntent().getParcelableExtra(PRODUCT_KEY);
         //Log.d("PRODUCCTTT", "price "+ HtmlUtil.getCurrency(""));
+        // set product_name as toolbar_title
+        mToolbarTitle.setText(product.getName());
+
         mReviewsViewModel.getReviews("1",product.getId());
         observeReviews();
         observeReviewsLoading();
