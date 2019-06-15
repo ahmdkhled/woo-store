@@ -72,11 +72,11 @@ public class CartActivity extends AppCompatActivity implements CartListener {
         setContentView(R.layout.activity_cart);
 
         // hide status bar
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+//        View decorView = getWindow().getDecorView();
+//        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        decorView.setSystemUiVisibility(uiOptions);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
 
         ButterKnife.bind(this);
 

@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.woocommerce.R;
@@ -27,12 +29,14 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     RecyclerView recentlyAddedRecycler;
     Button sortBy;
     ProgressBar progressBar;
+    Toolbar mToolbar;
+    TextView mToolbarTilte;
     String target="";
     public static final String TARGET_KEY="target_key";
-    public static final String RA_TARGET="recently_added";
-    public static final String CATEGORIES_TARGET="category";
-    public static final String DEALS_TARGET="deals";
-    public static final String BESTSELLERS_TARGET="best_seller";
+    public static final String RA_TARGET="Recently Added";
+    public static final String CATEGORIES_TARGET="Categories";
+    public static final String DEALS_TARGET="Deals";
+    public static final String BESTSELLERS_TARGET="Best Seller";
     public static final String CATEGORY_ID="category_id";
     private String mSortByOption;
 
@@ -43,43 +47,23 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         recentlyAddedRecycler=findViewById(R.id.recentlyRecycler);
         progressBar=findViewById(R.id.products_PB);
         sortBy=findViewById(R.id.sortBy_button);
+        mToolbar=findViewById(R.id.toolbar);
+        mToolbarTilte=findViewById(R.id.toolbar_title);
+
+
+
+
+
         productsViewModel =ViewModelProviders.of(this)
                 .get(ProductsViewModel.class);
 
         target=getIntent().getStringExtra(TARGET_KEY);
-        if (target.equals(RA_TARGET))
-            productsViewModel.getProducts(null,null,null,null,null,
-                null,null,null,null,null,null,null,
-                null,null,null,null,null,null);
 
-        else if (target.equals(DEALS_TARGET))
-            productsViewModel.getProducts(null,null,null,null,null,
-                    null,null,null,"true",null,null,null,
-                    null,null,null,null,null,null);
+        // setup toolbar
+        setSupportActionBar(mToolbar);
+        mToolbarTilte.setText(target);
+        loadProducts(null,null);
 
-        else if (target.equals(BESTSELLERS_TARGET))
-            productsViewModel.getBestSellers("month",null ,null,null,null,
-                    null ,null ,"date",null,null,
-                    null, null,null,null,null,
-                    null,null, null,null,null);
-
-        else if (target.equals(CATEGORIES_TARGET)){
-            int categoruId=getIntent().getIntExtra(CATEGORY_ID,-1);
-            productsViewModel.getProducts(null,null,null, String.valueOf(categoruId),null,
-                    null,null,null,null,null,null,null,
-                    null,null,null,null,null,null);
-        }
-
-        if (productsViewModel.getProducts()!=null){
-            observeProducts();
-            observeProductsLoading();
-            observeProductsLoadingError();
-        }
-        if (productsViewModel.getBestSellers()!=null){
-            observeBestSeller();
-            observebestSellerLoading();
-            observebestSellersLoadingError();
-        }
 
         sortBy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +74,58 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         });
 
 
+    }
+
+    private void loadProducts(String order, String orderBy) {
+        if (target.equals(RA_TARGET))
+            loadRecentlyAddedProducts(order,orderBy);
+
+        else if (target.equals(DEALS_TARGET))
+            loadDeals(order,orderBy);
+
+
+        else if (target.equals(BESTSELLERS_TARGET))
+            loadBestSellers(order,orderBy);
+
+
+        else if (target.equals(CATEGORIES_TARGET)){
+            int categoryId=getIntent().getIntExtra(CATEGORY_ID,-1);
+            loadCategoryProducts(String.valueOf(categoryId),order,orderBy);
+
+        }
+
+        observeProducts();
+        observeProductsLoading();
+        observeProductsLoadingError();
+
+    }
+
+    private void loadRecentlyAddedProducts(String order, String orderBy) {
+        productsViewModel.getProducts(null,null,null,null,"date",
+                null,null,null,null,null,null,null,
+                null,null,null,null,null,null);
+    }
+
+    private void loadDeals(String order, String orderBy) {
+        productsViewModel.getProducts(null,null,null,null,null,
+                null,null,null,"true",null,null,null,
+                null,null,null,null,null,null);
+    }
+
+    private void loadBestSellers(String order, String orderBy) {
+        productsViewModel.getBestSellers("month",null ,null,null,null,
+                null ,null ,"date",null,null,
+                null, null,null,null,null,
+                null,null, null,null,null);
+        observeBestSeller();
+        observebestSellerLoading();
+        observebestSellersLoadingError();
+    }
+
+    private void loadCategoryProducts(String categoryId,String order, String orderBy) {
+        productsViewModel.getProducts(null,null,null,categoryId,null,
+                null,null,null,null,null,null,null,
+                null,null,null,null,null,null);
     }
 
     void observeProducts(){
@@ -202,10 +238,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             }
 
             Log.d("fromProductActivity","order_by = "+orderBy+" order = "+order);
-            productsViewModel.getProducts(null,null,null, null,orderBy,
-                    order,null,null,null,null,null,null,
-                    null,null,null,null,null,null);
-            observeProducts();
+            loadProducts(order,orderBy);
         }
 
     }

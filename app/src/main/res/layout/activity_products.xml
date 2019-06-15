@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ProductsActivity">
 
     <android.support.v7.widget.Toolbar
@@ -31,14 +32,16 @@
                 android:layout_marginLeft="10dp"
                 />
 
-            <TextView
+            <com.example.woocommerce.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="GIFTS "
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textSize="18sp"
+                android:id="@+id/toolbar_title"
                 android:textColor="@color/red"
+                custom:font_name="@string/dosis_bold"
                 />
 
             <ImageView

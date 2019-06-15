@@ -23,4 +23,7 @@
     <string name="cod_description">order will be delivered to your shipping address and money will be collected</string>
 
     <string name="main_activity_title">Home</string>
+    <string name="dosis_regular">fonts/Dosis-Regular.otf</string>
+    <string name="dosis_medium">fonts/Dosis-Medium.otf</string>
+    <string name="dosis_bold">fonts/Dosis-Bold.otf</string>
 </resources>
