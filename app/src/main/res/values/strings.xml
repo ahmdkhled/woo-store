@@ -29,5 +29,7 @@
     <string name="dosis_bold">fonts/Dosis-Bold.otf</string>
     <string name="dosis_extra_bold">fonts/Dosis-ExtraBold.otf</string>
     <string name="cart_activity_title">Yor Cart</string>
+    <string name="address_frag_title">Complete Address</string>
+    <string name="checkout_activity_title">CHECKOUT</string>
 
 </resources>
