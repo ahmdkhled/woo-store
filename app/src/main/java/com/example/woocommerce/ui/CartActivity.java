@@ -38,10 +38,10 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     ImageView mBackArrowBtn;
     @BindView(R.id.proceed_to_checkout_btn)
     Button mDoneBtn;
-
-
-    @BindView(R.id.sub_total_value)
+    @BindView(R.id.sub_total_txt)
     TextView mCartSubTotalTxt;
+    @BindView(R.id.sub_total_value)
+    TextView mCartSubTotalValue;
     @BindView(R.id.cart_recycler_view)
     RecyclerView mCartRecyclerView;
     @BindView(R.id.progress_bar)
@@ -88,6 +88,7 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                     if(products != null && products.size() > 0) {
                         mEmptyCartView.setVisibility(View.GONE);
                         mDoneBtn.setVisibility(View.VISIBLE);
+                        mCartSubTotalValue.setVisibility(View.VISIBLE);
                         mCartSubTotalTxt.setVisibility(View.VISIBLE);
                         List<Integer> cartItemsQuantities = getCartItemsQuantities();
                         mCartAdapter.notifyAdapter(products, cartItemsQuantities);
@@ -127,8 +128,8 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                         // empty cart
                         mEmptyCartView.setVisibility(View.VISIBLE);
                         mDoneBtn.setVisibility(View.GONE);
-                        mCartSubTotalTxt.setVisibility(View.INVISIBLE);
-                        mCartSubTotalTxt.setVisibility(View.INVISIBLE);
+                        mCartSubTotalValue.setVisibility(View.GONE);
+                        mCartSubTotalTxt.setVisibility(View.GONE);
                         Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -174,7 +175,7 @@ public class CartActivity extends AppCompatActivity implements CartListener {
                         products.get(i).getSale_price():products.get(i).getRegular_price()))
                         *quantities.get(i);
             }
-            mCartSubTotalTxt.setText(mTotalPrice+" EGP");
+            mCartSubTotalValue.setText(mTotalPrice+" EGP");
         }
     }
 
@@ -188,14 +189,14 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     @Override
     public void increaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice += Integer.valueOf(price);
-        mCartSubTotalTxt.setText(String.valueOf(mTotalPrice)+" EGP");
+        mCartSubTotalValue.setText(String.valueOf(mTotalPrice)+" EGP");
         mViewModel.updateItemQuantity(position,newQuqntity);
     }
 
     @Override
     public void decreaseItemQuantity(int position, int newQuqntity, String price) {
         mTotalPrice -= Integer.valueOf(price);
-        mCartSubTotalTxt.setText(getString(R.string.product_price,String.valueOf(mTotalPrice)));
+        mCartSubTotalValue.setText(getString(R.string.product_price,String.valueOf(mTotalPrice)));
         mViewModel.updateItemQuantity(position,newQuqntity);
     }
 
@@ -209,7 +210,7 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             public void onClick(DialogInterface dialogInterface, int i) {
                 mCartAdapter.removeItem(position);
                 mTotalPrice -= quantity * Integer.valueOf(deletedProduct.getOn_sale()?deletedProduct.getSale_price():deletedProduct.getRegular_price());
-                mCartSubTotalTxt.setText(String.valueOf(getString(R.string.product_price,String.valueOf(mTotalPrice))));
+                mCartSubTotalValue.setText(String.valueOf(getString(R.string.product_price,String.valueOf(mTotalPrice))));
                 showProgressBar();
                 mViewModel.removeCartItem(position);
                 mViewModel.getIsItemsDeleted().observe(CartActivity.this, new Observer<Boolean>() {
