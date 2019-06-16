@@ -3,7 +3,7 @@ package com.example.woocommerce.utils;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
+
 
 public class HtmlUtil {
 
@@ -35,6 +35,7 @@ public class HtmlUtil {
                 }
             }
         }
-        return currency.toString();
+        String className="woocommerce-Price-currencySymbol";
+        return htmlText.substring(htmlText.lastIndexOf(className)+className.length()+2,htmlText.indexOf("</span>"));
     }
 }

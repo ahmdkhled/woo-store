@@ -46,10 +46,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     public static final String PRODUCT_KEY="product_key";
     private static final int REVIEW_REQUEST_CODE =1005 ;
     public Product product;
-    TextView name,price,sale_price;
-    ViewPager DetailsPager,imagesPager;
+    TextView name,price;
+    ViewPager imagesPager;
     PageIndicatorView indicator;
-    TabLayout tabLayout;
     Toolbar toolbar;
     ImageView navigationUp;
     Button mAddToCartBtn;
@@ -70,7 +69,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         name=findViewById(R.id.product_name);
         price=findViewById(R.id.product_price);
-        sale_price=findViewById(R.id.price_after);
         avgRating=findViewById(R.id.product_avgRating);
 //        DetailsPager =findViewById(R.id.product_detail_viewPager);
         imagesPager =findViewById(R.id.product_images_viewPager);
@@ -189,17 +187,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         name.setText(product.getName());
 
         // product price
-        String currency=HtmlUtil.getCurrency(product.getPrice_html());
-        price.setText(getString(R.string.product_price,product.getPrice(),currency));
+        price.setText(HtmlUtil.toString(product.getPrice_html()));
 
-        // if there is a sale on product then display sale_price
-        if (product.getSale_price()!=null&& !TextUtils.isEmpty(product.getSale_price())){
-            sale_price.setVisibility(View.VISIBLE);
-            price.setPaintFlags(price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            price.setTextColor(Color.parseColor("#A7A5A5"));
-            price.setTypeface(price.getTypeface(), Typeface.NORMAL);
-            sale_price.setText(getString(R.string.product_price,product.getSale_price(),currency));
-        }
 
         // product average rating
         if (product.getAverage_rating()!=null)
@@ -207,11 +196,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         // product desciption
         if(product.getDescription() != null && !product.getDescription().equals("")) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                mProductDescriptionTxt.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
-            } else {
-                mProductDescriptionTxt.setText(Html.fromHtml(product.getDescription()));
-            }
+            mProductDescriptionTxt.setText(HtmlUtil.toString(product.getDescription()));
         }
         else{
             Log.d("single_item","there is no desc");

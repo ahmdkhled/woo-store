@@ -43,7 +43,7 @@ public class RetrofitClient {
                 .build();
 
         Retrofit mRetrofit = new Retrofit.Builder()
-                .baseUrl("https://ahmdkhaled.000webhostapp.com/wp-json/wc/v3/")
+                .baseUrl("https://yohady.com/wp-json/wc/v3/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
