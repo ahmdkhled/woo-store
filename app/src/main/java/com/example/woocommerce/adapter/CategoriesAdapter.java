@@ -87,7 +87,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
                 public void onClick(View v) {
                     Intent intent=new Intent(context, ProductsActivity.class);
                     intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.CATEGORIES_TARGET);
-                    intent.putExtra(ProductsActivity.CATEGORY_ID,categoriesList.get(getAdapterPosition()).getId());
+                    intent.putExtra(ProductsActivity.CATEGORY_INFO,
+                            new String[]{
+                            String.valueOf(categoriesList.get(getAdapterPosition()).getId()),
+                            categoriesList.get(getAdapterPosition()).getName()});
                     context.startActivity(intent);
 
                 }

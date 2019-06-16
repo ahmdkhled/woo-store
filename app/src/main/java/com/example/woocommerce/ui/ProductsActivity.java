@@ -41,9 +41,11 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     public static final String CATEGORIES_TARGET="Categories";
     public static final String DEALS_TARGET="Deals";
     public static final String BESTSELLERS_TARGET="Best Seller";
-    public static final String CATEGORY_ID="category_id";
+    public static final String CATEGORY_INFO="category_info";
     private String mSortByOption;
     private TextView mCartBadgeTxt;
+    private String categoryId;
+    private String categoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +66,16 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
 
         target=getIntent().getStringExtra(TARGET_KEY);
 
+        if(target.equals(CATEGORIES_TARGET)){
+            String[] categoryInfo = getIntent().getStringArrayExtra(CATEGORY_INFO);
+            categoryId = categoryInfo[0];
+            categoryName = categoryInfo[1];
+
+        }
+
         // setup toolbar
         setSupportActionBar(mToolbar);
-        mToolbarTilte.setText(target);
+        mToolbarTilte.setText(!target.equals(CATEGORIES_TARGET)?target:categoryName);
 
         // load products
         loadProducts(null,null);
@@ -92,8 +101,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                 loadDeals(order, orderBy);
 
             else if (target.equals(CATEGORIES_TARGET)) {
-                int categoryId = getIntent().getIntExtra(CATEGORY_ID, -1);
-                loadCategoryProducts(String.valueOf(categoryId), order, orderBy);
+                loadCategoryProducts(categoryId, order, orderBy);
 
             }
 
@@ -131,6 +139,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     }
 
     private void loadCategoryProducts(String categoryId,String order, String orderBy) {
+        Log.d("fromProductRepo","loadCategoryProducts");
         productsViewModel.getProducts(null,null,null,categoryId,null,
                 null,null,null,null,null,null,null,
                 null,null,null,null,null,null);

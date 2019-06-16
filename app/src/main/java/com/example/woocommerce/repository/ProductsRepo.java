@@ -52,6 +52,8 @@ public class ProductsRepo {
                 String sku, String slug,
 
                 final String tag, String shipping_class){
+        Log.d("fromProductRepo","getProducts2");
+
 
         if (target.equals(products))
             isProductsLoading.setValue(true);
@@ -121,6 +123,7 @@ public class ProductsRepo {
                                                                  String sku,  String slug,
                                                                  String tag,  String shipping_class) {
 
+        Log.d("fromProductRepo","getProducts1");
         products=new MutableLiveData<>();
         return getProducts(products, page,   per_page, search,category, order_by,order, min_price,
                 max_price, on_sale,featured, stock_status,status, context,include, sku,slug,
