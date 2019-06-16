@@ -84,26 +84,27 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     }
 
     private void loadProducts(String order, String orderBy) {
-        if (target.equals(RA_TARGET))
-            loadRecentlyAddedProducts(order,orderBy);
+        if(!target.equals(BESTSELLERS_TARGET)) {
+            if (target.equals(RA_TARGET))
+                loadRecentlyAddedProducts(order, orderBy);
 
-        else if (target.equals(DEALS_TARGET))
-            loadDeals(order,orderBy);
+            else if (target.equals(DEALS_TARGET))
+                loadDeals(order, orderBy);
+
+            else if (target.equals(CATEGORIES_TARGET)) {
+                int categoryId = getIntent().getIntExtra(CATEGORY_ID, -1);
+                loadCategoryProducts(String.valueOf(categoryId), order, orderBy);
+
+            }
+
+            observeProducts();
+            observeProductsLoading();
+            observeProductsLoadingError();
+
+        }else loadBestSellers(order,orderBy);
 
 
-        else if (target.equals(BESTSELLERS_TARGET))
-            loadBestSellers(order,orderBy);
 
-
-        else if (target.equals(CATEGORIES_TARGET)){
-            int categoryId=getIntent().getIntExtra(CATEGORY_ID,-1);
-            loadCategoryProducts(String.valueOf(categoryId),order,orderBy);
-
-        }
-
-        observeProducts();
-        observeProductsLoading();
-        observeProductsLoadingError();
 
     }
 
