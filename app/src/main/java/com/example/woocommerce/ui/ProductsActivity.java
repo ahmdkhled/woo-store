@@ -17,16 +17,19 @@ import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.BottomSheetListener;
+import com.example.woocommerce.utils.EndlessRecyclerViewScrollListener;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
 
 import java.util.ArrayList;
 
-public class ProductsActivity extends AppCompatActivity implements BottomSheetListener {
+public class ProductsActivity extends AppCompatActivity
+        implements BottomSheetListener {
 
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
     Button sortBy;
     ProgressBar progressBar;
+    ProgressBar loadMorePB;
     String target="";
     public static final String TARGET_KEY="target_key";
     public static final String RA_TARGET="recently_added";
@@ -35,6 +38,9 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     public static final String BESTSELLERS_TARGET="best_seller";
     public static final String CATEGORY_ID="category_id";
     private String mSortByOption;
+    GridLayoutManager layoutManager;
+    ProductAdapter productsAdapter;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +48,54 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         setContentView(R.layout.activity_products);
         recentlyAddedRecycler=findViewById(R.id.recentlyRecycler);
         progressBar=findViewById(R.id.products_PB);
+        loadMorePB=findViewById(R.id.loadMorePB);
         sortBy=findViewById(R.id.sortBy_button);
         productsViewModel =ViewModelProviders.of(this)
                 .get(ProductsViewModel.class);
 
+        layoutManager=new GridLayoutManager(this,2);
+
+
         target=getIntent().getStringExtra(TARGET_KEY);
+        requestProducts(1);
+
+        productsAdapter=new ProductAdapter(this,null,false);
+        recentlyAddedRecycler.setAdapter(productsAdapter);
+        recentlyAddedRecycler.setLayoutManager(layoutManager);
+
+
+
+
+        sortBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SortByBottomSheet mSortBottomSheet=new SortByBottomSheet();
+                mSortBottomSheet.show(getSupportFragmentManager(),mSortBottomSheet.getTag());
+            }
+        });
+
+        scrollListener=new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                page++;
+                requestProducts(page);
+                loadMorePB.setVisibility(View.VISIBLE);
+                Log.d("PAGGIINGNG", "onLoadMore: ");
+            }
+        };
+
+
+        recentlyAddedRecycler.addOnScrollListener(scrollListener);
+    }
+
+    void requestProducts(int page){
         if (target.equals(RA_TARGET))
-            productsViewModel.getProducts(null,null,null,null,null,
-                null,null,null,null,null,null,null,
-                null,null,null,null,null,null);
+            productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
+                    null,null,null,null,null,null,null,
+                    null,null,null,null,null,null);
 
         else if (target.equals(DEALS_TARGET))
-            productsViewModel.getProducts(null,null,null,null,null,
+            productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
                     null,null,null,"true",null,null,null,
                     null,null,null,null,null,null);
 
@@ -65,10 +107,10 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
 
         else if (target.equals(CATEGORIES_TARGET)){
             int categoruId=getIntent().getIntExtra(CATEGORY_ID,-1);
-            productsViewModel.getProducts(null,null,null, String.valueOf(categoruId),null,
+            productsViewModel.getProducts(String.valueOf(page),null,null, String.valueOf(categoruId),null,
                     null,null,null,null,null,null,null,
                     null,null,null,null,null,null);
-        }
+    }
 
         if (productsViewModel.getProducts()!=null){
             observeProducts();
@@ -80,26 +122,20 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             observebestSellerLoading();
             observebestSellersLoadingError();
         }
-
-        sortBy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SortByBottomSheet mSortBottomSheet=new SortByBottomSheet();
-                mSortBottomSheet.show(getSupportFragmentManager(),mSortBottomSheet.getTag());
-            }
-        });
-
-
     }
 
     void observeProducts(){
+        Log.d("PAGGIINGNG", "observe products  " );
+
         if(!productsViewModel.getProducts().hasActiveObservers()) {
             productsViewModel.getProducts()
                     .observe(this, new Observer<ArrayList<Product>>() {
                         @Override
                         public void onChanged(@Nullable ArrayList<Product> products) {
-                            Log.d("fromProductActivity", "products " + products.size());
-                            showProducts(products);
+                            Log.d("PAGGIINGNG", "products " + products.size());
+                            productsAdapter.addProducts(products);
+                            loadMorePB.setVisibility(View.GONE);
+
                         }
                     });
         }
@@ -136,7 +172,8 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
-                        showProducts(products);
+                        productsAdapter.addProducts(products);
+
                     }
                 });
     }
@@ -167,13 +204,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                 });
     }
 
-    private void showProducts(ArrayList<Product> products) {
-        ProductAdapter recentlyAddedAdapter=new ProductAdapter(this,products,false);
-        GridLayoutManager layoutManager=new GridLayoutManager(this,2);
-        recentlyAddedRecycler.setAdapter(recentlyAddedAdapter);
-        recentlyAddedRecycler.setLayoutManager(layoutManager);
 
-    }
 
     @Override
     public void onBottomSheetOptionClicked(String sortBy) {

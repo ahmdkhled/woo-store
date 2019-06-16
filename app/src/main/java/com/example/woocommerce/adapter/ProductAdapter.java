@@ -32,6 +32,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
 
     public ProductAdapter(Context context, ArrayList<Product> productsList, boolean isMainSample) {
+        if (productsList==null) productsList=new ArrayList<>();
         this.context = context;
         this.productsList = productsList;
         this.isMainSample = isMainSample;
@@ -75,6 +76,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     public int getItemCount() {
         if(productsList != null && productsList.size() > 0) return productsList.size();
         return 0;
+    }
+
+    public void addProducts (ArrayList<Product> products){
+        this.productsList.addAll(products);
+        notifyDataSetChanged();
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{
