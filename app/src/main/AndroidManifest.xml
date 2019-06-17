@@ -12,14 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.CheckoutActivity"
-            android:exported="true"/>
+        <activity android:name=".ui.OrderSummaryActivity"></activity>
+        <activity
+            android:name=".ui.CheckoutActivity"
+            android:exported="true" />
         <activity android:name=".ui.CategoriesActivity" />
         <activity
             android:name=".ui.ProductDetailActivity"
             android:theme="@style/NoActionBarTheme" />
         <activity android:name=".ui.ProductsActivity" />
-        <activity android:name=".ui.MainActivity"
+        <activity
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/NoActionBarTheme">
             <intent-filter>

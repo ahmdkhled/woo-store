@@ -1,8 +1,11 @@
 package com.example.woocommerce.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class Order {
+public class Order implements Parcelable {
 
     private Integer id;
     private Integer parent_id;
@@ -46,6 +49,69 @@ public class Order {
     private ArrayList<Object> coupon_lines ;
     private ArrayList<Object> refunds ;
 
+
+    protected Order(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            parent_id = null;
+        } else {
+            parent_id = in.readInt();
+        }
+        number = in.readString();
+        order_key = in.readString();
+        created_via = in.readString();
+        version = in.readString();
+        status = in.readString();
+        currency = in.readString();
+        date_created = in.readString();
+        date_created_gmt = in.readString();
+        date_modified = in.readString();
+        date_modified_gmt = in.readString();
+        discount_total = in.readString();
+        discount_tax = in.readString();
+        shipping_total = in.readString();
+        shipping_tax = in.readString();
+        cart_tax = in.readString();
+        total = in.readString();
+        total_tax = in.readString();
+        byte tmpPrices_include_tax = in.readByte();
+        prices_include_tax = tmpPrices_include_tax == 0 ? null : tmpPrices_include_tax == 1;
+        if (in.readByte() == 0) {
+            customer_id = null;
+        } else {
+            customer_id = in.readInt();
+        }
+        customer_ip_address = in.readString();
+        customer_user_agent = in.readString();
+        customer_note = in.readString();
+        billing = in.readParcelable(Billing.class.getClassLoader());
+        shipping = in.readParcelable(Shipping.class.getClassLoader());
+        payment_method = in.readString();
+        payment_method_title = in.readString();
+        transaction_id = in.readString();
+        datePaid = in.readString();
+        date_paid_gmt = in.readString();
+        date_completed = in.readString();
+        date_completed_gmt = in.readString();
+        cart_hash = in.readString();
+        meta_data = in.createTypedArrayList(MetaData.CREATOR);
+    }
+
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -209,5 +275,64 @@ public class Order {
 
     public ArrayList<Object> getRefunds() {
         return refunds;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        if (parent_id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(parent_id);
+        }
+        dest.writeString(number);
+        dest.writeString(order_key);
+        dest.writeString(created_via);
+        dest.writeString(version);
+        dest.writeString(status);
+        dest.writeString(currency);
+        dest.writeString(date_created);
+        dest.writeString(date_created_gmt);
+        dest.writeString(date_modified);
+        dest.writeString(date_modified_gmt);
+        dest.writeString(discount_total);
+        dest.writeString(discount_tax);
+        dest.writeString(shipping_total);
+        dest.writeString(shipping_tax);
+        dest.writeString(cart_tax);
+        dest.writeString(total);
+        dest.writeString(total_tax);
+        dest.writeByte((byte) (prices_include_tax == null ? 0 : prices_include_tax ? 1 : 2));
+        if (customer_id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(customer_id);
+        }
+        dest.writeString(customer_ip_address);
+        dest.writeString(customer_user_agent);
+        dest.writeString(customer_note);
+        dest.writeParcelable(billing, flags);
+        dest.writeParcelable(shipping, flags);
+        dest.writeString(payment_method);
+        dest.writeString(payment_method_title);
+        dest.writeString(transaction_id);
+        dest.writeString(datePaid);
+        dest.writeString(date_paid_gmt);
+        dest.writeString(date_completed);
+        dest.writeString(date_completed_gmt);
+        dest.writeString(cart_hash);
+        dest.writeTypedList(meta_data);
     }
 }
