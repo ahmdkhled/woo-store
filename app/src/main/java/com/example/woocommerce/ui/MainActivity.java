@@ -1,5 +1,6 @@
 package com.example.woocommerce.ui;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -120,72 +121,84 @@ public class MainActivity extends AppCompatActivity {
         showAllRecently.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
-                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.RA_TARGET);
-                startActivity(intent);
+                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.RA_TARGET);
+
             }
         });
 
         showAllCategories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),CategoriesActivity.class);
-                startActivity(intent);
+                launchActivity(CategoriesActivity.class,null,null);
             }
         });
 
         showAllDeals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
-                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.DEALS_TARGET);
-                startActivity(intent);
+                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.DEALS_TARGET);
             }
         });
 
         showAllBestSeller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
-                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.BESTSELLERS_TARGET);
-                startActivity(intent);
+                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.BESTSELLERS_TARGET);
             }
         });
 
 
         // setup navigation drawer
         //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1)
+        PrimaryDrawerItem homeItem = new PrimaryDrawerItem().withIdentifier(1)
                 .withName("Home")
-                .withIcon(R.drawable.ic_home_black_24dp)
-                .withBadge("1")
-                .withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.colorPrimary));
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2)
-                .withName("Setting")
-                .withIcon(R.drawable.ic_settings_black_24dp);
+                .withIcon(R.drawable.ic_home_black_24dp);
 
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3)
-                .withName("Account")
-                .withIcon(R.drawable.ic_account_box_black_24dp);
-
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4)
+        PrimaryDrawerItem dealsItem = new PrimaryDrawerItem().withIdentifier(2)
                 .withName("Deals")
                 .withIcon(R.drawable.deals);
+        PrimaryDrawerItem recentlyAddedItem = new PrimaryDrawerItem().withIdentifier(3)
+                .withName("Recently Added")
+                .withIcon(R.drawable.new_nav);
+        PrimaryDrawerItem bestSellingItem = new PrimaryDrawerItem().withIdentifier(4)
+                .withName("Best Selling")
+                .withIcon(R.drawable.ic_star_black_24dp);
+        PrimaryDrawerItem categoryItem = new PrimaryDrawerItem().withIdentifier(5)
+                .withName("Categories")
+                .withIcon(R.drawable.cat_nav);
 
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(mToolbar)
                 .addDrawerItems(
-                        item1,item2,item3,item4,
-                        new DividerDrawerItem()
+                        homeItem,categoryItem,dealsItem,recentlyAddedItem,bestSellingItem
 
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
-                        return true;
+                        Log.d("material_drawer","position is : "+position);
+                        switch ((int) drawerItem.getIdentifier()){
+                            case 1 : // launch home_activity
+                                launchActivity(MainActivity.class,null,null);
+                                break;
+                            case 2 : // launch deals_activity
+                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.DEALS_TARGET);
+                                break;
+                            case 3 : // launch recently_added_activity
+                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.RA_TARGET);
+                                break;
+                            case 4 : // launch best_selling_activity
+                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.BESTSELLERS_TARGET);
+                                break;
+                            case 5 : // launch categories_activity
+                                launchActivity(CategoriesActivity.class,null,null);
+                                break;
+                        }
+
+                        return false;
                     }
                 })
                 .build();
@@ -450,5 +463,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void launchActivity(Class destination,String extraKey,String extraValue){
+        Intent intent = new Intent(this,destination);
+        if(extraKey != null && extraValue != null){
+            intent.putExtra(extraKey,extraValue);
+        }
+        startActivity(intent);
     }
 }

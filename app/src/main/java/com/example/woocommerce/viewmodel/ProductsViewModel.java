@@ -2,9 +2,11 @@ package com.example.woocommerce.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.repository.ProductsRepo;
+import com.example.woocommerce.ui.ProductDetailActivity;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public class ProductsViewModel extends ViewModel {
 
 
 
+        Log.d("fromProductRepo","getProductsvm");
             Products = ProductsRepo.getInstance()
                     .getProducts(page,per_page,search,category,order_by,order,
                             min_price,max_price,on_sale,featured,stock_status,
@@ -53,6 +56,7 @@ public class ProductsViewModel extends ViewModel {
     }
 
     public MutableLiveData<ArrayList<Product>> getProducts() {
+        if(Products == null) Products = new MutableLiveData<>();
         return Products;
     }
 

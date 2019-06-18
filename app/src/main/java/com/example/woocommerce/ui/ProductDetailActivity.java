@@ -8,7 +8,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,10 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +44,7 @@ import java.util.ArrayList;
 public class ProductDetailActivity extends AppCompatActivity {
 
     public static final String PRODUCT_KEY="product_key";
+    private static final int REVIEW_REQUEST_CODE =1005 ;
     public Product product;
     TextView name,price;
     ViewPager imagesPager;
@@ -62,6 +60,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     ReviewsViewModel mReviewsViewModel;
     private ReviewsAdapter reviewsAdapter;
     ShimmerFrameLayout mReviewsShimmer;
+    TextView mAddReview,mToolbarTitle;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +75,18 @@ public class ProductDetailActivity extends AppCompatActivity {
         indicator=findViewById(R.id.product_images_indicator);
 //        tabLayout=findViewById(R.id.product_detail_tabLayout);
         toolbar=findViewById(R.id.toolbar);
-        navigationUp=findViewById(R.id.navigation_up);
+        navigationUp=findViewById(R.id.back_arrow);
         mAddToCartBtn=findViewById(R.id.add_to_cart_btn);
         mProductDescriptionTxt=findViewById(R.id.product_desc_content);
         mProductReviewsRecuRecyclerView=findViewById(R.id.reviews_recyclerview);
         mReviewsShimmer=findViewById(R.id.reviews_shimmer);
+        mAddReview=findViewById(R.id.add_review_btn);
+        mToolbarTitle=findViewById(R.id.toolbar_title);
+        mToolbar=findViewById(R.id.toolbar);
 
+
+        // setup toolbar
+        setSupportActionBar(mToolbar);
 
 
 
@@ -93,6 +99,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         product =getIntent().getParcelableExtra(PRODUCT_KEY);
         //Log.d("PRODUCCTTT", "price "+ HtmlUtil.getCurrency(""));
+        // set product_name as toolbar_title
+        mToolbarTitle.setText(product.getName());
+
         mReviewsViewModel.getReviews("1",product.getId());
         observeReviews();
         observeReviewsLoading();
@@ -159,6 +168,15 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        mAddReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProductDetailActivity.this,ReviewActivity.class);
+                intent.putExtra("product_id",product.getId());
+                startActivityForResult(intent,REVIEW_REQUEST_CODE);
             }
         });
 
@@ -293,6 +311,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REVIEW_REQUEST_CODE && resultCode == RESULT_OK && data != null){
+            Review newReview = data.getParcelableExtra("new_review");
+            reviewsAdapter.addNewReview(newReview);
+        }
     }
 
     @Override

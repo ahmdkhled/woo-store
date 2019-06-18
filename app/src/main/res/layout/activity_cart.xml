@@ -4,18 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.CartActivity"
-    android:background="@drawable/cart_1">
+    >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
+        android:background="#56203D"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+
+
+        >
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,66 +38,33 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
-            <ImageView
+            <com.example.woocommerce.utils.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/cart_done"
-                android:id="@+id/done"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginRight="20dp"
-
-                />
+                android:id="@+id/toolbar_title"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/cart_activity_title"
+                android:textSize="@dimen/toolbar_title_size"
+                custom:font_name="@string/roboto_medium"/>
 
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cart_title_txt"
-        android:text="Your Cart"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="30dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cart_total_txt"
-        android:text="Total"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/cart_title_txt"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="30dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cart_total_value"
-        tools:text="500.00 EGP"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/cart_title_txt"
-        app:layout_constraintLeft_toRightOf="@+id/cart_total_txt"
-        android:layout_marginLeft="5dp"/>
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:id="@+id/cart_recycler_view"
-        app:layout_constraintTop_toBottomOf="@+id/cart_total_txt"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_layouy"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="10dp"
         />
 
     <ProgressBar
@@ -107,11 +80,67 @@
     <include layout="@layout/empty_cart"
         android:id="@+id/empty_cart"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/cart_total_txt"
-        android:layout_marginTop="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:visibility="gone"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkout_layouy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/cart_recycler_view">
+
+        <com.example.woocommerce.utils.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sub_total_txt"
+            android:text="SUB TOTAL"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            custom:font_name="@string/roboto_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+
+            />
+
+        <com.example.woocommerce.utils.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sub_total_value"
+            tools:text="1500.00 EGP"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            custom:font_name="@string/roboto_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="10dp"
+            android:layout_marginRight="10dp"
+            />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/proceed_to_checkout_btn"
+            android:background="@drawable/empty_cart_box"
+            android:text="Continue To Checkout"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/sub_total_txt"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:padding="15dp"/>
+
+
+    </android.support.constraint.ConstraintLayout>
 
 
 

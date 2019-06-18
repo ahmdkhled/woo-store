@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.OrderSummaryActivity"></activity>
+
         <activity
             android:name=".ui.CheckoutActivity"
             android:exported="true" />
@@ -24,6 +25,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/NoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +36,7 @@
         <activity
             android:name=".ui.CartActivity"
             android:exported="true" />
+        <activity android:name=".ui.ReviewActivity"/>
     </application>
 
 </manifest>

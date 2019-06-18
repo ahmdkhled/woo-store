@@ -67,6 +67,13 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewHo
         }
     }
 
+    public void addNewReview(Review newReview) {
+        if(newReview != null){
+            reviewsList.add(0,newReview);
+            notifyDataSetChanged();
+        }
+    }
+
     class ReviewHolder extends RecyclerView.ViewHolder{
         RatingBar ratingBar;
         TextView reviewer,review,date;

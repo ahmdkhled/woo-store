@@ -6,7 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
     </style>
+
+
 
     <style name="NoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -16,10 +21,17 @@
     </style>
 
 
-    <style name="MyRatingBar" parent="Widget.AppCompat.RatingBar.Small">
+    <style name="MySmallRatingBar" parent="Widget.AppCompat.RatingBar.Small">
         <item name="colorControlNormal">#FCFCFC</item>
         <item name="colorControlActivated">@color/yellow</item>
     </style>
+
+    <style name="MyBigRatingBar" parent="Widget.AppCompat.RatingBar.Indicator">
+        <item name="colorControlNormal">#FCFCFC</item>
+        <item name="colorControlActivated">@color/yellow</item>
+    </style>
+
+
 
     <style name="erroStyle" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/holo_red_light</item>
@@ -30,11 +42,25 @@
 
     </style>
 
-    <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">#FCFCFC</item>
-        <item name="colorControlActivated">@color/yellow</item>
+
+
+    <style name="TextLabel" parent="TextAppearance.AppCompat">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@color/red</item>
+        <item name="android:textSize">20sp</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@color/red</item>
+        <item name="colorControlNormal">@color/red</item>
+        <item name="colorControlActivated">@color/red</item>
     </style>
 
 
-    <color name="yellow">#FFEB3B</color>
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+
+    </style>
+
+
 </resources>

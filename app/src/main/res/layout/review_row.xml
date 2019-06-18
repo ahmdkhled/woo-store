@@ -38,7 +38,7 @@
     <android.support.v7.widget.AppCompatRatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/MyRatingBar"
+        style="@style/MySmallRatingBar"
         android:id="@+id/review_ratingBar"
         app:layout_constraintTop_toBottomOf="@+id/reviewer_name"
         app:layout_constraintStart_toStartOf="@id/reviewer_name"

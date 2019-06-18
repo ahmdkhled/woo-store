@@ -59,7 +59,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
             holder.mOldPrice.setVisibility(View.GONE);
             holder.mPrice.setText(context.getString(R.string.product_price,product.getRegular_price()));
         }
-        holder.mPrice.setText(product.getOn_sale()?product.getSale_price():product.getRegular_price()+" EGP");
         holder.mQuantityTxt.setText(String.valueOf(itemQuantity));
         List<Image> images = product.getImages();
         if(images != null && images.size() > 0){

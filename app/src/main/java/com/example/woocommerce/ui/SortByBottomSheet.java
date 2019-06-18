@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.woocommerce.R;
 import com.example.woocommerce.utils.BottomSheetListener;
@@ -27,19 +28,19 @@ public class SortByBottomSheet extends BottomSheetDialogFragment {
     public static final String SORT_BY_LATEST = "latest";
     public static final String SORT_BY_PRICE_LOW_HIGH = "price_low_high";
     public static final String SORT_BY_PRICE_HIGH_LOW = "price_high_low";
-    @BindView(R.id.btn_popularity)
-    Button mPopularityBtn;
-    @BindView(R.id.btn_avg_rate)
-    Button mAvgRateBtn;
-    @BindView(R.id.btn_latest)
-    Button mLatestBtn;
-    @BindView(R.id.btn_price_low_high)
-    Button mPriceLowToHighBtn;
-    @BindView(R.id.btn_price_high_low)
-    Button mPriceHighToLowBtn;
+    @BindView(R.id.by_popularity_txt)
+    TextView mPopularityOption;
+    @BindView(R.id.by_date_txt)
+    TextView mLatestOption;
+    @BindView(R.id.by_avg_txt)
+    TextView mAvgOption;
+    @BindView(R.id.by_price_low_high_txt)
+    TextView mPriceLowToHighOption;
+    @BindView(R.id.by_price_high_low_txt)
+    TextView mPriceHighToLowOption;
 
     private BottomSheetListener mListener;
-    private Button msortBy = null;
+    private String msortBy = null;
 
 
 
@@ -54,50 +55,50 @@ public class SortByBottomSheet extends BottomSheetDialogFragment {
         ButterKnife.bind(this,view);
         setupFonts();
 
-        mPopularityBtn.setOnClickListener(new View.OnClickListener() {
+        mPopularityOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                msortBy = mPopularityBtn;
+                msortBy = SORT_BY_POPULARITY;
                 mListener.onBottomSheetOptionClicked(SORT_BY_POPULARITY);
                 dismiss();
             }
         });
 
-        mAvgRateBtn.setOnClickListener(new View.OnClickListener() {
+        mAvgOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                msortBy = mAvgRateBtn;
+                msortBy = SORT_BY_AVG_RATE;
                 mListener.onBottomSheetOptionClicked(SORT_BY_AVG_RATE);
                 dismiss();
             }
         });
 
 
-        mLatestBtn.setOnClickListener(new View.OnClickListener() {
+        mLatestOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                msortBy = mLatestBtn;
+                msortBy = SORT_BY_LATEST;
                 mListener.onBottomSheetOptionClicked(SORT_BY_LATEST);
                 dismiss();
             }
         });
 
 
-        mPriceHighToLowBtn.setOnClickListener(new View.OnClickListener() {
+        mPriceLowToHighOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                msortBy = mPriceHighToLowBtn;
-                mListener.onBottomSheetOptionClicked(SORT_BY_PRICE_HIGH_LOW);
+                msortBy = SORT_BY_PRICE_LOW_HIGH;
+                mListener.onBottomSheetOptionClicked(SORT_BY_PRICE_LOW_HIGH);
                 dismiss();
             }
         });
 
 
-        mPriceLowToHighBtn.setOnClickListener(new View.OnClickListener() {
+        mPriceHighToLowOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                msortBy = mPriceLowToHighBtn;
-                mListener.onBottomSheetOptionClicked(SORT_BY_PRICE_LOW_HIGH);
+                msortBy = SORT_BY_PRICE_HIGH_LOW;
+                mListener.onBottomSheetOptionClicked(SORT_BY_PRICE_HIGH_LOW);
                 dismiss();
             }
         });
@@ -106,15 +107,15 @@ public class SortByBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void setupFonts() {
-        mPopularityBtn.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
+        mPopularityOption.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
                 getString(R.string.roboto_regular)));
-        mLatestBtn.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
+        mLatestOption.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
                 getString(R.string.roboto_regular)));
-        mAvgRateBtn.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
+        mAvgOption.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
                 getString(R.string.roboto_regular)));
-        mPriceHighToLowBtn.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
+        mPriceHighToLowOption.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
                 getString(R.string.roboto_regular)));
-        mPriceLowToHighBtn.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
+        mPriceLowToHighOption.setTypeface(Typeface.createFromAsset(getContext().getAssets(),
                 getString(R.string.roboto_regular)));
     }
 

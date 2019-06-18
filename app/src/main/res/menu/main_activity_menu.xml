@@ -8,6 +8,8 @@
         android:icon="@drawable/ic_shopping_cart_black_24dp"
         android:title="Cart"
         app:actionLayout="@layout/cart_icon"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:orderInCategory="2"/>
+
 
 </menu>

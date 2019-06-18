@@ -9,7 +9,7 @@ import com.example.woocommerce.repository.ReviewsRepo;
 import java.util.ArrayList;
 
 public class ReviewsViewModel extends ViewModel {
-    private MutableLiveData<ArrayList<Review>> reviews;
+    private MutableLiveData<ArrayList<Review>> reviews = new MutableLiveData<>();
 
     public MutableLiveData<ArrayList<Review>> getReviews(String page,int product_id) {
 //        if (reviews==null)
@@ -18,6 +18,7 @@ public class ReviewsViewModel extends ViewModel {
     }
 
     public MutableLiveData<ArrayList<Review>> getReviews() {
+        if (reviews == null)reviews = new MutableLiveData<>();
         return reviews;
     }
 
@@ -32,4 +33,6 @@ public class ReviewsViewModel extends ViewModel {
     public MutableLiveData<String> getReviewsLoadingError() {
         return ReviewsRepo.getInstance().getReviewsLoadingError();
     }
+
+
 }

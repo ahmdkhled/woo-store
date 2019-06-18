@@ -41,7 +41,7 @@ public class PaymentFrag extends Fragment {
     public static final String ADDRESS_KEY="address_key";
     public static final String BILLING_KEY="billing_key";
     Button placeOrder;
-    TextView total;
+    TextView mTotalTxt,mSubTotalTxt,mShippingCostTxt;
     ProgressBar progressBar;
     Shipping shipping;
     Billing billing;
@@ -53,7 +53,10 @@ public class PaymentFrag extends Fragment {
         View v=inflater.inflate(R.layout.payment_frag,container,false);
         placeOrder=v.findViewById(R.id.placeOrder);
         progressBar=v.findViewById(R.id.order_PB);
-        total=v.findViewById(R.id.total);
+        mTotalTxt=v.findViewById(R.id.total);
+        mSubTotalTxt=v.findViewById(R.id.sub_total);
+        mShippingCostTxt=v.findViewById(R.id.shpiingCost);
+
         Bundle b=getArguments();
         if (b != null&&b.containsKey(ADDRESS_KEY)) {
             shipping=b.getParcelable(ADDRESS_KEY);
@@ -150,8 +153,11 @@ public class PaymentFrag extends Fragment {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
                         Log.d("ORRDDDER", "products loaded : ");
-                        int t=ProductUtils.calculateTotalPrice(cartItems,products);
-                        total.setText(String.valueOf(t));
+                        int subTotal=ProductUtils.calculateTotalPrice(cartItems,products);
+                        int total = subTotal+15;
+                        mSubTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal)));
+                        mTotalTxt.setText(getString(R.string.product_price,String.valueOf(total)));
+
                     }
                 });
     }

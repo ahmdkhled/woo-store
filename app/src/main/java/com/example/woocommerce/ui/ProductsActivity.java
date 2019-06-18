@@ -2,15 +2,20 @@ package com.example.woocommerce.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.woocommerce.R;
@@ -18,6 +23,7 @@ import com.example.woocommerce.adapter.ProductAdapter;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.BottomSheetListener;
 import com.example.woocommerce.utils.EndlessRecyclerViewScrollListener;
+import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
 
 import java.util.ArrayList;
@@ -30,17 +36,23 @@ public class ProductsActivity extends AppCompatActivity
     Button sortBy;
     ProgressBar progressBar;
     ProgressBar loadMorePB;
+    Toolbar mToolbar;
+    TextView mToolbarTilte;
     String target="";
     public static final String TARGET_KEY="target_key";
-    public static final String RA_TARGET="recently_added";
-    public static final String CATEGORIES_TARGET="category";
-    public static final String DEALS_TARGET="deals";
-    public static final String BESTSELLERS_TARGET="best_seller";
-    public static final String CATEGORY_ID="category_id";
+    public static final String RA_TARGET="Recently Added";
+    public static final String CATEGORIES_TARGET="Categories";
+    public static final String DEALS_TARGET="Deals";
+    public static final String BESTSELLERS_TARGET="Best Seller";
+    public static final String CATEGORY_INFO="category_info";
     private String mSortByOption;
     GridLayoutManager layoutManager;
     ProductAdapter productsAdapter;
     private EndlessRecyclerViewScrollListener scrollListener;
+    private TextView mCartBadgeTxt;
+    private String categoryId;
+    private String categoryName;
+    private String CATEGORY_ID="category_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +62,13 @@ public class ProductsActivity extends AppCompatActivity
         progressBar=findViewById(R.id.products_PB);
         loadMorePB=findViewById(R.id.loadMorePB);
         sortBy=findViewById(R.id.sortBy_button);
+        mToolbar=findViewById(R.id.toolbar);
+        mToolbarTilte=findViewById(R.id.toolbar_title);
+
+
+
+
+
         productsViewModel =ViewModelProviders.of(this)
                 .get(ProductsViewModel.class);
 
@@ -112,16 +131,83 @@ public class ProductsActivity extends AppCompatActivity
                     null,null,null,null,null,null);
     }
 
-        if (productsViewModel.getProducts()!=null){
+        if(target.equals(CATEGORIES_TARGET)){
+            String[] categoryInfo = getIntent().getStringArrayExtra(CATEGORY_INFO);
+            categoryId = categoryInfo[0];
+            categoryName = categoryInfo[1];
+
+        }
+
+        // setup toolbar
+        setSupportActionBar(mToolbar);
+        mToolbarTilte.setText(!target.equals(CATEGORIES_TARGET)?target:categoryName);
+
+        // load products
+        loadProducts(null,null);
+
+
+        sortBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SortByBottomSheet mSortBottomSheet=new SortByBottomSheet();
+                mSortBottomSheet.show(getSupportFragmentManager(),mSortBottomSheet.getTag());
+            }
+        });
+
+
+    }
+
+    private void loadProducts(String order, String orderBy) {
+        if(!target.equals(BESTSELLERS_TARGET)) {
+            if (target.equals(RA_TARGET))
+                loadRecentlyAddedProducts(order, orderBy);
+
+            else if (target.equals(DEALS_TARGET))
+                loadDeals(order, orderBy);
+
+            else if (target.equals(CATEGORIES_TARGET)) {
+                loadCategoryProducts(categoryId, order, orderBy);
+
+            }
+
             observeProducts();
             observeProductsLoading();
             observeProductsLoadingError();
-        }
-        if (productsViewModel.getBestSellers()!=null){
-            observeBestSeller();
-            observebestSellerLoading();
-            observebestSellersLoadingError();
-        }
+
+        }else loadBestSellers(order,orderBy);
+
+
+
+
+    }
+
+    private void loadRecentlyAddedProducts(String order, String orderBy) {
+        productsViewModel.getProducts(null,null,null,null,"date",
+                null,null,null,null,null,null,null,
+                null,null,null,null,null,null);
+    }
+
+    private void loadDeals(String order, String orderBy) {
+        productsViewModel.getProducts(null,null,null,null,null,
+                null,null,null,"true",null,null,null,
+                null,null,null,null,null,null);
+    }
+
+    private void loadBestSellers(String order, String orderBy) {
+        productsViewModel.getBestSellers("month",null ,null,null,null,
+                null ,null ,"date",null,null,
+                null, null,null,null,null,
+                null,null, null,null,null);
+        observeBestSeller();
+        observebestSellerLoading();
+        observebestSellersLoadingError();
+    }
+
+    private void loadCategoryProducts(String categoryId,String order, String orderBy) {
+        Log.d("fromProductRepo","loadCategoryProducts");
+        productsViewModel.getProducts(null,null,null,categoryId,null,
+                null,null,null,null,null,null,null,
+                null,null,null,null,null,null);
     }
 
     void observeProducts(){
@@ -207,6 +293,61 @@ public class ProductsActivity extends AppCompatActivity
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu,menu);
+
+        final MenuItem cartItem = menu.findItem(R.id.menu_cart);
+        View view = cartItem.getActionView();
+        mCartBadgeTxt = view.findViewById(R.id.cart_badge_txt);
+        setupBadge();
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onOptionsItemSelected(cartItem);
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_cart:
+                // go to cart activity
+                startActivity(new Intent(ProductsActivity.this,CartActivity.class));
+                break;
+        }
+        return true;
+    }
+
+    private void setupBadge() {
+        PrefManager manager = PrefManager.getInstance(this);
+        manager.getCartSize();
+        manager.getmCartSize().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer cartSize) {
+                if(cartSize != null){
+                    if(mCartBadgeTxt != null){
+                        if(cartSize == 0){
+                            if(mCartBadgeTxt.getVisibility() != View.GONE){
+                                mCartBadgeTxt.setVisibility(View.GONE);
+                            }
+                        }else{
+                            mCartBadgeTxt.setText(String.valueOf(cartSize));
+                            if(mCartBadgeTxt.getVisibility() != View.VISIBLE){
+                                mCartBadgeTxt.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    @Override
     public void onBottomSheetOptionClicked(String sortBy) {
         String orderBy = null;
         String order = "desc";
@@ -233,10 +374,7 @@ public class ProductsActivity extends AppCompatActivity
             }
 
             Log.d("fromProductActivity","order_by = "+orderBy+" order = "+order);
-            productsViewModel.getProducts(null,null,null, null,orderBy,
-                    order,null,null,null,null,null,null,
-                    null,null,null,null,null,null);
-            observeProducts();
+            loadProducts(order,orderBy);
         }
 
     }

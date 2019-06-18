@@ -24,12 +24,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
     private Context context;
     private ArrayList<Category> categoriesList;
-    private boolean isMainSample;
+    private int layout;
+    private boolean isMain;
 
-    public CategoriesAdapter(Context context, ArrayList<Category> categoriesList,boolean isMainSample) {
+    public CategoriesAdapter(Context context, ArrayList<Category> categoriesList,boolean isMain) {
         this.context = context;
         this.categoriesList = categoriesList;
-        this.isMainSample=isMainSample;
+        this.isMain=isMain;
     }
 
     public CategoriesAdapter(Context context, ArrayList<Category> categoriesList) {
@@ -40,12 +41,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     @NonNull
     @Override
     public CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(context).inflate(R.layout.category_item,parent,false);
-//        if (isMainSample){
-//            RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(250, ViewGroup.LayoutParams.MATCH_PARENT);
-//            layoutParams.setMargins(5,5,5,5);
-//            v.setLayoutParams(layoutParams);
-//        }
+        if(!isMain)layout = R.layout.category_item;
+        else layout = R.layout.category_main_row;
+        View v= LayoutInflater.from(context).inflate(layout,parent,false);
+
         return new CategoryHolder(v);
     }
 
@@ -78,17 +77,20 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             image=itemView.findViewById(R.id.category_image);
             name=itemView.findViewById(R.id.category_name);
 
-            if (isMainSample){
-                ConstraintLayout.LayoutParams params=new ConstraintLayout
-                        .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300);
-                image.setLayoutParams(params);
-            }
+//            if (isMainSample){
+//                ConstraintLayout.LayoutParams params=new ConstraintLayout
+//                        .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300);
+//                image.setLayoutParams(params);
+//            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(context, ProductsActivity.class);
                     intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.CATEGORIES_TARGET);
-                    intent.putExtra(ProductsActivity.CATEGORY_ID,categoriesList.get(getAdapterPosition()).getId());
+                    intent.putExtra(ProductsActivity.CATEGORY_INFO,
+                            new String[]{
+                            String.valueOf(categoriesList.get(getAdapterPosition()).getId()),
+                            categoriesList.get(getAdapterPosition()).getName()});
                     context.startActivity(intent);
 
                 }
