@@ -2,10 +2,13 @@ package com.example.woocommerce.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+
+import com.example.woocommerce.model.Coupon;
 import com.example.woocommerce.model.Order;
 import com.example.woocommerce.model.OrderPayload;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.repository.OrdersRepo;
+import com.example.woocommerce.repository.PaymentRepo;
 import com.example.woocommerce.repository.ProductsRepo;
 
 import java.util.ArrayList;
@@ -14,6 +17,8 @@ public class PaymentViewModel extends ViewModel {
 
     private MutableLiveData<Order> placeOrder;
     private MutableLiveData<ArrayList<Product>> products;
+    private MutableLiveData<ArrayList<Coupon>> coupon;
+
 
     public void placeOrder(OrderPayload orderPayload){
         placeOrder=OrdersRepo.getInstance()
@@ -62,4 +67,37 @@ public class PaymentViewModel extends ViewModel {
     public MutableLiveData<String> getCartItemsLoadingError() {
         return ProductsRepo.getInstance().getProductsLoadingError();
     }
+
+    /* get coupon details*/
+
+    public MutableLiveData<ArrayList<Coupon>> getCoupon(String context, String page,
+                                             String per_page, String search,
+                                             String after, String before,
+                                             String exclude, String include,
+                                             String offset, String order,
+                                             String orderby, String code){
+        coupon= PaymentRepo.getInstance()
+                .getCoupon(context,  page,
+                        per_page,  search,
+                        after,  before,
+                        exclude,  include,
+                        offset,  order,
+                        orderby,  code);
+        return coupon;
+
+    }
+
+    public MutableLiveData<ArrayList<Coupon>> getCoupon(){
+        return coupon;
+
+    }
+
+    public MutableLiveData<Boolean> getIsCouponLoading() {
+        return PaymentRepo.getInstance().getIsCouponLoading();
+    }
+
+    public MutableLiveData<String> getCouponLoadingError() {
+        return PaymentRepo.getInstance().getCouponLoadingError();
+    }
+
 }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">woocommerce</string>
     <string name="error_message">something went wrong, please try again</string>
-    <string name="product_price">%1$s.00 EGP </string>
+    <string name="product_price">%1$s EGP </string>
     <string name="product_reviews">%1$d reviews </string>
 
     <string name="name_edit_hint">Name</string>
@@ -32,5 +32,6 @@
     <string name="cart_activity_title">Yor Cart</string>
     <string name="address_frag_title">Complete Address</string>
     <string name="checkout_activity_title">CHECKOUT</string>
+    <string name="invalid_coupon">invalid coupon code</string>
 
 </resources>
