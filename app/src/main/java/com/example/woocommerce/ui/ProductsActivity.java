@@ -111,6 +111,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
 
 
         mSearchBar.setOnSearchActionListener(this);
+        
 
     }
 

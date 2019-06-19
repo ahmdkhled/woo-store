@@ -33,7 +33,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener {
+public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener{
     RecyclerView categoriesRecycler,
             recentlyAddedRecycler,
             dealsRecycler,
@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
 
         mSearchBar.setOnSearchActionListener(this);
+
+
         categoriesViewModel.getCategories(null,"5","0",null,
                 null,null,null,null,null,null,null);
         observeCategories();
@@ -487,11 +489,12 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
     @Override
     public void onButtonClicked(int buttonCode) {
-        Log.d("Search_feat","onButtonClicked ");
-        String s;
+
+        String s="";
         switch (buttonCode){
             case MaterialSearchBar.BUTTON_BACK:
                 s = "button back";
+                mSearchBar.disableSearch();
                 break;
 
             case MaterialSearchBar.BUTTON_NAVIGATION:
@@ -500,7 +503,12 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
             case MaterialSearchBar.BUTTON_SPEECH:
                 s = "button speech";
+
                 break;
         }
+
+        Log.d("Search_feat","onButtonClicked "+s);
     }
+
+
 }
