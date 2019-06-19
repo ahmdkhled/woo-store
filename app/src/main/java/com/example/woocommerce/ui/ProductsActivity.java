@@ -10,10 +10,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +27,6 @@ import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.BottomSheetListener;
 import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
@@ -50,8 +52,8 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     private String categoryId;
     private String categoryName;
     private Intent intent;
-    private MaterialSearchView mSearchView;
     private String searchQuery;
+    private EditText mSearchEditTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +64,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         sortBy=findViewById(R.id.sortBy_button);
         mToolbar=findViewById(R.id.toolbar);
         mToolbarTilte=findViewById(R.id.toolbar_title);
-        mSearchView=findViewById(R.id.search_view);
-
-
-
-
+        mSearchEditTxt=findViewById(R.id.search_edit_txt);
 
 
         productsViewModel =ViewModelProviders.of(this)
@@ -112,16 +110,21 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
 
 
 
-        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        mSearchEditTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
-                doSearch(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    String query = mSearchEditTxt.getText().toString();
+                    if(!query.isEmpty()) {
+                        mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
+                        doSearch(query);
+                        observeProducts();
+                        observeProductsLoadingError();
+                        observeProductsLoading();
+                    }else
+                        Toast.makeText(ProductsActivity.this, "please enter something to search for ", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
                 return false;
             }
         });
@@ -158,6 +161,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         productsViewModel.getProducts(null,null,searchQuery,null,null,
                 null,null,null,null,null,null,null,
                 null,null,null,null,null,null);
+
     }
 
     private void loadRecentlyAddedProducts(String order, String orderBy) {

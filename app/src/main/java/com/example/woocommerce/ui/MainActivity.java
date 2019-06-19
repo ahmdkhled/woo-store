@@ -10,9 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.woocommerce.R;
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity{
             bestsellerShimmer;
     TextView mCartBadgeTxt;
     Toolbar mToolbar;
-    MaterialSearchView mSearchView;
+    EditText mSearchEditTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity{
         dealsShimmer=findViewById(R.id.deals_shimmer);
         bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
         mToolbar=findViewById(R.id.toolbar);
-        mSearchView=findViewById(R.id.search_view);
+        mSearchEditTxt=findViewById(R.id.search_edit_txt);
 
         // setup toolbar
         setSupportActionBar(mToolbar);
@@ -83,41 +86,6 @@ public class MainActivity extends AppCompatActivity{
                 .get(MainAcrivityViewModel.class);
 
 
-
-
-        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d("search_feat","onQueryTextSubmit");
-                Intent intent = new Intent(MainActivity.this,ProductsActivity.class);
-                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.SEARCH);
-                intent.putExtra(ProductsActivity.SEARCH_QUERY,query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Log.d("search_feat","onQueryTextChange");
-                return true;
-            }
-        });
-
-
-        mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-                //Do some magic
-                Log.d("search_feat","onSearchViewShown");
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                //Do some magic
-                Log.d("search_feat","onSearchViewClosed");
-            }
-        });
-
-        mSearchView.setVoiceSearch(true);
 
         categoriesViewModel.getCategories(null,"5","0",null,
                 null,null,null,null,null,null,null);
@@ -232,6 +200,23 @@ public class MainActivity extends AppCompatActivity{
                 })
                 .build();
 
+        mSearchEditTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    String query = mSearchEditTxt.getText().toString();
+                    if(!query.isEmpty()) {
+                        Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
+                        intent.putExtra(ProductsActivity.TARGET_KEY, ProductsActivity.SEARCH);
+                        intent.putExtra(ProductsActivity.SEARCH_QUERY, query);
+                        startActivity(intent);
+                    }else
+                        Toast.makeText(MainActivity.this, "please enter something to search for ", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -448,10 +433,6 @@ public class MainActivity extends AppCompatActivity{
         View view = cartItem.getActionView();
         mCartBadgeTxt = view.findViewById(R.id.cart_badge_txt);
         setupBadge();
-
-        MenuItem item = menu.findItem(R.id.action_search);
-        mSearchView.setMenuItem(item);
-
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -508,21 +489,6 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == MaterialSearchBar.BUTTON_SPEECH && resultCode == RESULT_OK) {
-//            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-//            if (matches != null && matches.size() > 0) {
-//                String searchWrd = matches.get(0);
-//                if (!TextUtils.isEmpty(searchWrd)) {
-//                    searchView.setQuery(searchWrd, false);
-//                }
-//            }
-//
-//            return;
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 
 
 }
