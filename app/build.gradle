@@ -61,5 +61,6 @@ dependencies {
     // Material Drawer
     implementation "com.mikepenz:materialdrawer:6.0.0"
 
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    // material design search
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
 }
