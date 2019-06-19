@@ -24,12 +24,14 @@ import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.BottomSheetListener;
 import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
 
-public class ProductsActivity extends AppCompatActivity implements BottomSheetListener {
+public class ProductsActivity extends AppCompatActivity implements BottomSheetListener,
+        MaterialSearchBar.OnSearchActionListener{
 
-    public static final String SEARCH = "search_key";
+    public static final String SEARCH = "Results for ";
     public static final String SEARCH_QUERY = "search_query";
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
@@ -49,6 +51,8 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     private String categoryId;
     private String categoryName;
     private Intent intent;
+    private MaterialSearchBar mSearchBar;
+    private String searchQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         sortBy=findViewById(R.id.sortBy_button);
         mToolbar=findViewById(R.id.toolbar);
         mToolbarTilte=findViewById(R.id.toolbar_title);
+        mSearchBar=findViewById(R.id.searchBar);
 
 
 
@@ -70,18 +75,27 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         intent = getIntent();
         if(intent != null) {
             target = intent.getStringExtra(TARGET_KEY);
+            // setup toolbar
+            setSupportActionBar(mToolbar);
+            mToolbarTilte.setText(target);
         }
 
         if(target.equals(CATEGORIES_TARGET)){
             String[] categoryInfo = getIntent().getStringArrayExtra(CATEGORY_INFO);
             categoryId = categoryInfo[0];
             categoryName = categoryInfo[1];
+            mToolbarTilte.setText(categoryName);
 
         }
 
-        // setup toolbar
-        setSupportActionBar(mToolbar);
-        mToolbarTilte.setText(!target.equals(CATEGORIES_TARGET)?target:categoryName);
+        if(target.equals(SEARCH)){
+            searchQuery = getIntent().getStringExtra(SEARCH_QUERY);
+            mToolbarTilte
+                    .setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
+
+        }
+
+
 
         // load products
         loadProducts(null,null);
@@ -95,6 +109,8 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             }
         });
 
+
+        mSearchBar.setOnSearchActionListener(this);
 
     }
 
@@ -110,8 +126,6 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                 loadCategoryProducts(categoryId, order, orderBy);
 
             }else if(target.equals(SEARCH)){
-                String searchQuery = intent.getStringExtra(SEARCH_QUERY);
-                Log.d("search_feat","search query is "+searchQuery);
                 doSearch(searchQuery);
             }
 
@@ -167,8 +181,13 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                     .observe(this, new Observer<ArrayList<Product>>() {
                         @Override
                         public void onChanged(@Nullable ArrayList<Product> products) {
-                            Log.d("fromProductActivity", "products " + products.size());
-                            showProducts(products);
+//                            Log.d("fromProductActivity", "products " + products.size());
+                            if(products != null) {
+                                showProducts(products);
+                                if (products.size() == 0){
+                                    Toast.makeText(ProductsActivity.this, "No results found", Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
                     });
         }
@@ -328,6 +347,26 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             Log.d("fromProductActivity","order_by = "+orderBy+" order = "+order);
             loadProducts(order,orderBy);
         }
+
+    }
+
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        mToolbarTilte
+                .setText((new StringBuilder().append(SEARCH).append(text.toString())).toString());
+        doSearch(text.toString());
+        observeProducts();
+        observeProductsLoading();
+        observeProductsLoadingError();
+    }
+
+    @Override
+    public void onButtonClicked(int buttonCode) {
 
     }
 }

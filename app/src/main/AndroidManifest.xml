@@ -35,7 +35,6 @@
             android:name=".ui.CartActivity"
             android:exported="true" />
         <activity android:name=".ui.ReviewActivity" />
-        <activity android:name=".ui.SearchActivity"></activity>
     </application>
 
 </manifest>

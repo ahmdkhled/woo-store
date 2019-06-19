@@ -54,7 +54,6 @@
                         app:mt_speechMode="true"
                         app:mt_hint="What are ou looking for?"
                         app:mt_maxSuggestionsCount="10"
-                        app:mt_navIconEnabled="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/searchBar" />

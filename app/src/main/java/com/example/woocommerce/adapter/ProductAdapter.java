@@ -77,6 +77,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         return 0;
     }
 
+    public void swapDate(ArrayList<Product> products) {
+        productsList = products;
+        notifyDataSetChanged();
+    }
+
     class ProductHolder extends RecyclerView.ViewHolder{
         ImageView image;
         TextView name,price,sale_price;

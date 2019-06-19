@@ -488,5 +488,19 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
     @Override
     public void onButtonClicked(int buttonCode) {
         Log.d("Search_feat","onButtonClicked ");
+        String s;
+        switch (buttonCode){
+            case MaterialSearchBar.BUTTON_BACK:
+                s = "button back";
+                break;
+
+            case MaterialSearchBar.BUTTON_NAVIGATION:
+                s = "button nav";
+                break;
+
+            case MaterialSearchBar.BUTTON_SPEECH:
+                s = "button speech";
+                break;
+        }
     }
 }
