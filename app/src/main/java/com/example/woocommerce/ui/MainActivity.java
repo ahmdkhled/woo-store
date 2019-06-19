@@ -14,6 +14,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,11 +41,12 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialize.color.Material;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener {
     RecyclerView categoriesRecycler,
             recentlyAddedRecycler,
             dealsRecycler,
@@ -93,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 .get(MainAcrivityViewModel.class);
 
 
+
+        mSearchBar.setOnSearchActionListener(this);
         categoriesViewModel.getCategories(null,"5","0",null,
                 null,null,null,null,null,null,null);
         observeCategories();
@@ -474,5 +479,22 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(extraKey,extraValue);
         }
         startActivity(intent);
+    }
+
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+        Log.d("Search_feat","onSearchStateChanged to "+enabled);
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        Log.d("Search_feat","onSearchConfirmed  "+text);
+//        startSearch(text.toString(),true,null,true);
+
+    }
+
+    @Override
+    public void onButtonClicked(int buttonCode) {
+        Log.d("Search_feat","onButtonClicked ");
     }
 }
