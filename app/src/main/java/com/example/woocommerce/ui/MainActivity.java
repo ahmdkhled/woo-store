@@ -31,6 +31,7 @@ import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             bestsellerShimmer;
     TextView mCartBadgeTxt;
     Toolbar mToolbar;
+    MaterialSearchBar mSearchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         dealsShimmer=findViewById(R.id.deals_shimmer);
         bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
         mToolbar=findViewById(R.id.toolbar);
+        mSearchBar=findViewById(R.id.searchBar);
 
         // setup toolbar
         setSupportActionBar(mToolbar);
