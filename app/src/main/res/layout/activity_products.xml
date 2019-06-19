@@ -69,15 +69,10 @@
             android:layout_marginLeft="13dp"
             >
 
-            <com.mancj.materialsearchbar.MaterialSearchBar
-                style="@style/MaterialSearchBarLight"
-                app:mt_speechMode="true"
-                app:mt_hint="What are ou looking for?"
-                app:mt_maxSuggestionsCount="10"
-                app:mt_textColor="@color/black"
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/search_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/searchBar" />
+                android:layout_height="wrap_content" />
 
 
         </android.support.constraint.ConstraintLayout>

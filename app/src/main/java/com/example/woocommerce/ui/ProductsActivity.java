@@ -24,12 +24,11 @@ import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.BottomSheetListener;
 import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
-import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
-public class ProductsActivity extends AppCompatActivity implements BottomSheetListener,
-        MaterialSearchBar.OnSearchActionListener{
+public class ProductsActivity extends AppCompatActivity implements BottomSheetListener{
 
     public static final String SEARCH = "Results for ";
     public static final String SEARCH_QUERY = "search_query";
@@ -51,7 +50,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     private String categoryId;
     private String categoryName;
     private Intent intent;
-    private MaterialSearchBar mSearchBar;
+    private MaterialSearchView mSearchView;
     private String searchQuery;
 
     @Override
@@ -63,7 +62,8 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         sortBy=findViewById(R.id.sortBy_button);
         mToolbar=findViewById(R.id.toolbar);
         mToolbarTilte=findViewById(R.id.toolbar_title);
-        mSearchBar=findViewById(R.id.searchBar);
+        mSearchView=findViewById(R.id.search_view);
+
 
 
 
@@ -110,8 +110,21 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         });
 
 
-        mSearchBar.setOnSearchActionListener(this);
-        
+
+
+        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
+                doSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
     }
 
@@ -351,23 +364,5 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
 
     }
 
-    @Override
-    public void onSearchStateChanged(boolean enabled) {
 
-    }
-
-    @Override
-    public void onSearchConfirmed(CharSequence text) {
-        mToolbarTilte
-                .setText((new StringBuilder().append(SEARCH).append(text.toString())).toString());
-        doSearch(text.toString());
-        observeProducts();
-        observeProductsLoading();
-        observeProductsLoadingError();
-    }
-
-    @Override
-    public void onButtonClicked(int buttonCode) {
-
-    }
 }

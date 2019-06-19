@@ -62,5 +62,5 @@ dependencies {
     implementation "com.mikepenz:materialdrawer:6.0.0"
 
     // material design search
-    implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 }

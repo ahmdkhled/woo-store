@@ -24,7 +24,7 @@ import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -33,7 +33,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener{
+public class MainActivity extends AppCompatActivity{
     RecyclerView categoriesRecycler,
             recentlyAddedRecycler,
             dealsRecycler,
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
             bestsellerShimmer;
     TextView mCartBadgeTxt;
     Toolbar mToolbar;
-    MaterialSearchBar mSearchBar;
+    MaterialSearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         dealsShimmer=findViewById(R.id.deals_shimmer);
         bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
         mToolbar=findViewById(R.id.toolbar);
-        mSearchBar=findViewById(R.id.searchBar);
+        mSearchView=findViewById(R.id.search_view);
 
         // setup toolbar
         setSupportActionBar(mToolbar);
@@ -84,8 +84,40 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
 
 
-        mSearchBar.setOnSearchActionListener(this);
 
+        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("search_feat","onQueryTextSubmit");
+                Intent intent = new Intent(MainActivity.this,ProductsActivity.class);
+                intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.SEARCH);
+                intent.putExtra(ProductsActivity.SEARCH_QUERY,query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("search_feat","onQueryTextChange");
+                return true;
+            }
+        });
+
+
+        mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+                Log.d("search_feat","onSearchViewShown");
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+                Log.d("search_feat","onSearchViewClosed");
+            }
+        });
+
+        mSearchView.setVoiceSearch(true);
 
         categoriesViewModel.getCategories(null,"5","0",null,
                 null,null,null,null,null,null,null);
@@ -202,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
 
     }
+
 
     void observeCategories(){
         categoriesViewModel.getCategories().observe(this, new Observer<ArrayList<Category>>() {
@@ -416,6 +449,9 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         mCartBadgeTxt = view.findViewById(R.id.cart_badge_txt);
         setupBadge();
 
+        MenuItem item = menu.findItem(R.id.action_search);
+        mSearchView.setMenuItem(item);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -470,45 +506,23 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         startActivity(intent);
     }
 
-    @Override
-    public void onSearchStateChanged(boolean enabled) {
-        Log.d("Search_feat","onSearchStateChanged to "+enabled);
-    }
 
-    @Override
-    public void onSearchConfirmed(CharSequence text) {
-        Log.d("Search_feat","onSearchConfirmed  "+text);
-//        startSearch(text.toString(),true,null,true);
-        // launch product activity
-        Intent intent = new Intent(MainActivity.this,ProductsActivity.class);
-        intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.SEARCH);
-        intent.putExtra(ProductsActivity.SEARCH_QUERY, text.toString());
-        startActivity(intent);
 
-    }
-
-    @Override
-    public void onButtonClicked(int buttonCode) {
-
-        String s="";
-        switch (buttonCode){
-            case MaterialSearchBar.BUTTON_BACK:
-                s = "button back";
-                mSearchBar.disableSearch();
-                break;
-
-            case MaterialSearchBar.BUTTON_NAVIGATION:
-                s = "button nav";
-                break;
-
-            case MaterialSearchBar.BUTTON_SPEECH:
-                s = "button speech";
-
-                break;
-        }
-
-        Log.d("Search_feat","onButtonClicked "+s);
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == MaterialSearchBar.BUTTON_SPEECH && resultCode == RESULT_OK) {
+//            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+//            if (matches != null && matches.size() > 0) {
+//                String searchWrd = matches.get(0);
+//                if (!TextUtils.isEmpty(searchWrd)) {
+//                    searchView.setQuery(searchWrd, false);
+//                }
+//            }
+//
+//            return;
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 
 
 }
