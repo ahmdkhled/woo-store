@@ -29,6 +29,8 @@ import java.util.ArrayList;
 
 public class ProductsActivity extends AppCompatActivity implements BottomSheetListener {
 
+    public static final String SEARCH = "search_key";
+    public static final String SEARCH_QUERY = "search_query";
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
     Button sortBy;
@@ -46,6 +48,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     private TextView mCartBadgeTxt;
     private String categoryId;
     private String categoryName;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,10 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         productsViewModel =ViewModelProviders.of(this)
                 .get(ProductsViewModel.class);
 
-        target=getIntent().getStringExtra(TARGET_KEY);
+        intent = getIntent();
+        if(intent != null) {
+            target = intent.getStringExtra(TARGET_KEY);
+        }
 
         if(target.equals(CATEGORIES_TARGET)){
             String[] categoryInfo = getIntent().getStringArrayExtra(CATEGORY_INFO);
@@ -103,6 +109,10 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             else if (target.equals(CATEGORIES_TARGET)) {
                 loadCategoryProducts(categoryId, order, orderBy);
 
+            }else if(target.equals(SEARCH)){
+                String searchQuery = intent.getStringExtra(SEARCH_QUERY);
+                Log.d("search_feat","search query is "+searchQuery);
+                doSearch(searchQuery);
             }
 
             observeProducts();
@@ -114,6 +124,12 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
 
 
 
+    }
+
+    private void doSearch(String searchQuery) {
+        productsViewModel.getProducts(null,null,searchQuery,null,null,
+                null,null,null,null,null,null,null,
+                null,null,null,null,null,null);
     }
 
     private void loadRecentlyAddedProducts(String order, String orderBy) {

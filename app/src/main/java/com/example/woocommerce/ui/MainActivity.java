@@ -1,25 +1,16 @@
 package com.example.woocommerce.ui;
 
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -36,12 +27,8 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialize.color.Material;
 
 import java.util.ArrayList;
 
@@ -490,6 +477,11 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
     public void onSearchConfirmed(CharSequence text) {
         Log.d("Search_feat","onSearchConfirmed  "+text);
 //        startSearch(text.toString(),true,null,true);
+        // launch product activity
+        Intent intent = new Intent(MainActivity.this,ProductsActivity.class);
+        intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.SEARCH);
+        intent.putExtra(ProductsActivity.SEARCH_QUERY, text.toString());
+        startActivity(intent);
 
     }
 
