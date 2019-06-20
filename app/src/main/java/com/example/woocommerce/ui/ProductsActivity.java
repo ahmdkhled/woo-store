@@ -3,6 +3,7 @@ package com.example.woocommerce.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
 
     public static final String SEARCH = "Results for ";
     public static final String SEARCH_QUERY = "search_query";
+    private static final int SEARCH_VOICE_REQUEST_CODE = 1009;
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
     Button sortBy;
@@ -54,6 +57,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
     private Intent intent;
     private String searchQuery;
     private EditText mSearchEditTxt;
+    private ImageView mVoiceSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
         mToolbar=findViewById(R.id.toolbar);
         mToolbarTilte=findViewById(R.id.toolbar_title);
         mSearchEditTxt=findViewById(R.id.search_edit_txt);
+        mVoiceSearch=findViewById(R.id.search_voice);
 
 
         productsViewModel =ViewModelProviders.of(this)
@@ -126,6 +131,18 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                     return true;
                 }
                 return false;
+            }
+        });
+
+
+        // if user wanna search by voice
+        mVoiceSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Voice searching...");
+                startActivityForResult(intent, SEARCH_VOICE_REQUEST_CODE);
             }
         });
 
@@ -366,6 +383,22 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             loadProducts(order,orderBy);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == SEARCH_VOICE_REQUEST_CODE && resultCode == RESULT_OK && data != null){
+            ArrayList<String> wordList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if(!wordList.isEmpty()){
+                String query = wordList.get(0);
+                Log.d("search_feat","what you said is "+query);
+                doSearch(query);
+                observeProducts();
+                observeProductsLoadingError();
+                observeProductsLoading();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 
