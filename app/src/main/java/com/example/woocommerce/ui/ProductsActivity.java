@@ -391,6 +391,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             ArrayList<String> wordList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if(!wordList.isEmpty()){
                 String query = wordList.get(0);
+                mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
                 Log.d("search_feat","what you said is "+query);
                 doSearch(query);
                 observeProducts();
