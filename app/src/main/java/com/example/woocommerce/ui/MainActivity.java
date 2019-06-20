@@ -1,25 +1,23 @@
 package com.example.woocommerce.ui;
 
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Color;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.woocommerce.R;
@@ -31,18 +29,17 @@ import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+    private static final int SEARCH_VOICE_REQUEST_CODE = 1008;
     RecyclerView categoriesRecycler,
             recentlyAddedRecycler,
             dealsRecycler,
@@ -59,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             bestsellerShimmer;
     TextView mCartBadgeTxt;
     Toolbar mToolbar;
+    EditText mSearchEditTxt;
+    ImageView mVoiceSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         dealsShimmer=findViewById(R.id.deals_shimmer);
         bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
         mToolbar=findViewById(R.id.toolbar);
+        mSearchEditTxt=findViewById(R.id.search_edit_txt);
+        mVoiceSearch=findViewById(R.id.search_voice);
 
         // setup toolbar
         setSupportActionBar(mToolbar);
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 .get(CategoriesViewModel.class);
         mainAcrivityViewModel =ViewModelProviders.of(this)
                 .get(MainAcrivityViewModel.class);
+
 
 
         categoriesViewModel.getCategories(null,"5","0",null,
@@ -203,8 +205,42 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build();
 
+        mSearchEditTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    String query = mSearchEditTxt.getText().toString();
+                    if(!query.isEmpty()) {
+                        doSearch(query);
+                    }else
+                        Toast.makeText(MainActivity.this, "please enter something to search for ", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+        // if user wanna search by voice
+        mVoiceSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Voice searching...");
+                startActivityForResult(intent, SEARCH_VOICE_REQUEST_CODE);
+            }
+        });
 
     }
+
+    private void doSearch(String query) {
+        Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
+        intent.putExtra(ProductsActivity.TARGET_KEY, ProductsActivity.SEARCH);
+        intent.putExtra(ProductsActivity.SEARCH_QUERY, query);
+        startActivity(intent);
+    }
+
 
     void observeCategories(){
         categoriesViewModel.getCategories().observe(this, new Observer<ArrayList<Category>>() {
@@ -418,7 +454,6 @@ public class MainActivity extends AppCompatActivity {
         View view = cartItem.getActionView();
         mCartBadgeTxt = view.findViewById(R.id.cart_badge_txt);
         setupBadge();
-
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -471,5 +506,19 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(extraKey,extraValue);
         }
         startActivity(intent);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == SEARCH_VOICE_REQUEST_CODE && resultCode == RESULT_OK && data != null){
+            ArrayList<String> wordList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if(!wordList.isEmpty()){
+                String query = wordList.get(0);
+                Log.d("search_feat","what you said is "+query);
+                doSearch(query);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

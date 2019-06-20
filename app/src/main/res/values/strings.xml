@@ -32,5 +32,6 @@
     <string name="cart_activity_title">Yor Cart</string>
     <string name="address_frag_title">Complete Address</string>
     <string name="checkout_activity_title">CHECKOUT</string>
+    <string name="search_bar_hint_text">What are you looking fie?</string>
 
 </resources>
