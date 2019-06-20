@@ -93,9 +93,12 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
 
         if(target.equals(SEARCH)){
             searchQuery = getIntent().getStringExtra(SEARCH_QUERY);
-            mToolbarTilte
-                    .setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
-
+            if(searchQuery != null){
+                mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
+                mSearchEditTxt.setText(searchQuery);
+            }
+            else mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(mSearchEditTxt.getText()
+                .toString())).toString());
         }
 
 
@@ -121,7 +124,7 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
                     String query = mSearchEditTxt.getText().toString();
                     if(!query.isEmpty()) {
-                        mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
+                        mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(query)).toString());
                         doSearch(query);
                         observeProducts();
                         observeProductsLoadingError();
@@ -248,8 +251,10 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
                     public void onChanged(@Nullable Boolean aBoolean) {
                         if (aBoolean!=null&&aBoolean)
                             progressBar.setVisibility(View.VISIBLE);
-                        else
+                        else {
                             progressBar.setVisibility(View.GONE);
+
+                        }
                     }
                 });
     }
@@ -391,7 +396,6 @@ public class ProductsActivity extends AppCompatActivity implements BottomSheetLi
             ArrayList<String> wordList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if(!wordList.isEmpty()){
                 String query = wordList.get(0);
-                mToolbarTilte.setText((new StringBuilder().append(SEARCH).append(searchQuery)).toString());
                 Log.d("search_feat","what you said is "+query);
                 doSearch(query);
                 observeProducts();
