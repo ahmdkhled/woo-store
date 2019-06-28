@@ -254,23 +254,36 @@ public class PaymentFrag extends Fragment {
     }
 
     void handleCoupon(ArrayList<Coupon> coupons){
+        double subTotal=0.0;
+        int freeShipping=0;
+
         if (coupons==null||coupons.isEmpty()){
             Toast.makeText(getContext(), R.string.invalid_coupon, Toast.LENGTH_SHORT).show();
             return;
         }
         Coupon coupon=coupons.get(0);
+
+        if (coupon.getUsageLimit()==coupon.getUsageCount()){
+            Toast.makeText(getContext(), R.string.deprecated_coupon, Toast.LENGTH_SHORT).show();
+        }
+
+        Log.d("COUPOON", coupon.getMinimumAmount());
+
         if (coupon.getFreeShipping()){
             shippingCost=0;
-            mShippingCostTxt.setText("0");
+            mShippingCostTxt.setText(String.valueOf(shippingCost));
         }
         if (coupon.getDiscountType().equals("percent")){
-            Log.d("COUPOON", "handleCoupon: "+coupon.getAmount());
-            subTotal=subTotal*(1- (Double.valueOf(coupon.getAmount())/100));
-            mSubTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal)));
-            mTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal+shippingCost)));
+            subTotal=this.subTotal*(1- (Double.valueOf(coupon.getAmount())/100));
+
+        }
+        if (coupon.getDiscountType().equals("fixed_cart")){
+            subTotal=this.subTotal-Double.valueOf(coupon.getAmount());
 
         }
 
+        mSubTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal)));
+        mTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal+shippingCost)));
 
     }
 

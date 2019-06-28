@@ -46,8 +46,6 @@ public class PaymentRepo {
                     @Override
                     public void onResponse(Call<ArrayList<Coupon>> call, Response<ArrayList<Coupon>> response) {
                         coupon.setValue(response.body());
-                        Log.d("COUPOON", "coupon fetched from repo : "+response.code());
-
                         isCouponLoading.setValue(false);
                     }
 
