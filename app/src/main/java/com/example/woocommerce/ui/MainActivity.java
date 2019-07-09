@@ -28,6 +28,8 @@ import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mikepenz.materialdrawer.Drawer;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity{
     Toolbar mToolbar;
     EditText mSearchEditTxt;
     ImageView mVoiceSearch;
+    AppEventsLogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,8 @@ public class MainActivity extends AppCompatActivity{
         // setup toolbar
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(R.string.main_activity_title);
+
+        logger = AppEventsLogger.newLogger(getApplicationContext());
 
         categoriesViewModel= ViewModelProviders
                 .of(this)
@@ -235,6 +240,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void doSearch(String query) {
+        logSearchedEvent("search",query,true);
         Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
         intent.putExtra(ProductsActivity.TARGET_KEY, ProductsActivity.SEARCH);
         intent.putExtra(ProductsActivity.SEARCH_QUERY, query);
@@ -520,5 +526,13 @@ public class MainActivity extends AppCompatActivity{
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void logSearchedEvent (String contentType, String searchString, boolean success) {
+        Bundle params = new Bundle();
+        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, contentType);
+        params.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, searchString);
+        params.putInt(AppEventsConstants.EVENT_PARAM_SUCCESS, success ? 1 : 0);
+        logger.logEvent(AppEventsConstants.EVENT_NAME_SEARCHED, params);
     }
 }
