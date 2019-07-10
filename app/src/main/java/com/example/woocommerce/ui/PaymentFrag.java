@@ -49,6 +49,7 @@ public class PaymentFrag extends Fragment {
     EditText couponInput;
     Button applyCoupon;
     ProgressBar progressBar;
+    ProgressBar couponPB;
     Shipping shipping;
     Billing billing;
     PaymentViewModel paymentViewModel;
@@ -56,6 +57,7 @@ public class PaymentFrag extends Fragment {
     private int shippingCost=-1;
     private double subTotal;
     private int total;
+    boolean couponApplied;
 
     @Nullable
     @Override
@@ -63,6 +65,7 @@ public class PaymentFrag extends Fragment {
         View v=inflater.inflate(R.layout.payment_frag,container,false);
         placeOrder=v.findViewById(R.id.placeOrder);
         progressBar=v.findViewById(R.id.order_PB);
+        couponPB=v.findViewById(R.id.coupon_PB);
         mTotalTxt=v.findViewById(R.id.total);
         mSubTotalTxt=v.findViewById(R.id.sub_total);
         couponInput=v.findViewById(R.id.coupon_input);
@@ -104,17 +107,26 @@ public class PaymentFrag extends Fragment {
         applyCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String couponCode=couponInput.getText().toString();
-                if (TextUtils.isEmpty(couponCode))
-                    return;
-                Log.d("COUPOON", "apply clicked: ");
-                paymentViewModel.getCoupon(null,null,
-                        null,null,null,
-                        null,null,null,
-                        null,null,null,couponCode);
-                observeCoupon();
-                observeIsCouponLoading();
-                observeCouponLoadingError();
+                if (!couponApplied) {
+                    String couponCode = couponInput.getText().toString();
+                    if (TextUtils.isEmpty(couponCode))
+                        return;
+                    Log.d("COUPOON", "apply clicked: ");
+
+                    paymentViewModel.getCoupon(null, null,
+                            null, null, null,
+                            null, null, null,
+                            null, null, null, couponCode);
+                    observeCoupon();
+                    observeIsCouponLoading();
+                    observeCouponLoadingError();
+
+                }else{
+                    couponInput.setText("");
+                    applyCoupon.setText("Apply");
+                    mSubTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal)));
+                    mTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal+shippingCost)));
+                }
 
             }
         });
@@ -224,6 +236,8 @@ public class PaymentFrag extends Fragment {
                     @Override
                     public void onChanged(@Nullable ArrayList<Coupon> coupons) {
                         handleCoupon(coupons);
+                        couponPB.setVisibility(View.GONE);
+                        couponApplied=true;
                         Log.d("COUPOON", "coupon query: "+coupons.size());
 
                     }
@@ -236,7 +250,14 @@ public class PaymentFrag extends Fragment {
                 .observe(getActivity(), new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                     //if (aBoolean!=null&&aBoolean)
+                     if (aBoolean!=null&&aBoolean){
+                         couponPB.setVisibility(View.VISIBLE);
+                         applyCoupon.setText("Apply");
+
+                     }else{
+                         couponPB.setVisibility(View.GONE);
+                         applyCoupon.setText("Applied");
+                     }
                          
                     }
                 });
@@ -248,6 +269,7 @@ public class PaymentFrag extends Fragment {
                 .observe(getActivity(), new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
+                        couponApplied=false;
                         Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                     }
                 });

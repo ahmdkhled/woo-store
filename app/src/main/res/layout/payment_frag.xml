@@ -85,8 +85,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="15dp"
             android:layout_marginRight="15dp"
+            android:textAllCaps="false"
             app:layout_constraintStart_toEndOf="@id/coupon_input"/>
 
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/apply_coupon_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/apply_coupon_btn"
+            app:layout_constraintStart_toStartOf="@id/apply_coupon_btn"
+            app:layout_constraintEnd_toEndOf="@id/apply_coupon_btn"
+            android:elevation="2dp"
+            android:id="@+id/coupon_PB"
+            style="@style/orderPbStrye"
+            android:visibility="gone"
+            tools:visibility="gone"
+
+            />
 
     </android.support.constraint.ConstraintLayout>
 
