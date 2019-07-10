@@ -99,7 +99,7 @@ public class ProductsActivity extends AppCompatActivity
                 page++;
                 requestProducts(page);
                 loadMorePB.setVisibility(View.VISIBLE);
-                Log.d("PAGGIINGNG", "onLoadMore: ");
+                Log.d("PAGGIINGNG", "onLoadMore: "+page);
             }
         };
 
@@ -143,7 +143,7 @@ public class ProductsActivity extends AppCompatActivity
         mToolbarTilte.setText(!target.equals(CATEGORIES_TARGET)?target:categoryName);
 
         // load products
-        loadProducts(null,null);
+        loadProducts(null,null,page);
 
 
         sortBy.setOnClickListener(new View.OnClickListener() {
@@ -157,16 +157,16 @@ public class ProductsActivity extends AppCompatActivity
 
     }
 
-    private void loadProducts(String order, String orderBy) {
+    private void loadProducts(String order, String orderBy, int page) {
         if(!target.equals(BESTSELLERS_TARGET)) {
             if (target.equals(RA_TARGET))
-                loadRecentlyAddedProducts(order, orderBy);
+                loadRecentlyAddedProducts(order, orderBy,page);
 
             else if (target.equals(DEALS_TARGET))
-                loadDeals(order, orderBy);
+                loadDeals(order, orderBy,page);
 
             else if (target.equals(CATEGORIES_TARGET)) {
-                loadCategoryProducts(categoryId, order, orderBy);
+                loadCategoryProducts(categoryId, order, orderBy,page);
 
             }
 
@@ -174,27 +174,27 @@ public class ProductsActivity extends AppCompatActivity
             observeProductsLoading();
             observeProductsLoadingError();
 
-        }else loadBestSellers(order,orderBy);
+        }else loadBestSellers(order,orderBy,page);
 
 
 
 
     }
 
-    private void loadRecentlyAddedProducts(String order, String orderBy) {
-        productsViewModel.getProducts(null,null,null,null,"date",
+    private void loadRecentlyAddedProducts(String order, String orderBy, int page) {
+        productsViewModel.getProducts(String.valueOf(page),null,null,null,"date",
                 null,null,null,null,null,null,null,
                 null,null,null,null,null,null);
     }
 
-    private void loadDeals(String order, String orderBy) {
-        productsViewModel.getProducts(null,null,null,null,null,
+    private void loadDeals(String order, String orderBy, int page) {
+        productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
                 null,null,null,"true",null,null,null,
                 null,null,null,null,null,null);
     }
 
-    private void loadBestSellers(String order, String orderBy) {
-        productsViewModel.getBestSellers("month",null ,null,null,null,
+    private void loadBestSellers(String order, String orderBy,int page) {
+        productsViewModel.getBestSellers("month",null ,null,String.valueOf(page),null,
                 null ,null ,"date",null,null,
                 null, null,null,null,null,
                 null,null, null,null,null);
@@ -203,9 +203,9 @@ public class ProductsActivity extends AppCompatActivity
         observebestSellersLoadingError();
     }
 
-    private void loadCategoryProducts(String categoryId,String order, String orderBy) {
+    private void loadCategoryProducts(String categoryId,String order, String orderBy,int page) {
         Log.d("fromProductRepo","loadCategoryProducts");
-        productsViewModel.getProducts(null,null,null,categoryId,null,
+        productsViewModel.getProducts(String.valueOf(page),null,null,categoryId,null,
                 null,null,null,null,null,null,null,
                 null,null,null,null,null,null);
     }
@@ -374,7 +374,7 @@ public class ProductsActivity extends AppCompatActivity
             }
 
             Log.d("fromProductActivity","order_by = "+orderBy+" order = "+order);
-            loadProducts(order,orderBy);
+            loadProducts(order,orderBy, 1);
         }
 
     }
