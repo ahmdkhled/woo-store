@@ -157,6 +157,7 @@ public class PaymentFrag extends Fragment {
                         Log.d("ORRDDDER", "done : ");
                         Intent intent=new Intent(getContext(),OrderSummaryActivity.class);
                         startActivity(intent);
+                        getActivity().finish();
                     }
                 });
     }
