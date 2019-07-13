@@ -286,6 +286,9 @@ public class ProductsActivity extends AppCompatActivity
                 // go to cart activity
                 startActivity(new Intent(ProductsActivity.this,CartActivity.class));
                 break;
+            case android.R.id.home:
+                onBackPressed();
+                break;
         }
         return true;
     }
@@ -347,4 +350,6 @@ public class ProductsActivity extends AppCompatActivity
         }
 
     }
+
+
 }
