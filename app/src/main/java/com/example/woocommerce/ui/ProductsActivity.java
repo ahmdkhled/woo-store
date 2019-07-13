@@ -53,6 +53,7 @@ public class ProductsActivity extends AppCompatActivity
     private String categoryId;
     private String categoryName;
     private String CATEGORY_ID="category_id";
+    boolean productsLoaded=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +77,21 @@ public class ProductsActivity extends AppCompatActivity
 
 
         target=getIntent().getStringExtra(TARGET_KEY);
-        requestProducts(1);
+        loadProducts(null,null,1);
 
         productsAdapter=new ProductAdapter(this,null,false);
         recentlyAddedRecycler.setAdapter(productsAdapter);
         recentlyAddedRecycler.setLayoutManager(layoutManager);
 
+        if(target.equals(CATEGORIES_TARGET)){
+            String[] categoryInfo = getIntent().getStringArrayExtra(CATEGORY_INFO);
+            categoryId = categoryInfo[0];
+            categoryName = categoryInfo[1];
 
+        }
+
+        setSupportActionBar(mToolbar);
+        mToolbarTilte.setText(!target.equals(CATEGORIES_TARGET)?target:categoryName);
 
 
         sortBy.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +106,7 @@ public class ProductsActivity extends AppCompatActivity
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 page++;
-                requestProducts(page);
+                loadProducts(null,null,page);
                 loadMorePB.setVisibility(View.VISIBLE);
                 Log.d("PAGGIINGNG", "onLoadMore: "+page);
             }
@@ -108,51 +117,36 @@ public class ProductsActivity extends AppCompatActivity
     }
 
     void requestProducts(int page){
-        if (target.equals(RA_TARGET))
-            productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
-                    null,null,null,null,null,null,null,
-                    null,null,null,null,null,null);
+//        if (target.equals(RA_TARGET))
+//            productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
+//                    null,null,null,null,null,null,null,
+//                    null,null,null,null,null,null);
+//
+//        else if (target.equals(DEALS_TARGET))
+//            productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
+//                    null,null,null,"true",null,null,null,
+//                    null,null,null,null,null,null);
+//
+//        else if (target.equals(BESTSELLERS_TARGET))
+//            productsViewModel.getBestSellers("month",null ,null,null,null,
+//                    null ,null ,"date",null,null,
+//                    null, null,null,null,null,
+//                    null,null, null,null,null);
+//
+//        else if (target.equals(CATEGORIES_TARGET)){
+//            int categoruId=getIntent().getIntExtra(CATEGORY_ID,-1);
+//            productsViewModel.getProducts(String.valueOf(page),null,null, String.valueOf(categoruId),null,
+//                    null,null,null,null,null,null,null,
+//                    null,null,null,null,null,null);
+//    }
+//
 
-        else if (target.equals(DEALS_TARGET))
-            productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
-                    null,null,null,"true",null,null,null,
-                    null,null,null,null,null,null);
-
-        else if (target.equals(BESTSELLERS_TARGET))
-            productsViewModel.getBestSellers("month",null ,null,null,null,
-                    null ,null ,"date",null,null,
-                    null, null,null,null,null,
-                    null,null, null,null,null);
-
-        else if (target.equals(CATEGORIES_TARGET)){
-            int categoruId=getIntent().getIntExtra(CATEGORY_ID,-1);
-            productsViewModel.getProducts(String.valueOf(page),null,null, String.valueOf(categoruId),null,
-                    null,null,null,null,null,null,null,
-                    null,null,null,null,null,null);
-    }
-
-        if(target.equals(CATEGORIES_TARGET)){
-            String[] categoryInfo = getIntent().getStringArrayExtra(CATEGORY_INFO);
-            categoryId = categoryInfo[0];
-            categoryName = categoryInfo[1];
-
-        }
-
-        // setup toolbar
-        setSupportActionBar(mToolbar);
-        mToolbarTilte.setText(!target.equals(CATEGORIES_TARGET)?target:categoryName);
 
         // load products
         loadProducts(null,null,page);
 
 
-        sortBy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SortByBottomSheet mSortBottomSheet=new SortByBottomSheet();
-                mSortBottomSheet.show(getSupportFragmentManager(),mSortBottomSheet.getTag());
-            }
-        });
+
 
 
     }
@@ -221,6 +215,7 @@ public class ProductsActivity extends AppCompatActivity
                             Log.d("PAGGIINGNG", "products " + products.size());
                             productsAdapter.addProducts(products);
                             loadMorePB.setVisibility(View.GONE);
+                            productsLoaded=true;
 
                         }
                     });
@@ -245,7 +240,7 @@ public class ProductsActivity extends AppCompatActivity
                 .observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                        if (aBoolean!=null&&aBoolean)
+                        if (aBoolean!=null&&aBoolean&&!productsLoaded)
                             progressBar.setVisibility(View.VISIBLE);
                         else
                             progressBar.setVisibility(View.GONE);
@@ -259,6 +254,7 @@ public class ProductsActivity extends AppCompatActivity
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
                         productsAdapter.addProducts(products);
+                        productsLoaded=true;
 
                     }
                 });
@@ -282,7 +278,7 @@ public class ProductsActivity extends AppCompatActivity
                 .observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                        if (aBoolean!=null&&aBoolean)
+                        if (aBoolean!=null&&aBoolean&&!productsLoaded)
                             progressBar.setVisibility(View.VISIBLE);
                         else
                             progressBar.setVisibility(View.GONE);
