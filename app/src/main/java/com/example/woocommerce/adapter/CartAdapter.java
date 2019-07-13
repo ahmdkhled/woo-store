@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.woocommerce.model.Image;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.utils.CartListener;
+import com.example.woocommerce.utils.HtmlUtil;
 
 import java.util.List;
 
@@ -51,14 +52,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         final Product product = products.get(position);
         int itemQuantity = quantities.get(position);
         holder.mCartItemName.setText(product.getName());
-        if(product.getOn_sale()){
-            holder.mPrice.setText(context.getString(R.string.product_price,product.getSale_price()));
-            holder.mOldPrice.setVisibility(View.VISIBLE);
-            holder.mOldPrice.setText(context.getString(R.string.product_price,product.getRegular_price()));
-        }else{
-            holder.mOldPrice.setVisibility(View.GONE);
-            holder.mPrice.setText(context.getString(R.string.product_price,product.getRegular_price()));
-        }
+        holder.mPrice.setText(HtmlUtil.toString(product.getPrice_html()));
         holder.mQuantityTxt.setText(String.valueOf(itemQuantity));
         List<Image> images = product.getImages();
         if(images != null && images.size() > 0){
