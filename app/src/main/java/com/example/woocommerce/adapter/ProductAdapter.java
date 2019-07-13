@@ -42,11 +42,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.product_row,parent,false);
-//        if (isMainSample){
-//            RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(270, ViewGroup.LayoutParams.WRAP_CONTENT);
-//            layoutParams.setMargins(5,5,5,5);
-//            v.setLayoutParams(layoutParams);
-//        }
+        if (isMainSample){
+            RecyclerView.LayoutParams layoutParams =new RecyclerView.LayoutParams(370, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(5,5,5,5);
+            v.setLayoutParams(layoutParams);
+        }
 
         return new ProductHolder(v);
     }
