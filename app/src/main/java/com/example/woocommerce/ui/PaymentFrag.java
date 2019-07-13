@@ -252,7 +252,7 @@ public class PaymentFrag extends Fragment {
                     public void onChanged(@Nullable Boolean aBoolean) {
                      if (aBoolean!=null&&aBoolean){
                          couponPB.setVisibility(View.VISIBLE);
-                         applyCoupon.setText("Apply");
+                         applyCoupon.setText("");
 
                      }else{
                          couponPB.setVisibility(View.GONE);
