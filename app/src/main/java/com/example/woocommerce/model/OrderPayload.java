@@ -14,6 +14,8 @@ public class OrderPayload {
     @SerializedName("line_items")
     private ArrayList<CartItem> line_items;
     private ArrayList<ShippingLine> shipping_lines;
+    private ArrayList<CouponLine> coupon_lines ;
+
 
     public OrderPayload() {
     }
@@ -85,5 +87,53 @@ public class OrderPayload {
 
     public void setShippingLines(ArrayList<ShippingLine> shippingLines) {
         this.shipping_lines = shippingLines;
+    }
+
+    public String getPayment_method() {
+        return payment_method;
+    }
+
+    public void setPayment_method(String payment_method) {
+        this.payment_method = payment_method;
+    }
+
+    public String getPayment_method_title() {
+        return payment_method_title;
+    }
+
+    public void setPayment_method_title(String payment_method_title) {
+        this.payment_method_title = payment_method_title;
+    }
+
+    public Boolean getSet_paid() {
+        return set_paid;
+    }
+
+    public void setSet_paid(Boolean set_paid) {
+        this.set_paid = set_paid;
+    }
+
+    public ArrayList<CartItem> getLine_items() {
+        return line_items;
+    }
+
+    public void setLine_items(ArrayList<CartItem> line_items) {
+        this.line_items = line_items;
+    }
+
+    public ArrayList<ShippingLine> getShipping_lines() {
+        return shipping_lines;
+    }
+
+    public void setShipping_lines(ArrayList<ShippingLine> shipping_lines) {
+        this.shipping_lines = shipping_lines;
+    }
+
+    public ArrayList<CouponLine> getCoupon_lines() {
+        return coupon_lines;
+    }
+
+    public void setCoupon_lines(ArrayList<CouponLine> coupon_lines) {
+        this.coupon_lines = coupon_lines;
     }
 }
