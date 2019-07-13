@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.woocommerce.R;
+import com.example.woocommerce.utils.PrefManager;
 
 public class OrderSummaryActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
+                PrefManager.getInstance(getApplicationContext()).deleteCartItems();
                 finish();
             }
         });
