@@ -5,8 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.woocommerce.R;
 import com.example.woocommerce.adapter.CheckoutAdapter;
@@ -18,13 +21,18 @@ public class CheckoutActivity extends AppCompatActivity implements AddressFrag.O
     AddressFrag addressFrag;
     PaymentFrag paymentFrag;
     String activeFrag;
+    Toolbar toolbar;
     public static final String ADDRESS_FRAG_TAG="address_frag_tag";
     public static final String PAYMENT_FRAG_TAG="payment_frag_tag";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        toolbar=findViewById(R.id.toolbar);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         addressFrag= (AddressFrag) getSupportFragmentManager()
                 .findFragmentByTag(ADDRESS_FRAG_TAG);
@@ -80,5 +88,13 @@ public class CheckoutActivity extends AppCompatActivity implements AddressFrag.O
             Log.d("BAAACKKK", "back from payment: ");
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==android.R.id.home)
+            onBackPressed();
+        Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
+        return true;
     }
 }
