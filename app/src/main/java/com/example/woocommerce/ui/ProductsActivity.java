@@ -87,6 +87,8 @@ public class ProductsActivity extends AppCompatActivity
             String[] categoryInfo = getIntent().getStringArrayExtra(CATEGORY_INFO);
             categoryId = categoryInfo[0];
             categoryName = categoryInfo[1];
+            Log.d("IDIDIDI", "id: "+categoryId);
+
 
         }
 
@@ -116,42 +118,11 @@ public class ProductsActivity extends AppCompatActivity
         recentlyAddedRecycler.addOnScrollListener(scrollListener);
     }
 
-    void requestProducts(int page){
-//        if (target.equals(RA_TARGET))
-//            productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
-//                    null,null,null,null,null,null,null,
-//                    null,null,null,null,null,null);
-//
-//        else if (target.equals(DEALS_TARGET))
-//            productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
-//                    null,null,null,"true",null,null,null,
-//                    null,null,null,null,null,null);
-//
-//        else if (target.equals(BESTSELLERS_TARGET))
-//            productsViewModel.getBestSellers("month",null ,null,null,null,
-//                    null ,null ,"date",null,null,
-//                    null, null,null,null,null,
-//                    null,null, null,null,null);
-//
-//        else if (target.equals(CATEGORIES_TARGET)){
-//            int categoruId=getIntent().getIntExtra(CATEGORY_ID,-1);
-//            productsViewModel.getProducts(String.valueOf(page),null,null, String.valueOf(categoruId),null,
-//                    null,null,null,null,null,null,null,
-//                    null,null,null,null,null,null);
-//    }
-//
 
-
-        // load products
-        loadProducts(null,null,page);
-
-
-
-
-
-    }
 
     private void loadProducts(String order, String orderBy, int page) {
+        Log.d("IDIDIDI", "target: "+categoryId);
+
         if(!target.equals(BESTSELLERS_TARGET)) {
             if (target.equals(RA_TARGET))
                 loadRecentlyAddedProducts(order, orderBy,page);
@@ -160,6 +131,8 @@ public class ProductsActivity extends AppCompatActivity
                 loadDeals(order, orderBy,page);
 
             else if (target.equals(CATEGORIES_TARGET)) {
+                String[] categoryInfo = getIntent().getStringArrayExtra(CATEGORY_INFO);
+                categoryId = categoryInfo[0];
                 loadCategoryProducts(categoryId, order, orderBy,page);
 
             }

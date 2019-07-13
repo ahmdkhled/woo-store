@@ -27,7 +27,7 @@ public class ProductsViewModel extends ViewModel {
 
 
 
-        Log.d("fromProductRepo","getProductsvm");
+        Log.d("fromProductRepo","getProducts vm"+category+order_by+search);
             Products = ProductsRepo.getInstance()
                     .getProducts(page,per_page,search,category,order_by,order,
                             min_price,max_price,on_sale,featured,stock_status,
