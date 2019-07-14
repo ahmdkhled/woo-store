@@ -9,6 +9,7 @@ public class OrderPayload {
     private String payment_method;
     private String payment_method_title;
     private Boolean set_paid;
+    private int total;
     private Billing billing;
     private Shipping shipping;
     @SerializedName("line_items")
@@ -21,16 +22,19 @@ public class OrderPayload {
     }
 
     public OrderPayload(String payment_method, String payment_method_title,
-                        Boolean set_paid, Billing billing, Shipping shipping,
-                        ArrayList<CartItem> line_items,
-                        ArrayList<ShippingLine> shipping_lines) {
+                        Boolean set_paid, int total, Billing billing,
+                        Shipping shipping, ArrayList<CartItem> line_items,
+                        ArrayList<ShippingLine> shipping_lines,
+                        ArrayList<CouponLine> coupon_lines) {
         this.payment_method = payment_method;
         this.payment_method_title = payment_method_title;
         this.set_paid = set_paid;
+        this.total = total;
         this.billing = billing;
         this.shipping = shipping;
         this.line_items = line_items;
         this.shipping_lines = shipping_lines;
+        this.coupon_lines = coupon_lines;
     }
 
     public String getPaymentMethod() {
@@ -111,6 +115,14 @@ public class OrderPayload {
 
     public void setSet_paid(Boolean set_paid) {
         this.set_paid = set_paid;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public ArrayList<CartItem> getLine_items() {

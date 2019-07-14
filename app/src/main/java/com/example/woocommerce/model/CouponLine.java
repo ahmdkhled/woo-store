@@ -10,6 +10,12 @@ public class CouponLine {
     private String discount_tax;
     private ArrayList<MetaData> meta_data;
 
+    public CouponLine(int id, String code, String discount, String discount_tax) {
+        this.id = id;
+        this.code = code;
+        this.discount = discount;
+        this.discount_tax = discount_tax;
+    }
 
     public int getId() {
         return id;
