@@ -44,7 +44,9 @@ public class ProductsActivity extends AppCompatActivity
     public static final String CATEGORIES_TARGET="Categories";
     public static final String DEALS_TARGET="Deals";
     public static final String BESTSELLERS_TARGET="Best Seller";
+    public static final String SEARCH_TARGET="search_rarget";
     public static final String CATEGORY_INFO="category_info";
+    public static final String SEARCH_INFO="search_tag";
     private String mSortByOption;
     GridLayoutManager layoutManager;
     ProductAdapter productsAdapter;
@@ -52,7 +54,6 @@ public class ProductsActivity extends AppCompatActivity
     private TextView mCartBadgeTxt;
     private String categoryId;
     private String categoryName;
-    private String CATEGORY_ID="category_id";
     boolean productsLoaded=false;
 
     @Override
@@ -136,6 +137,11 @@ public class ProductsActivity extends AppCompatActivity
                 loadCategoryProducts(categoryId, order, orderBy,page);
 
             }
+            else if (target.equals(SEARCH_TARGET)){
+                String search=getIntent().getStringExtra(SEARCH_INFO);
+                Log.d("SEARCHHHH", "has extra: "+getIntent().hasExtra(SEARCH_INFO)+getIntent().getStringExtra(SEARCH_INFO) );
+                loadSearchProducts(search,order,order,page);
+            }
 
             observeProducts();
             observeProductsLoading();
@@ -175,6 +181,13 @@ public class ProductsActivity extends AppCompatActivity
         productsViewModel.getProducts(String.valueOf(page),null,null,categoryId,null,
                 null,null,null,null,null,null,null,
                 null,null,null,null,null,null);
+    }
+
+    private void loadSearchProducts(String search,String order, String orderBy,int page){
+        Log.d("SEARCHHHH", "loadSearchProducts: "+search);
+        productsViewModel.getProducts(String.valueOf(page),null,search,null,orderBy
+                                    ,order,null ,null,null,null,null,
+                null,null,null,null,null,null,null);
     }
 
     void observeProducts(){

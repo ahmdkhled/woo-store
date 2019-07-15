@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.woocommerce"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -62,4 +62,6 @@ dependencies {
     implementation "com.mikepenz:materialdrawer:6.0.0"
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
 }

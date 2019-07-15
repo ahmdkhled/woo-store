@@ -31,6 +31,7 @@ import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.CategoriesViewModel;
 import com.example.woocommerce.viewmodel.MainAcrivityViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
@@ -42,7 +43,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener{
     RecyclerView categoriesRecycler,
             recentlyAddedRecycler,
             dealsRecycler,
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             bestsellerShimmer;
     TextView mCartBadgeTxt;
     Toolbar mToolbar;
+    MaterialSearchBar searchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +80,13 @@ public class MainActivity extends AppCompatActivity {
         dealsShimmer=findViewById(R.id.deals_shimmer);
         bestsellerShimmer=findViewById(R.id.bestSeller_shimmer);
         mToolbar=findViewById(R.id.toolbar);
+        searchBar=findViewById(R.id.search_layout);
 
         // setup toolbar
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(R.string.main_activity_title);
+
+        searchBar.setOnSearchActionListener(this);
 
         categoriesViewModel= ViewModelProviders
                 .of(this)
@@ -471,5 +476,24 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(extraKey,extraValue);
         }
         startActivity(intent);
+    }
+
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+        Log.d("SEARCHHHH", "onSearchStateChanged: "+enabled);
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        Intent intent=new Intent(getApplicationContext(),ProductsActivity.class);
+        String search= String.valueOf(text);
+        intent.putExtra(ProductsActivity.SEARCH_INFO,search);
+        intent.putExtra(ProductsActivity.TARGET_KEY,ProductsActivity.SEARCH_TARGET);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onButtonClicked(int buttonCode) {
+        Log.d("SEARCHHHH", "onButtonClicked: ");
     }
 }
