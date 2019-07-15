@@ -34,5 +34,6 @@
     <string name="checkout_activity_title">CHECKOUT</string>
     <string name="invalid_coupon">invalid coupon code</string>
     <string name="deprecated_coupon">deprecated coupon</string>
+    <string name="slogan">Gifting Made Easy</string>
 
 </resources>
