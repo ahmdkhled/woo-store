@@ -67,10 +67,6 @@ public class ProductsActivity extends AppCompatActivity
         mToolbar=findViewById(R.id.toolbar);
         mToolbarTilte=findViewById(R.id.toolbar_title);
 
-
-
-
-
         productsViewModel =ViewModelProviders.of(this)
                 .get(ProductsViewModel.class);
 
@@ -92,9 +88,8 @@ public class ProductsActivity extends AppCompatActivity
 
 
         }
+        setupToolbar();
 
-        setSupportActionBar(mToolbar);
-        mToolbarTilte.setText(!target.equals(CATEGORIES_TARGET)?target:categoryName);
 
 
         sortBy.setOnClickListener(new View.OnClickListener() {
@@ -301,6 +296,7 @@ public class ProductsActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("HOMEEE", "onOptionsItemSelected: "+item.getItemId()+"  "+android.R.id.home);
         switch (item.getItemId()){
             case R.id.menu_cart:
                 // go to cart activity
@@ -337,6 +333,18 @@ public class ProductsActivity extends AppCompatActivity
         });
 
 
+    }
+
+    void setupToolbar(){
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mToolbarTilte.setText(!target.equals(CATEGORIES_TARGET)?target:categoryName);
+        if (target.equals(SEARCH_TARGET)){
+            String search=getIntent().getStringExtra(SEARCH_INFO);
+            mToolbarTilte.setText(search);
+
+        }
     }
 
     @Override
