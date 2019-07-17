@@ -27,7 +27,7 @@ public class ProductsViewModel extends ViewModel {
 
 
 
-        Log.d("fromProductRepo","getProductsvm");
+        Log.d("fromProductRepo","getProducts vm"+category+order_by+search);
             Products = ProductsRepo.getInstance()
                     .getProducts(page,per_page,search,category,order_by,order,
                             min_price,max_price,on_sale,featured,stock_status,
@@ -46,13 +46,12 @@ public class ProductsViewModel extends ViewModel {
                                final String sku, final String slug,
                                final String tag, final String shipping_class
     ){
-        if (bestSellers==null) {
             bestSellers=ProductsRepo.getInstance()
                     .getBestSellers(period, date_min, date_max,
                             page, per_page, search, category, order_by,
                             order, min_price, max_price, on_sale, featured,
                             stock_status, status, context, sku, slug, tag, shipping_class);
-        }
+
     }
 
     public MutableLiveData<ArrayList<Product>> getProducts() {

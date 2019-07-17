@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#56203D</color>
-    <color name="colorPrimaryDark">#55203C</color>
 
+    <color name="colorPrimary">#C0124E</color>
+    <color name="colorPrimaryDark">#910B39</color>
     <color name="colorAccent">#FF0000</color>
     <color name="red">#FF0000</color>
     <color name="sheet_bg_pressed_color">#00E676</color>
@@ -34,5 +34,6 @@
     <color name="material_drawer_selected_text">@color/white</color>
     <color name="material_drawer_header_selection_text">#DE000000</color>
     <color name="material_drawer_header_selection_subtext">#8A000000</color>
+    <color name="pink">#CF113D</color>
 
 </resources>

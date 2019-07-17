@@ -55,14 +55,12 @@ dependencies {
     //pager indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.0'
 
-    //
+
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
 
     // Material Drawer
-    implementation "com.mikepenz:materialdrawer:6.0.0"
+    implementation 'com.mikepenz:materialdrawer:6.0.0'
 
-    // material design search
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
-    implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
 }

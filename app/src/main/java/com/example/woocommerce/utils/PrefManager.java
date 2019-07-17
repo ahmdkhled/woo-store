@@ -88,7 +88,7 @@ public class PrefManager {
         mEditor.apply();
     }
 
-    private void deleteCartItems() {
+    public void deleteCartItems() {
         mEditor=mSharedPref.edit();
         mEditor.putString(CART_EDITOR,"");
         mEditor.apply();

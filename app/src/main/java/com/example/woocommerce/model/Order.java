@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class Order implements Parcelable {
 
-    private Integer id;
-    private Integer parent_id;
+    private int id;
+    private int parent_id;
     private String number;
     private String order_key;
     private String created_via;
@@ -27,7 +27,7 @@ public class Order implements Parcelable {
     private String total;
     private String total_tax;
     private Boolean prices_include_tax;
-    private Integer customer_id;
+    private int customer_id;
     private String customer_ip_address;
     private String customer_user_agent;
     private String customer_note;
@@ -46,21 +46,13 @@ public class Order implements Parcelable {
     private ArrayList<TaxLine> tax_lines ;
     private ArrayList<ShippingLine> shipping_lines ;
     private ArrayList<Object> fee_lines ;
-    private ArrayList<Object> coupon_lines ;
+    private ArrayList<CouponLine> coupon_lines ;
     private ArrayList<Object> refunds ;
 
 
     protected Order(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            parent_id = null;
-        } else {
-            parent_id = in.readInt();
-        }
+        id = in.readInt();
+        parent_id = in.readInt();
         number = in.readString();
         order_key = in.readString();
         created_via = in.readString();
@@ -80,11 +72,7 @@ public class Order implements Parcelable {
         total_tax = in.readString();
         byte tmpPrices_include_tax = in.readByte();
         prices_include_tax = tmpPrices_include_tax == 0 ? null : tmpPrices_include_tax == 1;
-        if (in.readByte() == 0) {
-            customer_id = null;
-        } else {
-            customer_id = in.readInt();
-        }
+        customer_id = in.readInt();
         customer_ip_address = in.readString();
         customer_user_agent = in.readString();
         customer_note = in.readString();
@@ -269,7 +257,7 @@ public class Order implements Parcelable {
         return fee_lines;
     }
 
-    public ArrayList<Object> getCoupon_lines() {
+    public ArrayList<CouponLine> getCoupon_lines() {
         return coupon_lines;
     }
 
@@ -284,18 +272,9 @@ public class Order implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(id);
-        }
-        if (parent_id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(parent_id);
-        }
+
+        dest.writeInt(id);
+        dest.writeInt(parent_id);
         dest.writeString(number);
         dest.writeString(order_key);
         dest.writeString(created_via);
@@ -314,12 +293,7 @@ public class Order implements Parcelable {
         dest.writeString(total);
         dest.writeString(total_tax);
         dest.writeByte((byte) (prices_include_tax == null ? 0 : prices_include_tax ? 1 : 2));
-        if (customer_id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(customer_id);
-        }
+        dest.writeInt(customer_id);
         dest.writeString(customer_ip_address);
         dest.writeString(customer_user_agent);
         dest.writeString(customer_note);
@@ -335,4 +309,5 @@ public class Order implements Parcelable {
         dest.writeString(cart_hash);
         dest.writeTypedList(meta_data);
     }
+
 }

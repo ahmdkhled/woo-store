@@ -52,7 +52,7 @@ public class ProductsRepo {
                 String sku, String slug,
 
                 final String tag, String shipping_class){
-        Log.d("fromProductRepo","getProducts2");
+        Log.d("fromProductRepo","getProducts2 "+category);
 
 
         if (target.equals(products))
@@ -124,7 +124,7 @@ public class ProductsRepo {
                                                                  String sku,  String slug,
                                                                  String tag,  String shipping_class) {
 
-        Log.d("fromProductRepo","getProducts1");
+        Log.d("fromProductRepo","getProducts1"+category);
         products=new MutableLiveData<>();
         return getProducts(products, page,   per_page, search,category, order_by,order, min_price,
                 max_price, on_sale,featured, stock_status,status, context,include, sku,slug,
@@ -195,7 +195,6 @@ public class ProductsRepo {
                                 return;
                             }
                             String include= ProductUtils.getProductIdsAsString(topSellerList);
-                            Log.d("from_product_repo","ids bestseller "+include);
                             getProducts(bestSellers,page,per_page, search, category, order_by, order, min_price, max_price,
                                     on_sale, featured, stock_status, status, context,include , sku, slug,
                                     tag, shipping_class);
@@ -207,6 +206,7 @@ public class ProductsRepo {
 
                     @Override
                     public void onFailure(Call<ArrayList<TopSeller>> call, Throwable t) {
+                        Log.d("from_product_repo","best seller error "+t.getMessage());
                         bestSellersLoadingError.setValue("error loading best sellers");
                     }
                 });

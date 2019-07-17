@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">woocommerce</string>
+    <string name="app_name">Yohady</string>
     <string name="error_message">something went wrong, please try again</string>
     <string name="product_price">%1$s EGP </string>
     <string name="product_reviews">%1$d reviews </string>
@@ -37,5 +37,6 @@
 
     <string name="invalid_coupon">invalid coupon code</string>
     <string name="deprecated_coupon">deprecated coupon</string>
+    <string name="slogan">Gifting Made Easy</string>
 
 </resources>

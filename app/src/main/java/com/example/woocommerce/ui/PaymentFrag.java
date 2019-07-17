@@ -22,6 +22,7 @@ import com.example.woocommerce.R;
 import com.example.woocommerce.model.Billing;
 import com.example.woocommerce.model.CartItem;
 import com.example.woocommerce.model.Coupon;
+import com.example.woocommerce.model.CouponLine;
 import com.example.woocommerce.model.Order;
 import com.example.woocommerce.model.OrderPayload;
 import com.example.woocommerce.model.Product;
@@ -49,13 +50,16 @@ public class PaymentFrag extends Fragment {
     EditText couponInput;
     Button applyCoupon;
     ProgressBar progressBar;
+    ProgressBar couponPB;
     Shipping shipping;
     Billing billing;
     PaymentViewModel paymentViewModel;
     ArrayList<CartItem> cartItems;
+    ArrayList<CouponLine> coupon_lines;
     private int shippingCost=-1;
     private double subTotal;
     private int total;
+    boolean couponApplied;
 
     @Nullable
     @Override
@@ -63,11 +67,14 @@ public class PaymentFrag extends Fragment {
         View v=inflater.inflate(R.layout.payment_frag,container,false);
         placeOrder=v.findViewById(R.id.placeOrder);
         progressBar=v.findViewById(R.id.order_PB);
+        couponPB=v.findViewById(R.id.coupon_PB);
         mTotalTxt=v.findViewById(R.id.total);
         mSubTotalTxt=v.findViewById(R.id.sub_total);
         couponInput=v.findViewById(R.id.coupon_input);
         applyCoupon=v.findViewById(R.id.apply_coupon_btn);
         mShippingCostTxt=v.findViewById(R.id.shpiingCost);
+
+        coupon_lines=new ArrayList<>();
 
         Bundle b=getArguments();
         if (b != null&&b.containsKey(ADDRESS_KEY)) {
@@ -104,17 +111,26 @@ public class PaymentFrag extends Fragment {
         applyCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String couponCode=couponInput.getText().toString();
-                if (TextUtils.isEmpty(couponCode))
-                    return;
-                Log.d("COUPOON", "apply clicked: ");
-                paymentViewModel.getCoupon(null,null,
-                        null,null,null,
-                        null,null,null,
-                        null,null,null,couponCode);
-                observeCoupon();
-                observeIsCouponLoading();
-                observeCouponLoadingError();
+                if (!couponApplied) {
+                    String couponCode = couponInput.getText().toString();
+                    if (TextUtils.isEmpty(couponCode))
+                        return;
+                    Log.d("COUPOON", "apply clicked: ");
+
+                    paymentViewModel.getCoupon(null, null,
+                            null, null, null,
+                            null, null, null,
+                            null, null, null, couponCode);
+                    observeCoupon();
+                    observeIsCouponLoading();
+                    observeCouponLoadingError();
+
+                }else{
+                    couponInput.setText("");
+                    applyCoupon.setText("Apply");
+                    mSubTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal)));
+                    mTotalTxt.setText(getString(R.string.product_price,String.valueOf(subTotal+shippingCost)));
+                }
 
             }
         });
@@ -128,12 +144,13 @@ public class PaymentFrag extends Fragment {
         return new OrderPayload(
                 "cod",
                 "cash on delivery",
-                false,
+                true,
+                (int)subTotal,
                 billing,
                 shipping,
                 cartItems,
-                shippingLine
-
+                shippingLine,
+                null
         );
     }
 
@@ -145,6 +162,7 @@ public class PaymentFrag extends Fragment {
                         Log.d("ORRDDDER", "done : ");
                         Intent intent=new Intent(getContext(),OrderSummaryActivity.class);
                         startActivity(intent);
+                        getActivity().finish();
                     }
                 });
     }
@@ -224,6 +242,8 @@ public class PaymentFrag extends Fragment {
                     @Override
                     public void onChanged(@Nullable ArrayList<Coupon> coupons) {
                         handleCoupon(coupons);
+                        couponPB.setVisibility(View.GONE);
+                        couponApplied=true;
                         Log.d("COUPOON", "coupon query: "+coupons.size());
 
                     }
@@ -236,7 +256,14 @@ public class PaymentFrag extends Fragment {
                 .observe(getActivity(), new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                     //if (aBoolean!=null&&aBoolean)
+                     if (aBoolean!=null&&aBoolean){
+                         couponPB.setVisibility(View.VISIBLE);
+                         applyCoupon.setText("");
+
+                     }else{
+                         couponPB.setVisibility(View.GONE);
+                         applyCoupon.setText("Applied");
+                     }
                          
                     }
                 });
@@ -248,6 +275,7 @@ public class PaymentFrag extends Fragment {
                 .observe(getActivity(), new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
+                        couponApplied=false;
                         Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -257,11 +285,18 @@ public class PaymentFrag extends Fragment {
         double subTotal=0.0;
         int freeShipping=0;
 
+
+
+
         if (coupons==null||coupons.isEmpty()){
             Toast.makeText(getContext(), R.string.invalid_coupon, Toast.LENGTH_SHORT).show();
             return;
         }
         Coupon coupon=coupons.get(0);
+
+        coupon_lines.add(new CouponLine(coupon.getId(),coupon.getCode(),coupon.getAmount(),null));
+
+
 
         if (coupon.getUsageLimit()==coupon.getUsageCount()){
             Toast.makeText(getContext(), R.string.deprecated_coupon, Toast.LENGTH_SHORT).show();

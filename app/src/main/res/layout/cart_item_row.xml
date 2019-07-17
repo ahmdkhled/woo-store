@@ -98,8 +98,8 @@
             android:id="@+id/cart_item_price"
             tools:text="150.00 EGP"
             android:padding="2dp"
-            android:textColor="@color/red"
-            android:textSize="20sp"
+            android:textColor="#3F3F3D"
+            android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/cart_item_name"
             app:layout_constraintStart_toStartOf="@+id/cart_item_name"
             android:layout_marginTop="10dp"
@@ -126,12 +126,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/remove_cart_item"
             android:text="Remove This Item"
-            android:textColor="@color/remove_cart_item_txt"
-            android:textSize="12sp"
+            android:textColor="#D51E42"
+            android:textSize="13sp"
+            android:padding="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/cart_item_quantity"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp" />
 
 
     </android.support.constraint.ConstraintLayout>
