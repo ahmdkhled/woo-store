@@ -26,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
              android:scaleType="centerCrop"
-            android:layout_margin="15dp"
+            android:layout_margin="5dp"
             tools:src="@drawable/product"/>
 
         <com.example.woocommerce.utils.CustomTextView
@@ -40,9 +40,7 @@
             android:textColor="#000"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/product_image"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
+            app:layout_constraintStart_toStartOf="@id/product_image"
             custom:font_name="@string/dosis_bold"
             />
 
@@ -53,7 +51,6 @@
             app:layout_constraintTop_toBottomOf="@id/product_name"
             app:layout_constraintStart_toStartOf="@id/product_name"
             tools:text="500.00 EGP"
-            android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:textColor="@color/red"
             custom:font_name="@string/dosis_regular"
