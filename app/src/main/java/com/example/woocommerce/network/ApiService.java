@@ -1,6 +1,7 @@
 package com.example.woocommerce.network;
 
 import com.example.woocommerce.model.Category;
+import com.example.woocommerce.model.Coupon;
 import com.example.woocommerce.model.Order;
 import com.example.woocommerce.model.OrderPayload;
 import com.example.woocommerce.model.Product;
@@ -16,6 +17,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -58,6 +60,16 @@ public interface ApiService {
     Call<Review> createReview(@Field("product_id") int productId, @Field("review") String review,
                               @Field("reviewer") String reviewer,@Field("reviewer_email") String reviewerEmail,
                               @Field("rating") int rating);
+
+    @GET("coupons")
+    Call<ArrayList<Coupon>> getCouponDetails(@Query("context") String context,@Query("page") String page,
+                                  @Query("per_page") String per_page,@Query("search") String search,
+                                  @Query("after") String after,@Query("before") String before,
+                                  @Query("exclude") String exclude,@Query("include") String include,
+                                  @Query("offset") String offset,@Query("order") String order,
+                                  @Query("orderby") String orderby,@Query("code") String code
+
+                                  );
 
 
 

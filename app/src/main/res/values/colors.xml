@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#56203D</color>
     <color name="colorPrimaryDark">#55203C</color>
+
     <color name="colorAccent">#FF0000</color>
     <color name="red">#FF0000</color>
     <color name="sheet_bg_pressed_color">#00E676</color>

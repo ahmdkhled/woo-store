@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/fname_edit_hint"
                     android:inputType="text"
-                    tools:text="ahmed"
+                    android:text="ahmed"
                     android:textColor="#56203D"
                     />
             </android.support.design.widget.TextInputLayout>
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/lname_edit_hint"
-                    tools:text="khaled"
+                    android:text="khaled"
                     android:inputType="text"
                     android:textColor="#56203D" />
             </android.support.design.widget.TextInputLayout>
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/state_edit_hint"
                     android:inputType="text"
-                    tools:text="daahlia"
+                    android:text="daahlia"
                     android:textColor="#56203D"
                     />
             </android.support.design.widget.TextInputLayout>
@@ -112,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/city_edit_hint"
-                    tools:text="mansoura"
+                    android:text="mansoura"
                     android:inputType="text"
                     android:textColor="#56203D" />
             </android.support.design.widget.TextInputLayout>
@@ -136,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/address1_edit_hint"
-                    tools:text="15 gehan street"
+                    android:text="15 gehan street"
                     android:inputType="textMultiLine"
                     android:textColor="#56203D"
                     />
@@ -188,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/zip_code_edit_hint"
-                    tools:text="12345"
+                    android:text="12345"
                     android:inputType="numberDecimal"
                     android:textColor="#56203D"
                     />
@@ -213,7 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="state"
-                    tools:text="Egypt"
+                    android:text="Egypt"
                     android:inputType="text"
                     android:textColor="#56203D"
                     />
@@ -237,7 +237,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/phone_edit_hint"
-                    tools:text="0123456789"
+                    android:text="0123456789"
                     android:inputType="phone"
                     android:textColor="#56203D"
                     />
@@ -262,7 +262,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email_edit_hint"
-                    tools:text="customer@gmail.com"
+                    android:text="customer@gmail.com"
                     android:inputType="textEmailAddress"
                     android:textColor="#56203D"
                     />

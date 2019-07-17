@@ -7,82 +7,188 @@ import java.util.ArrayList;
 public class Coupon {
 
     @SerializedName("id")
-    public Integer id;
+    private Integer id;
 
     @SerializedName("code")
-    public String code;
+    private String code;
 
     @SerializedName("amount")
-    public String amount;
+    private String amount;
 
     @SerializedName("date_created")
-    public String dateCreated;
+    private String dateCreated;
 
     @SerializedName("date_created_gmt")
-    public String dateCreatedGmt;
+    private String dateCreatedGmt;
 
     @SerializedName("date_modified")
-    public String dateModified;
+    private String dateModified;
 
     @SerializedName("date_modified_gmt")
-    public String dateModifiedGmt;
+    private String dateModifiedGmt;
 
     @SerializedName("discount_type")
-    public String discountType;
+    private String discountType;
 
     @SerializedName("description")
-    public String description;
+    private String description;
 
     @SerializedName("date_expires")
-    public Object dateExpires;
+    private Object dateExpires;
 
     @SerializedName("date_expires_gmt")
-    public Object dateExpiresGmt;
+    private Object dateExpiresGmt;
 
     @SerializedName("usage_count")
-    public Integer usageCount;
+    private Integer usageCount;
 
     @SerializedName("individual_use")
-    public Boolean individualUse;
+    private Boolean individualUse;
 
     @SerializedName("product_ids")
-    public ArrayList<Object> productIds ;
+    private ArrayList<Object> productIds ;
 
     @SerializedName("excluded_product_ids")
-    public ArrayList<Object> excludedProductIds;
+    private ArrayList<Object> excludedProductIds;
 
     @SerializedName("usage_limit")
-    public Object usageLimit;
+    private Object usageLimit;
 
     @SerializedName("usage_limit_per_user")
-    public Object usageLimitPerUser;
+    private Object usageLimitPerUser;
 
     @SerializedName("limit_usage_to_x_items")
-    public Object limitUsageToXItems;
+    private Object limitUsageToXItems;
 
     @SerializedName("free_shipping")
-    public Boolean freeShipping;
+    private Boolean freeShipping;
 
     @SerializedName("product_categories")
-    public ArrayList<Object> productCategories ;
+    private ArrayList<Object> productCategories ;
 
     @SerializedName("excluded_product_categories")
-    public ArrayList<Object> excludedProductCategories ;
+    private ArrayList<Object> excludedProductCategories ;
 
     @SerializedName("exclude_sale_items")
-    public Boolean excludeSaleItems;
+    private Boolean excludeSaleItems;
     @SerializedName("minimum_amount")
-    public String minimumAmount;
+    private String minimumAmount;
     @SerializedName("maximum_amount")
-    public String maximumAmount;
+    private String maximumAmount;
     @SerializedName("email_restrictions")
-    public ArrayList<Object> emailRestrictions ;
+    private ArrayList<Object> emailRestrictions ;
     @SerializedName("used_by")
-    public ArrayList<Object> usedBy;
+    private ArrayList<Object> usedBy;
     @SerializedName("meta_data")
-    public ArrayList<Object> metaData ;
+    private ArrayList<Object> metaData ;
 
 
+    public Integer getId() {
+        return id;
+    }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public String getDateCreatedGmt() {
+        return dateCreatedGmt;
+    }
+
+    public String getDateModified() {
+        return dateModified;
+    }
+
+    public String getDateModifiedGmt() {
+        return dateModifiedGmt;
+    }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Object getDateExpires() {
+        return dateExpires;
+    }
+
+    public Object getDateExpiresGmt() {
+        return dateExpiresGmt;
+    }
+
+    public Integer getUsageCount() {
+        return usageCount;
+    }
+
+    public Boolean getIndividualUse() {
+        return individualUse;
+    }
+
+    public ArrayList<Object> getProductIds() {
+        return productIds;
+    }
+
+    public ArrayList<Object> getExcludedProductIds() {
+        return excludedProductIds;
+    }
+
+    public Object getUsageLimit() {
+        return usageLimit;
+    }
+
+    public Object getUsageLimitPerUser() {
+        return usageLimitPerUser;
+    }
+
+    public Object getLimitUsageToXItems() {
+        return limitUsageToXItems;
+    }
+
+    public Boolean getFreeShipping() {
+        return freeShipping;
+    }
+
+    public ArrayList<Object> getProductCategories() {
+        return productCategories;
+    }
+
+    public ArrayList<Object> getExcludedProductCategories() {
+        return excludedProductCategories;
+    }
+
+    public Boolean getExcludeSaleItems() {
+        return excludeSaleItems;
+    }
+
+    public String getMinimumAmount() {
+        return minimumAmount;
+    }
+
+    public String getMaximumAmount() {
+        return maximumAmount;
+    }
+
+    public ArrayList<Object> getEmailRestrictions() {
+        return emailRestrictions;
+    }
+
+    public ArrayList<Object> getUsedBy() {
+        return usedBy;
+    }
+
+    public ArrayList<Object> getMetaData() {
+        return metaData;
+    }
 }
 

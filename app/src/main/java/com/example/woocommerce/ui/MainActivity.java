@@ -240,7 +240,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void doSearch(String query) {
-        logSearchedEvent("search",query,true);
         Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
         intent.putExtra(ProductsActivity.TARGET_KEY, ProductsActivity.SEARCH);
         intent.putExtra(ProductsActivity.SEARCH_QUERY, query);
@@ -528,11 +527,5 @@ public class MainActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void logSearchedEvent (String contentType, String searchString, boolean success) {
-        Bundle params = new Bundle();
-        params.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, contentType);
-        params.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, searchString);
-        params.putInt(AppEventsConstants.EVENT_PARAM_SUCCESS, success ? 1 : 0);
-        logger.logEvent(AppEventsConstants.EVENT_NAME_SEARCHED, params);
-    }
+
 }
