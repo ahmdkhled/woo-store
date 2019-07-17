@@ -167,6 +167,7 @@ public class ProductsActivity extends AppCompatActivity
     }
 
     private void loadBestSellers(String order, String orderBy,int page) {
+        Log.d("BESTSELLERRR", "loadBestSellers: ");
         productsViewModel.getBestSellers("month",null ,null,String.valueOf(page),null,
                 null ,null ,"date",null,null,
                 null, null,null,null,null,
@@ -214,6 +215,7 @@ public class ProductsActivity extends AppCompatActivity
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
+                        loadMorePB.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), s
                                 , Toast.LENGTH_SHORT).show();
                     }
@@ -235,13 +237,17 @@ public class ProductsActivity extends AppCompatActivity
     }
 
     void observeBestSeller(){
+        Log.d("BESTSELLERRR", "observeBestSeller: ");
+        if (productsViewModel.getBestSellers().hasActiveObservers())
+            return;
         productsViewModel.getBestSellers()
                 .observe(this, new Observer<ArrayList<Product>>() {
                     @Override
                     public void onChanged(@Nullable ArrayList<Product> products) {
+                        Log.d("BESTSELLERRR","best seller loaded ");
                         productsAdapter.addProducts(products);
                         productsLoaded=true;
-
+                        loadMorePB.setVisibility(View.GONE);
                     }
                 });
     }
@@ -252,6 +258,7 @@ public class ProductsActivity extends AppCompatActivity
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
+                        loadMorePB.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), s
                                 , Toast.LENGTH_SHORT).show();
                     }
