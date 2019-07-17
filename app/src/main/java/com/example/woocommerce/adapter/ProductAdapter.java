@@ -78,8 +78,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         return 0;
     }
 
-    public void addProducts (ArrayList<Product> products){
+    public void addProducts (ArrayList<Product> products) {
         this.productsList.addAll(products);
+    }
+    public void swapDate(ArrayList<Product> products) {
+        productsList = products;
         notifyDataSetChanged();
     }
 

@@ -9,7 +9,9 @@
         android:title="Cart"
         app:actionLayout="@layout/cart_icon"
         app:showAsAction="always"
-        android:orderInCategory="2"/>
+        android:orderInCategory="3"/>
+
+
 
 
 </menu>

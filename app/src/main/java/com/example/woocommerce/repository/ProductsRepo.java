@@ -74,6 +74,7 @@ public class ProductsRepo {
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                 if(response.isSuccessful()) {
                     Log.d("fromProductRepo","onResponse");
+                    Log.d("fromProductRepo","size "+response.body().size());
                     target.setValue(response.body());
                     if (target.equals(products))
                         isProductsLoading.setValue(false);

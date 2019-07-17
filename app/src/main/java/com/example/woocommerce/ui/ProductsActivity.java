@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class ProductsActivity extends AppCompatActivity
         implements BottomSheetListener {
 
+    private static final String SORT_TARGET = "sortSearch";
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
     Button sortBy;
@@ -47,7 +48,7 @@ public class ProductsActivity extends AppCompatActivity
     public static final String SEARCH_TARGET="search_rarget";
     public static final String CATEGORY_INFO="category_info";
     public static final String SEARCH_INFO="search_tag";
-    private String mSortByOption;
+    private String mSortByOption ="";
     GridLayoutManager layoutManager;
     ProductAdapter productsAdapter;
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -136,6 +137,8 @@ public class ProductsActivity extends AppCompatActivity
                 String search=getIntent().getStringExtra(SEARCH_INFO);
                 Log.d("SEARCHHHH", "has extra: "+getIntent().hasExtra(SEARCH_INFO)+getIntent().getStringExtra(SEARCH_INFO) );
                 loadSearchProducts(search,order,order,page);
+            }else if (target.equals(SORT_TARGET)){
+                sortProducts(order,order,page);
             }
 
             observeProducts();
@@ -147,6 +150,13 @@ public class ProductsActivity extends AppCompatActivity
 
 
 
+    }
+
+    private void sortProducts(String order, String orderBy, int page) {
+        Log.d("fromProductActivity", "sortProducts: inside");
+        productsViewModel.getProducts(String.valueOf(page),null,null,null,orderBy,
+                order,null,null,null,null,null,null,
+                null,null,null,null,null,null);
     }
 
     private void loadRecentlyAddedProducts(String order, String orderBy, int page) {
@@ -182,14 +192,13 @@ public class ProductsActivity extends AppCompatActivity
     private void loadSearchProducts(String search,String order, String orderBy,int page){
         Log.d("SEARCHHHH", "loadSearchProducts: "+search);
         productsViewModel.getProducts(String.valueOf(page),null,search,null,orderBy
-                                    ,order,null ,null,null,null,null,
+                ,order,null ,null,null,null,null,
                 null,null,null,null,null,null,null);
     }
 
     void observeProducts(){
+        productsLoaded = false;
         Log.d("PAGGIINGNG", "observe products  " );
-
-        if(!productsViewModel.getProducts().hasActiveObservers()) {
             productsViewModel.getProducts()
                     .observe(this, new Observer<ArrayList<Product>>() {
                         @Override
@@ -199,12 +208,12 @@ public class ProductsActivity extends AppCompatActivity
                             loadMorePB.setVisibility(View.GONE);
                             productsLoaded=true;
 
-                        }
-                    });
-        }
+                        }});
+
     }
 
     void observeProductsLoadingError(){
+        Log.d("fromProductRepo", "observeProductsLoadingError: ");
         productsViewModel
                 .getProductLoadingError()
                 .observe(this, new Observer<String>() {
@@ -218,6 +227,7 @@ public class ProductsActivity extends AppCompatActivity
     }
 
     void observeProductsLoading(){
+        Log.d("fromProductRepo", "observeProductsLoading: ");
         productsViewModel
                 .getIsProductsLoading()
                 .observe(this, new Observer<Boolean>() {
@@ -352,7 +362,7 @@ public class ProductsActivity extends AppCompatActivity
         String orderBy = null;
         String order = "desc";
         Log.d("fromProductActivity","sort by "+sortBy);
-        if(mSortByOption == null || !mSortByOption.equals(sortBy)) {
+        if(mSortByOption.isEmpty() || !mSortByOption.equals(sortBy)) {
             mSortByOption = sortBy;
             switch (sortBy) {
                 case SortByBottomSheet.SORT_BY_POPULARITY:
@@ -374,7 +384,9 @@ public class ProductsActivity extends AppCompatActivity
             }
 
             Log.d("fromProductActivity","order_by = "+orderBy+" order = "+order);
-            loadProducts(order,orderBy, 1);
+            target = SORT_TARGET;
+            loadProducts(order,orderBy,1);
+
         }
 
     }
