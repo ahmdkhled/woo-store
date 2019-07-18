@@ -16,6 +16,9 @@ import retrofit2.Response;
 
 public class ProductsRepo {
 
+
+    private static final String TAG = "ProductsRepo";
+
     private static ProductsRepo productsRepo;
     private MutableLiveData<ArrayList<Product>> products;
     private MutableLiveData<ArrayList<Product>> mRecentProducts ;
@@ -52,7 +55,7 @@ public class ProductsRepo {
                 String sku, String slug,
 
                 final String tag, String shipping_class){
-        Log.d("fromProductRepo","getProducts2 "+category);
+        Log.d(TAG, "getProducts: getting products");
 
 
         if (target.equals(products))
@@ -73,22 +76,24 @@ public class ProductsRepo {
             @Override
             public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                 if(response.isSuccessful()) {
-                    Log.d("fromProductRepo","onResponse");
-                    Log.d("fromProductRepo","size "+response.body().size());
-                    target.setValue(response.body());
-                    if (target.equals(products))
-                        isProductsLoading.setValue(false);
-                    else if (target.equals(mRecentProducts))
-                        isRecentlyAddedLoading.setValue(false);
-                    else if (target.equals(mSaleproducts))
-                        isDealsLoading.setValue(false);
-                    else if (target.equals(bestSellers))
-                        isBestSellersLoading.setValue(false);
-                }
+                    Log.d(TAG, "onResponse: successful call");
+                    if (response.body() != null) {
+                        Log.d(TAG, "onResponse: size " + response.body().size());
+                        target.setValue(response.body());
+                        if (target.equals(products))
+                            isProductsLoading.setValue(false);
+                        else if (target.equals(mRecentProducts))
+                            isRecentlyAddedLoading.setValue(false);
+                        else if (target.equals(mSaleproducts))
+                            isDealsLoading.setValue(false);
+                        else if (target.equals(bestSellers))
+                            isBestSellersLoading.setValue(false);
+                    }else Log.d(TAG, "onResponse: response is null");
+                }else Log.d(TAG, "onResponse: response is failed");
             }
             @Override
             public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-                Log.d("fromProductRepo","onFailure "+t.getMessage());
+                Log.d(TAG,"onFailure: error is "+t.getMessage());
                 if (target.equals(products))
                     productsLoadingError.setValue(t.getMessage());
                 else if (target.equals(mRecentProducts))

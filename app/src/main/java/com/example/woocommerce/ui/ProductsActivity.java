@@ -31,6 +31,8 @@ import java.util.ArrayList;
 public class ProductsActivity extends AppCompatActivity
         implements BottomSheetListener {
 
+    private static final String TAG = "sortFeatureLogs";
+
     private static final String SORT_TARGET = "sortSearch";
     ProductsViewModel productsViewModel;
     RecyclerView recentlyAddedRecycler;
@@ -40,6 +42,7 @@ public class ProductsActivity extends AppCompatActivity
     Toolbar mToolbar;
     TextView mToolbarTilte;
     String target="";
+    boolean mSortFlag = false;
     public static final String TARGET_KEY="target_key";
     public static final String RA_TARGET="Recently Added";
     public static final String CATEGORIES_TARGET="Categories";
@@ -158,7 +161,9 @@ public class ProductsActivity extends AppCompatActivity
     }
 
     private void sortProducts(String order, String orderBy, int page) {
-        Log.d("fromProductActivity", "sortProducts: inside");
+        Log.d(TAG, "sortProducts: inside");
+        mSortFlag = true;
+        productsLoaded = false;
         productsViewModel.getProducts(String.valueOf(page),null,null,null,orderBy,
                 order,null,null,null,null,null,null,
                 null,null,null,null,null,null);
@@ -202,16 +207,23 @@ public class ProductsActivity extends AppCompatActivity
     }
 
     void observeProducts(){
-        productsLoaded = false;
-        Log.d("PAGGIINGNG", "observe products  " );
+        Log.d(TAG, "observeProducts: init observer");
             productsViewModel.getProducts()
                     .observe(this, new Observer<ArrayList<Product>>() {
                         @Override
                         public void onChanged(@Nullable ArrayList<Product> products) {
-                            Log.d("PAGGIINGNG", "products " + products.size());
-                            productsAdapter.addProducts(products);
-                            loadMorePB.setVisibility(View.GONE);
-                            productsLoaded=true;
+                            if(products != null) {
+                                Log.d(TAG, "onChanged: products size is " + products.size());
+                                Log.d(TAG, "onChanged: first item is "+products.get(0).getName());
+                                if(mSortFlag){
+                                    productsAdapter.swapDate(products);
+                                    mSortFlag = false;
+                                }else {
+                                    productsAdapter.addProducts(products);
+                                    loadMorePB.setVisibility(View.GONE);
+                                }
+                                productsLoaded = true;
+                            }else Log.d(TAG, "onChanged: products are null");
 
                         }});
 
@@ -224,6 +236,7 @@ public class ProductsActivity extends AppCompatActivity
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
+                        Log.d(TAG, "onChanged: loading error "+s);
                         loadMorePB.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), s
                                 , Toast.LENGTH_SHORT).show();
@@ -232,16 +245,22 @@ public class ProductsActivity extends AppCompatActivity
     }
 
     void observeProductsLoading(){
-        Log.d("fromProductRepo", "observeProductsLoading: ");
+        Log.d(TAG, "observeProductsLoading: init observer");
         productsViewModel
                 .getIsProductsLoading()
                 .observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
-                        if (aBoolean!=null&&aBoolean&&!productsLoaded)
+                        Log.d(TAG, "onChanged: loading status has changed "+aBoolean);
+                        Log.d(TAG, "onChanged: products loaded is "+productsLoaded);
+                        if (aBoolean!=null&&aBoolean&&!productsLoaded) {
+                            Log.d(TAG, "onChanged: progress bar is visible");
                             progressBar.setVisibility(View.VISIBLE);
-                        else
+                        }
+                        else {
+                            Log.d(TAG, "onChanged: progress bar is gone");
                             progressBar.setVisibility(View.GONE);
+                        }
                     }
                 });
     }
@@ -375,9 +394,11 @@ public class ProductsActivity extends AppCompatActivity
                     break;
             }
 
-            Log.d("fromProductActivity","order_by = "+orderBy+" order = "+order);
-            target = SORT_TARGET;
-            loadProducts(order,orderBy,1);
+            Log.d(TAG,"order_by = "+orderBy+" order = "+order);
+            sortProducts(order,orderBy,1);
+            observeProducts();
+//            observeProductsLoading();
+//            observeProductsLoadingError();
 
         }
 
