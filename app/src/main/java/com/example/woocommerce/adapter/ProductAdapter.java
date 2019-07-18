@@ -20,6 +20,7 @@ import com.example.woocommerce.R;
 import com.example.woocommerce.model.Image;
 import com.example.woocommerce.model.Product;
 import com.example.woocommerce.ui.ProductDetailActivity;
+import com.example.woocommerce.utils.HtmlUtil;
 
 import java.util.ArrayList;
 
@@ -55,21 +56,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
         Product product=productsList.get(position);
         holder.name.setText(product.getName());
-        holder.price.setText(context.getString(R.string.product_price,product.getPrice()));
+        holder.price.setText(HtmlUtil.toString(product.getPrice_html()));
         ArrayList<Image> images=product.getImages();
         if (images!=null&&!images.isEmpty()){
             Glide.with(context).load(images.get(0).getSrc()).into(holder.image);
         }else {
             holder.image.setImageResource(R.drawable.notfound);
         }
-        if (product.getSale_price()!=null&& !TextUtils.isEmpty(product.getSale_price())){
-            holder.sale_price.setVisibility(View.VISIBLE);
-            holder.price.setPaintFlags(holder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.price.setTextColor(Color.parseColor("#A7A5A5"));
-            holder.price.setTypeface(holder.price.getTypeface(), Typeface.NORMAL);
-            holder.sale_price.setText(context.getString(R.string.product_price,product.getSale_price()));
-        }
-        Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSale_price());
+//        if (product.getSale_price()!=null&& !TextUtils.isEmpty(product.getSale_price())){
+//            holder.sale_price.setVisibility(View.VISIBLE);
+//            holder.price.setPaintFlags(holder.price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//            holder.price.setTextColor(Color.parseColor("#A7A5A5"));
+//            holder.price.setTypeface(holder.price.getTypeface(), Typeface.NORMAL);
+//            holder.sale_price.setText(context.getString(R.string.product_price,product.getSale_price()));
+//        }
+//        Log.d("saleeeeeeee", "onBindViewHolder: "+product.getSale_price());
     }
 
     @Override
