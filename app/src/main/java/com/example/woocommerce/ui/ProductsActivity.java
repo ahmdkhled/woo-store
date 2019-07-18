@@ -217,7 +217,7 @@ public class ProductsActivity extends AppCompatActivity
         mTypeFlag = true;
         productsLoaded = false;
         target = "";
-        
+        mToolbarTilte.setText("Results For "+search);
         productsViewModel.getProducts(String.valueOf(page),null,search,null,orderBy
                 ,order,null ,null,null,null,null,
                 null,null,null,null,null,null,null);
