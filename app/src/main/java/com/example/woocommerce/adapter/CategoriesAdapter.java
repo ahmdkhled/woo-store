@@ -51,15 +51,18 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     @Override
     public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
         Category category=categoriesList.get(position);
-        holder.name.setText(categoriesList.get(position).getName());
+        if(!category.getName().equals("Uncategorized")) {
+            holder.name.setText(categoriesList.get(position).getName());
 
-        if (category.getImage()!=null) {
-            Glide.with(context)
-                    .load(category.getImage().getSrc())
-                    .into(holder.image);
-            Log.d("CATTTTT","image src "+category.getImage().getSrc());
-        }else {
-            holder.image.setImageResource(R.drawable.notfound);
+            if (category.getImage() != null) {
+                Glide.with(context)
+                        .load(category.getImage().getSrc())
+                        .into(holder.image);
+                Log.d("CATTTTT", "image src " + category.getImage().getSrc());
+            } else {
+                holder.image.setImageResource(R.drawable.notfound);
+            }
+
         }
     }
 
