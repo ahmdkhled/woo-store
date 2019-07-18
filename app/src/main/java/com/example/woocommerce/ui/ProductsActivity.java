@@ -225,8 +225,8 @@ public class ProductsActivity extends AppCompatActivity
                         @Override
                         public void onChanged(@Nullable ArrayList<Product> products) {
                             if(products != null) {
-                                Log.d(TAG, "onChanged: products size is " + products.size());
-                                Log.d(TAG, "onChanged: first item is "+products.get(0).getName());
+                                //Log.d(TAG, "onChanged: products size is " + products.size());
+                                //Log.d(TAG, "onChanged: first item is "+products.get(0).getName());
                                 if(mTypeFlag){
                                     productsAdapter.swapDate(products);
                                     mTypeFlag = false;
