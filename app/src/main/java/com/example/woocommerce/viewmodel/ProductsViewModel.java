@@ -14,6 +14,8 @@ public class ProductsViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Product>> Products;
     private MutableLiveData<ArrayList<Product>> bestSellers;
 
+    private static final String TAG = "ProductsViewModel";
+
     public void getProducts( String page, String per_page,
                              String search, String category,
                              String order_by, String order,
@@ -26,8 +28,7 @@ public class ProductsViewModel extends ViewModel {
                              final String tag, String shipping_class){
 
 
-
-        Log.d("fromProductRepo","getProducts vm"+category+order_by+search);
+        Log.d(TAG, "getProducts: getting products");
             Products = ProductsRepo.getInstance()
                     .getProducts(page,per_page,search,category,order_by,order,
                             min_price,max_price,on_sale,featured,stock_status,
