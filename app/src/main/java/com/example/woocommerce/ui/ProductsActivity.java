@@ -25,11 +25,12 @@ import com.example.woocommerce.utils.BottomSheetListener;
 import com.example.woocommerce.utils.EndlessRecyclerViewScrollListener;
 import com.example.woocommerce.utils.PrefManager;
 import com.example.woocommerce.viewmodel.ProductsViewModel;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
 
 public class ProductsActivity extends AppCompatActivity
-        implements BottomSheetListener {
+        implements BottomSheetListener,MaterialSearchBar.OnSearchActionListener {
 
     private static final String TAG = "sortFeatureLogs";
 
@@ -41,8 +42,13 @@ public class ProductsActivity extends AppCompatActivity
     ProgressBar loadMorePB;
     Toolbar mToolbar;
     TextView mToolbarTilte;
+    MaterialSearchBar materialSearchBar;
     String target="";
-    boolean mSortFlag = false;
+    /*
+    * if mTypeFlag = false this means adapter will swap data
+    * otherwise user scrolls down so adapter will add new products to old ones
+    * */
+    boolean mTypeFlag = false;
     public static final String TARGET_KEY="target_key";
     public static final String RA_TARGET="Recently Added";
     public static final String CATEGORIES_TARGET="Categories";
@@ -60,6 +66,7 @@ public class ProductsActivity extends AppCompatActivity
     private String categoryName;
     boolean productsLoaded=false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +77,12 @@ public class ProductsActivity extends AppCompatActivity
         sortBy=findViewById(R.id.sortBy_button);
         mToolbar=findViewById(R.id.toolbar);
         mToolbarTilte=findViewById(R.id.toolbar_title);
+        materialSearchBar=findViewById(R.id.searchbar);
 
 
 
 
-
+        materialSearchBar.setOnSearchActionListener(this);
         productsViewModel =ViewModelProviders.of(this)
                 .get(ProductsViewModel.class);
 
@@ -112,10 +120,12 @@ public class ProductsActivity extends AppCompatActivity
         scrollListener=new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                page++;
-                loadProducts(null,null,page);
-                loadMorePB.setVisibility(View.VISIBLE);
-                Log.d("PAGGIINGNG", "onLoadMore: "+page);
+                if(!target.isEmpty()) {
+                    page++;
+                    loadProducts(null, null, page);
+                    loadMorePB.setVisibility(View.VISIBLE);
+                    Log.d("PAGGIINGNG", "onLoadMore: " + page);
+                }
             }
         };
 
@@ -145,8 +155,6 @@ public class ProductsActivity extends AppCompatActivity
                 String search=getIntent().getStringExtra(SEARCH_INFO);
                 Log.d("SEARCHHHH", "has extra: "+getIntent().hasExtra(SEARCH_INFO)+getIntent().getStringExtra(SEARCH_INFO) );
                 loadSearchProducts(search,order,order,page);
-            }else if (target.equals(SORT_TARGET)){
-                sortProducts(order,order,page);
             }
 
             observeProducts();
@@ -162,7 +170,7 @@ public class ProductsActivity extends AppCompatActivity
 
     private void sortProducts(String order, String orderBy, int page) {
         Log.d(TAG, "sortProducts: inside");
-        mSortFlag = true;
+        mTypeFlag = true;
         productsLoaded = false;
         mToolbarTilte.setText(!orderBy.equals("price")?"Sort By "+orderBy:
                 order.equals("asc")?"Sort By "+orderBy+" from low to high":
@@ -206,6 +214,10 @@ public class ProductsActivity extends AppCompatActivity
 
     private void loadSearchProducts(String search,String order, String orderBy,int page){
         Log.d("SEARCHHHH", "loadSearchProducts: "+search);
+        mTypeFlag = true;
+        productsLoaded = false;
+        target = "";
+        
         productsViewModel.getProducts(String.valueOf(page),null,search,null,orderBy
                 ,order,null ,null,null,null,null,
                 null,null,null,null,null,null,null);
@@ -220,9 +232,9 @@ public class ProductsActivity extends AppCompatActivity
                             if(products != null) {
                                 Log.d(TAG, "onChanged: products size is " + products.size());
                                 Log.d(TAG, "onChanged: first item is "+products.get(0).getName());
-                                if(mSortFlag){
+                                if(mTypeFlag){
                                     productsAdapter.swapDate(products);
-                                    mSortFlag = false;
+                                    mTypeFlag = false;
                                 }else {
                                     productsAdapter.addProducts(products);
                                     loadMorePB.setVisibility(View.GONE);
@@ -410,4 +422,21 @@ public class ProductsActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        Log.d(TAG, "onSearchConfirmed: search query "+text);
+        loadSearchProducts(text.toString(),null,null,1);
+        observeProducts();
+
+    }
+
+    @Override
+    public void onButtonClicked(int buttonCode) {
+
+    }
 }
