@@ -94,7 +94,6 @@ public class CheckoutActivity extends AppCompatActivity implements AddressFrag.O
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==android.R.id.home)
             onBackPressed();
-        Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
         return true;
     }
 }
