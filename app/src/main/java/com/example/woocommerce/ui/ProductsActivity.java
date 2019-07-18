@@ -164,9 +164,14 @@ public class ProductsActivity extends AppCompatActivity
         Log.d(TAG, "sortProducts: inside");
         mSortFlag = true;
         productsLoaded = false;
+        mToolbarTilte.setText(!orderBy.equals("price")?"Sort By "+orderBy:
+                order.equals("asc")?"Sort By "+orderBy+" from low to high":
+                        "Sort By "+orderBy+" from high to low");
         productsViewModel.getProducts(String.valueOf(page),null,null,null,orderBy,
                 order,null,null,null,null,null,null,
                 null,null,null,null,null,null);
+
+
     }
 
     private void loadRecentlyAddedProducts(String order, String orderBy, int page) {

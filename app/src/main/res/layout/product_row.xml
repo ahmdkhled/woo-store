@@ -26,7 +26,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
              android:scaleType="centerCrop"
-            android:layout_margin="15dp"
             tools:src="@drawable/product"/>
 
         <com.example.woocommerce.utils.CustomTextView
