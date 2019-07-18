@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -432,6 +433,9 @@ public class ProductsActivity extends AppCompatActivity
         Log.d(TAG, "onSearchConfirmed: search query "+text);
         loadSearchProducts(text.toString(),null,null,1);
         observeProducts();
+
+        // hide keyboard
+        materialSearchBar.clearFocus();
 
     }
 
