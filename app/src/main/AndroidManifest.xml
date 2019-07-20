@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.woocommerce">
+    package="com.corenet.yohady">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,21 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.OrderSummaryActivity"></activity>
+        <activity android:name="com.corenet.yohady.ui.OrderSummaryActivity"></activity>
 
-        <activity android:name=".ui.MainActivity"
+        <activity android:name="com.corenet.yohady.ui.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/NoActionBarTheme"/>
         <activity
-            android:name=".ui.CheckoutActivity"
+            android:name="com.corenet.yohady.ui.CheckoutActivity"
             android:exported="true" />
-        <activity android:name=".ui.CategoriesActivity" />
+        <activity android:name="com.corenet.yohady.ui.CategoriesActivity" />
         <activity
-            android:name=".ui.ProductDetailActivity"
+            android:name="com.corenet.yohady.ui.ProductDetailActivity"
             android:theme="@style/NoActionBarTheme" />
-        <activity android:name=".ui.ProductsActivity" />
+        <activity android:name="com.corenet.yohady.ui.ProductsActivity" />
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="com.corenet.yohady.ui.SplashActivity"
             android:exported="true"
             android:theme="@style/NoActionBarTheme">
             <intent-filter>
@@ -36,9 +36,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.CartActivity"
+            android:name="com.corenet.yohady.ui.CartActivity"
             android:exported="true" />
-        <activity android:name=".ui.ReviewActivity" />
+        <activity android:name="com.corenet.yohady.ui.ReviewActivity" />
 
 
     </application>

@@ -29,7 +29,7 @@
             android:layout_margin="5dp"
             tools:src="@drawable/product"/>
 
-        <com.example.woocommerce.utils.CustomTextView
+        <com.corenet.yohady.utils.CustomTextView
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             custom:font_name="@string/dosis_bold"
             />
 
-        <com.example.woocommerce.utils.CustomTextView
+        <com.corenet.yohady.utils.CustomTextView
             android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             custom:font_name="@string/dosis_regular"
             />
 
-        <com.example.woocommerce.utils.CustomTextView
+        <com.corenet.yohady.utils.CustomTextView
             android:id="@+id/product_sale_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

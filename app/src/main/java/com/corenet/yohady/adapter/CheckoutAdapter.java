@@ -1,0 +1,35 @@
+package com.corenet.yohady.adapter;
+
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+
+import com.corenet.yohady.ui.AddressFrag;
+import com.corenet.yohady.ui.PaymentFrag;
+
+public class CheckoutAdapter extends FragmentPagerAdapter {
+
+    private Fragment[] fragments={new AddressFrag(),new PaymentFrag()};
+    private String[] tabs={"address","payment"};
+
+    public CheckoutAdapter(FragmentManager fm) {
+        super(fm);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return fragments[position];
+    }
+
+    @Override
+    public int getCount() {
+        return fragments.length;
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabs[position];
+    }
+}

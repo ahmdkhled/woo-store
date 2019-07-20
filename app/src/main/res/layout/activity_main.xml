@@ -67,7 +67,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 >
 
-                <com.example.woocommerce.utils.CustomTextView
+                <com.corenet.yohady.utils.CustomTextView
                     android:textColor="@color/black"
                     android:id="@+id/categories_label"
                     android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                     />
 
 
-                <com.example.woocommerce.utils.CustomTextView
+                <com.corenet.yohady.utils.CustomTextView
                     android:id="@+id/seeAllCategories"
                     android:textColor="@color/orange"
                     android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                 >
 
 
-                <com.example.woocommerce.utils.CustomTextView
+                <com.corenet.yohady.utils.CustomTextView
                     android:textColor="@color/black"
                     android:id="@+id/RecentlyAdded_label"
                     android:layout_width="wrap_content"
@@ -165,7 +165,7 @@
 
                     />
 
-                <com.example.woocommerce.utils.CustomTextView
+                <com.corenet.yohady.utils.CustomTextView
                     android:id="@+id/see_all_recently"
                     android:textColor="@color/orange"
                     android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
                 >
 
 
-                <com.example.woocommerce.utils.CustomTextView
+                <com.corenet.yohady.utils.CustomTextView
                     android:textColor="@color/black"
                     android:id="@+id/deals_label"
                     android:layout_width="wrap_content"
@@ -249,7 +249,7 @@
 
                     />
 
-                <com.example.woocommerce.utils.CustomTextView
+                <com.corenet.yohady.utils.CustomTextView
                     android:id="@+id/see_all_deals"
                     android:textColor="@color/orange"
                     android:layout_width="wrap_content"
@@ -314,7 +314,7 @@
                 >
 
 
-                <com.example.woocommerce.utils.CustomTextView
+                <com.corenet.yohady.utils.CustomTextView
                     android:textColor="@color/black"
                     android:id="@+id/BestSeller_label"
                     android:layout_width="wrap_content"
@@ -331,7 +331,7 @@
                     custom:font_name="@string/dosis_bold"
                     />
 
-                <com.example.woocommerce.utils.CustomTextView
+                <com.corenet.yohady.utils.CustomTextView
                     android:id="@+id/see_all_bestsellers"
                     android:textColor="@color/orange"
                     android:layout_width="wrap_content"
