@@ -20,7 +20,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    @GET("products")
+    @GET(Constants.PRODUCTS_ENDPOINT)
     Call<ArrayList<Product>> getProducts(@Query("page") String page, @Query("per_page") String per_page,
                                          @Query("search")String search, @Query("category") String category,
                                          @Query("orderby")String order_by, @Query("order") String order,
@@ -32,7 +32,7 @@ public interface ApiService {
                                          @Query("tag")String tag, @Query("shipping_class") String shipping_class
                                          );
 
-    @GET("products/categories")
+    @GET(Constants.CATEGORIES_ENDPOINT)
     Call<ArrayList<Category>> getCategories(
                                 @Query("page")String page,@Query("per_page") String per_page,
                                 @Query("parent")  String parent,@Query("product") String product,
@@ -42,24 +42,26 @@ public interface ApiService {
                                 @Query("order_by")  String order_by,@Query("order")  String order
                                   );
 
-    @GET("products/reviews")
+    @GET(Constants.REVIEWS_ENDPOINT)
     Call<ArrayList<Review>> getReviews(@Query("page") String page,@Query("product") int product_id);
 
-    @GET("reports/top_sellers")
+    @GET(Constants.TOPSELLERS_ENDPOINT)
     Call<ArrayList<TopSeller>> getTopSeller(@Query("period")String period,
                                             @Query("date_min")String date_min,
                                             @Query("date_max")String date_max);
 
-    @POST("orders")
+    @GET(Constants.ORDERS_ENDPOINT)
+
+    @POST(Constants.ORDERS_ENDPOINT)
     Call<Order> createOrder(@Body OrderPayload orderPayload);
 
     @FormUrlEncoded
-    @POST("products/reviews")
+    @POST(Constants.REVIEWS_ENDPOINT)
     Call<Review> createReview(@Field("product_id") int productId, @Field("review") String review,
                               @Field("reviewer") String reviewer,@Field("reviewer_email") String reviewerEmail,
                               @Field("rating") int rating);
 
-    @GET("coupons")
+    @GET(Constants.COUPONS_ENDPOINT)
     Call<ArrayList<Coupon>> getCouponDetails(@Query("context") String context,@Query("page") String page,
                                   @Query("per_page") String per_page,@Query("search") String search,
                                   @Query("after") String after,@Query("before") String before,
