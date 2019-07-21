@@ -177,13 +177,13 @@ public class ProductsActivity extends AppCompatActivity
 
     private void loadRecentlyAddedProducts(String order, String orderBy, int page) {
         productsViewModel.getProducts(String.valueOf(page),null,null,null,"date",
-                null,null,null,null,null,null,null,
+                null,null,null,null,null,null,"publish",
                 null,null,null,null,null,null);
     }
 
     private void loadDeals(String order, String orderBy, int page) {
         productsViewModel.getProducts(String.valueOf(page),null,null,null,null,
-                null,null,null,"true",null,null,null,
+                null,null,null,"true",null,null,"publish",
                 null,null,null,null,null,null);
     }
 
@@ -191,7 +191,7 @@ public class ProductsActivity extends AppCompatActivity
         Log.d("BESTSELLERRR", "loadBestSellers: ");
         productsViewModel.getBestSellers("month",null ,null,String.valueOf(page),null,
                 null ,null ,"date",null,null,
-                null, null,null,null,null,
+                null, null,null,null,"publish",
                 null,null, null,null,null);
         observeBestSeller();
         observebestSellerLoading();
@@ -201,7 +201,7 @@ public class ProductsActivity extends AppCompatActivity
     private void loadCategoryProducts(String categoryId,String order, String orderBy,int page) {
         Log.d("fromProductRepo","loadCategoryProducts");
         productsViewModel.getProducts(String.valueOf(page),null,null,categoryId,null,
-                null,null,null,null,null,null,null,
+                null,null,null,null,null,null,"publish",
                 null,null,null,null,null,null);
     }
 
@@ -213,7 +213,7 @@ public class ProductsActivity extends AppCompatActivity
         mToolbarTilte.setText("Results For "+search);
         productsViewModel.getProducts(String.valueOf(page),null,search,null,orderBy
                 ,order,null ,null,null,null,null,
-                null,null,null,null,null,null,null);
+                "publish",null,null,null,null,null,null);
     }
 
     void observeProducts(){

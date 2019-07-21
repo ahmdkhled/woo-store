@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
         mainAcrivityViewModel.getDeals(null,"8",null,null ,
                 null ,null ,null ,null,null,
-                null,null,null,null,null ,null,null,null);
+                null,"publish",null,null,null ,null,null,null);
         observeDeals();
         observeDealsError();
         observeDealsLoading();
