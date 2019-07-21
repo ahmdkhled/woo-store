@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardElevation="3dp"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="3dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <com.corenet.yohady.utils.CustomTextView
+            android:id="@+id/orderId_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ORDER_ID"
+            android:textColor="#363535"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/ordertotal_label"
+            app:layout_constraintHorizontal_bias=".6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.corenet.yohady.utils.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_id"
+            app:layout_constraintTop_toBottomOf="@id/orderId_label"
+            app:layout_constraintStart_toStartOf="@id/orderId_label"
+            tools:text="220"
+            android:textSize="20sp"
+            android:textColor="#3A3939"/>
+
+
+
+        <com.corenet.yohady.utils.CustomTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ordertotal_label"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/orderId_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="ORDER_TOTAL"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#363535"/>
+
+        <com.corenet.yohady.utils.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_total"
+            app:layout_constraintTop_toBottomOf="@id/ordertotal_label"
+            app:layout_constraintStart_toStartOf="@id/ordertotal_label"
+            android:textSize="20sp"
+            tools:text="250 EGP"
+            android:textColor="#3A3939"/>
+
+
+        <com.corenet.yohady.utils.CustomTextView
+            android:id="@+id/orderDate_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ORDER_DATE"
+            android:textColor="#363535"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/orderId_label"
+            app:layout_constraintHorizontal_bias=".6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_id"
+            android:layout_marginTop="5dp"/>
+
+        <com.corenet.yohady.utils.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_date"
+            app:layout_constraintTop_toBottomOf="@id/orderDate_label"
+            app:layout_constraintStart_toStartOf="@id/orderDate_label"
+            android:text="22-12-2019"
+            tools:textSize="20sp"
+            android:textColor="#3A3939"/>
+
+        <com.corenet.yohady.utils.CustomTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/orderStatus_label"
+            app:layout_constraintTop_toTopOf="@id/orderDate_label"
+            app:layout_constraintStart_toStartOf="@id/ordertotal_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="ORDER_STATUS"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#5A5959"/>
+
+        <com.corenet.yohady.utils.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_status"
+            app:layout_constraintTop_toBottomOf="@id/orderStatus_label"
+            app:layout_constraintStart_toStartOf="@id/orderStatus_label"
+            tools:text="pending"
+            android:textSize="20sp"
+            android:textColor="#3A3939"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#51524F4F"
+            app:layout_constraintTop_toBottomOf="@id/order_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/see_order_details"
+            android:background="@null"
+            app:layout_constraintTop_toBottomOf="@id/order_date"
+            android:text="see order details"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="5dp"
+            android:paddingStart="15dp"
+            android:paddingLeft="15dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -11,22 +11,23 @@
         android:roundIcon="@drawable/yohady2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name="com.corenet.yohady.ui.OrderSummaryActivity"></activity>
-
-        <activity android:name="com.corenet.yohady.ui.MainActivity"
+        <activity android:name=".ui.OrdersActivity"
+            android:exported="true"/>
+        <activity android:name=".ui.OrderSummaryActivity" />
+        <activity
+            android:name=".ui.MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/NoActionBarTheme"/>
-        <activity
-            android:name="com.corenet.yohady.ui.CheckoutActivity"
-            android:exported="true" />
-        <activity android:name="com.corenet.yohady.ui.CategoriesActivity" />
-        <activity
-            android:name="com.corenet.yohady.ui.ProductDetailActivity"
             android:theme="@style/NoActionBarTheme" />
-        <activity android:name="com.corenet.yohady.ui.ProductsActivity" />
         <activity
-            android:name="com.corenet.yohady.ui.SplashActivity"
+            android:name=".ui.CheckoutActivity"
+            android:exported="true" />
+        <activity android:name=".ui.CategoriesActivity" />
+        <activity
+            android:name=".ui.ProductDetailActivity"
+            android:theme="@style/NoActionBarTheme" />
+        <activity android:name=".ui.ProductsActivity" />
+        <activity
+            android:name=".ui.SplashActivity"
             android:exported="true"
             android:theme="@style/NoActionBarTheme">
             <intent-filter>
@@ -36,11 +37,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.corenet.yohady.ui.CartActivity"
+            android:name=".ui.CartActivity"
             android:exported="true" />
-        <activity android:name="com.corenet.yohady.ui.ReviewActivity" />
-
-
+        <activity android:name=".ui.ReviewActivity" />
     </application>
 
 </manifest>

@@ -51,6 +51,16 @@ public interface ApiService {
                                             @Query("date_max")String date_max);
 
     @GET(Constants.ORDERS_ENDPOINT)
+    Call<ArrayList<Order>> getOrders(@Query("context") String context,@Query("page") String page,
+                          @Query("per_page") String per_page,@Query("search") String search,
+                          @Query("after") String after,@Query("before") String before,
+                          @Query("exclude") String exclude,@Query("include") String include,
+                          @Query("offset") String offset,@Query("order") String order,
+                          @Query("orderby") String orderby,@Query("product") String product,
+                          @Query("status") String status,@Query("customer") String customer,
+                          @Query("parent") String parent,@Query("parent_exclude") String parent_exclude,
+                          @Query("dp") String dp
+    );
 
     @POST(Constants.ORDERS_ENDPOINT)
     Call<Order> createOrder(@Body OrderPayload orderPayload);
