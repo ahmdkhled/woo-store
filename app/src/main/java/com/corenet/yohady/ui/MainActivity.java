@@ -23,6 +23,7 @@ import com.corenet.yohady.model.Product;
 import com.corenet.yohady.utils.PrefManager;
 import com.corenet.yohady.viewmodel.CategoriesViewModel;
 import com.corenet.yohady.viewmodel.MainAcrivityViewModel;
+import com.crashlytics.android.Crashlytics;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mikepenz.materialdrawer.Drawer;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
     TextView mCartBadgeTxt;
     Toolbar mToolbar;
     MaterialSearchBar searchBar;
+    Crashlytics crashlytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         // setup toolbar
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(R.string.main_activity_title);
-
+        crashlytics=Crashlytics.getInstance();
         searchBar.setOnSearchActionListener(this);
 
         categoriesViewModel= ViewModelProviders
