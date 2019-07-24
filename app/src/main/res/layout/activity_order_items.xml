@@ -11,4 +11,9 @@
         android:layout_height="match_parent"
         android:id="@+id/orderItems_recycler"/>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/orderItem_PB"/>
+
 </android.support.constraint.ConstraintLayout>
