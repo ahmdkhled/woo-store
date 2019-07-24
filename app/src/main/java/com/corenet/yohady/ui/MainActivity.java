@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         getSupportActionBar().setTitle(R.string.main_activity_title);
         crashlytics=Crashlytics.getInstance();
         searchBar.setOnSearchActionListener(this);
-
+        setupDrawer();
         categoriesViewModel= ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel.class);
@@ -145,60 +145,6 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         });
 
 
-        // setup navigation drawer
-        //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem homeItem = new PrimaryDrawerItem().withIdentifier(1)
-                .withName("Home")
-                .withIcon(R.drawable.ic_home_black_24dp);
-
-        PrimaryDrawerItem dealsItem = new PrimaryDrawerItem().withIdentifier(2)
-                .withName("Deals")
-                .withIcon(R.drawable.deals);
-        PrimaryDrawerItem recentlyAddedItem = new PrimaryDrawerItem().withIdentifier(3)
-                .withName("Recently Added")
-                .withIcon(R.drawable.new_nav);
-        PrimaryDrawerItem bestSellingItem = new PrimaryDrawerItem().withIdentifier(4)
-                .withName("Best Selling")
-                .withIcon(R.drawable.ic_star_black_24dp);
-        PrimaryDrawerItem categoryItem = new PrimaryDrawerItem().withIdentifier(5)
-                .withName("Categories")
-                .withIcon(R.drawable.cat_nav);
-
-        //create the drawer and remember the `Drawer` result object
-        Drawer result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(mToolbar)
-                .addDrawerItems(
-                        homeItem,categoryItem,dealsItem,recentlyAddedItem,bestSellingItem
-
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
-                        Log.d("material_drawer","position is : "+position);
-                        switch ((int) drawerItem.getIdentifier()){
-                            case 1 : // launch home_activity
-                                launchActivity(MainActivity.class,null,null);
-                                break;
-                            case 2 : // launch deals_activity
-                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.DEALS_TARGET);
-                                break;
-                            case 3 : // launch recently_added_activity
-                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.RA_TARGET);
-                                break;
-                            case 4 : // launch best_selling_activity
-                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.BESTSELLERS_TARGET);
-                                break;
-                            case 5 : // launch categories_activity
-                                launchActivity(CategoriesActivity.class,null,null);
-                                break;
-                        }
-
-                        return false;
-                    }
-                })
-                .build();
 
 
     }
@@ -434,6 +380,70 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
                 break;
         }
         return true;
+    }
+
+    private void setupDrawer(){
+        // setup navigation drawer
+        //if you want to update the items at a later time it is recommended to keep it in a variable
+        PrimaryDrawerItem homeItem = new PrimaryDrawerItem().withIdentifier(1)
+                .withName("Home")
+                .withIcon(R.drawable.ic_home_black_24dp);
+
+        PrimaryDrawerItem dealsItem = new PrimaryDrawerItem().withIdentifier(2)
+                .withName("Deals")
+                .withIcon(R.drawable.ic_loyalty_black_24dp);
+        PrimaryDrawerItem recentlyAddedItem = new PrimaryDrawerItem().withIdentifier(3)
+                .withName("Recently Added")
+                .withIcon(R.drawable.ic_fiber_new_black_24dp);
+        PrimaryDrawerItem bestSellingItem = new PrimaryDrawerItem().withIdentifier(4)
+                .withName("Best Selling")
+                .withIcon(R.drawable.ic_star_black_24dp);
+        PrimaryDrawerItem categoryItem = new PrimaryDrawerItem().withIdentifier(5)
+                .withName("Categories")
+                .withIcon(R.drawable.ic_view_list_black_24dp);
+
+        PrimaryDrawerItem ordersItem = new PrimaryDrawerItem().withIdentifier(6)
+                .withName("track orders")
+                .withIcon(R.drawable.ic_local_shipping_black_24dp);
+
+        //create the drawer and remember the `Drawer` result object
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(mToolbar)
+                .addDrawerItems(
+                        homeItem,categoryItem,dealsItem,recentlyAddedItem,bestSellingItem,ordersItem
+
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        Log.d("material_drawer","position is : "+position);
+                        switch ((int) drawerItem.getIdentifier()){
+                            case 1 : // launch home_activity
+                                launchActivity(MainActivity.class,null,null);
+                                break;
+                            case 2 : // launch deals_activity
+                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.DEALS_TARGET);
+                                break;
+                            case 3 : // launch recently_added_activity
+                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.RA_TARGET);
+                                break;
+                            case 4 : // launch best_selling_activity
+                                launchActivity(ProductsActivity.class,ProductsActivity.TARGET_KEY,ProductsActivity.BESTSELLERS_TARGET);
+                                break;
+                            case 5 : // launch categories_activity
+                                launchActivity(CategoriesActivity.class,null,null);
+                                break;
+                            case 6 : // launch orders_activity
+                                launchActivity(OrdersActivity.class,null,null);
+                                break;
+                        }
+
+                        return false;
+                    }
+                })
+                .build();
     }
 
     private void setupBadge() {
