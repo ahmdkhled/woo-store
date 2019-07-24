@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.corenet.yohady.R;
 import com.corenet.yohady.adapter.OrdersAdapter;
@@ -21,12 +23,14 @@ public class OrdersActivity extends AppCompatActivity {
     OrdersViewModel ordersViewModel;
     OrdersAdapter ordersAdapter;
     RecyclerView ordersRecycler;
+    ProgressBar ordersPB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
         ordersRecycler=findViewById(R.id.orders_recycler);
+        ordersPB=findViewById(R.id.orders_PB);
         ordersViewModel= ViewModelProviders.of(this).get(OrdersViewModel.class);
         ordersAdapter=new OrdersAdapter(this,null);
         ordersRecycler.setAdapter(ordersAdapter);
@@ -38,12 +42,13 @@ public class OrdersActivity extends AppCompatActivity {
                 null,null,null,null,
                 "7", null,null,null);
 
+        observeOrders();
         observeOrdersLoading();
         observeOrdersLoadingError();
 
     }
 
-    private void observeOrdersLoading(){
+    private void observeOrders(){
         ordersViewModel.getOrders()
                 .observe(this, new Observer<ArrayList<Order>>() {
             @Override
@@ -55,6 +60,23 @@ public class OrdersActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void observeOrdersLoading(){
+        ordersViewModel
+                .getIsOrdersLoading()
+                .observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean aBoolean) {
+                        if (aBoolean!=null&&aBoolean){
+                            ordersPB.setVisibility(View.VISIBLE);
+                        }else {
+                            ordersPB.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
+
     private void observeOrdersLoadingError(){
         ordersViewModel.getOrderLoadingError().observe(this, new Observer<String>() {
             @Override
