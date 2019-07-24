@@ -14,6 +14,13 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/orderItem_PB"/>
+        android:id="@+id/orderItem_PB"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toTopOf="@id/orderItems_recycler"
+        app:layout_constraintBottom_toBottomOf="@id/orderItems_recycler"
+        app:layout_constraintStart_toStartOf="@id/orderItems_recycler"
+        app:layout_constraintEnd_toEndOf="@+id/orderItems_recycler"
+        />
 
 </android.support.constraint.ConstraintLayout>

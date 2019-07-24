@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.corenet.yohady.R;
@@ -23,6 +25,7 @@ public class OrderItemsActivity extends AppCompatActivity {
 
     public static final String ORDER_ITEMS_KEY="order_items_key";
     RecyclerView orderItemsRecycler;
+    ProgressBar orderItemsPB;
     OrderItemsViewModel orderItemsViewModel;
     private String TAG="ORDERITEMMS";
 
@@ -31,9 +34,9 @@ public class OrderItemsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_items);
         orderItemsRecycler=findViewById(R.id.orderItems_recycler);
+        orderItemsPB=findViewById(R.id.orderItem_PB);
         orderItemsViewModel= ViewModelProviders.of(this).get(OrderItemsViewModel.class);
         ArrayList<LineItem> orderItems=getIntent().getParcelableArrayListExtra(ORDER_ITEMS_KEY);
-        Log.d(TAG, "list  "+orderItems.size());
         orderItemsViewModel.getProducts(null,null,null,null,null,null,
                null,null,null,null,null,null,null,
                 ProductUtils.getOrderItemsIdsAsString(orderItems),null,null,null,null);
@@ -74,10 +77,10 @@ public class OrderItemsActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
                         if (aBoolean!=null&&aBoolean) {
-                            Log.d(TAG, "onChanged: progress bar is visible");
+                            orderItemsPB.setVisibility(View.VISIBLE);
                         }
                         else {
-                            Log.d(TAG, "onChanged: progress bar is gone");
+                            orderItemsPB.setVisibility(View.GONE);
                         }
                     }
                 });
