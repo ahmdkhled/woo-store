@@ -1,6 +1,7 @@
 package com.corenet.yohady.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.corenet.yohady.R;
 import com.corenet.yohady.model.Order;
+import com.corenet.yohady.ui.OrderItemsActivity;
 
 import java.util.ArrayList;
 
@@ -64,6 +66,17 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderHolde
             total=itemView.findViewById(R.id.order_total);
             status=itemView.findViewById(R.id.order_status);
             seeDetails=itemView.findViewById(R.id.see_order_details);
+
+            seeDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, OrderItemsActivity.class);
+                    intent.putExtra(OrderItemsActivity.ORDER_ITEMS_KEY,orders.get(getAdapterPosition()).getLine_items());
+                    context.startActivity(intent);
+
+                }
+            });
+
         }
     }
 }

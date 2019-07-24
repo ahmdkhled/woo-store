@@ -70,20 +70,27 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/orderId_label"
-            app:layout_constraintHorizontal_bias=".6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/order_id"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+
+            />
 
         <com.corenet.yohady.utils.CustomTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/order_date"
             app:layout_constraintTop_toBottomOf="@id/orderDate_label"
             app:layout_constraintStart_toStartOf="@id/orderDate_label"
-            android:text="22-12-2019"
-            tools:textSize="20sp"
-            android:textColor="#3A3939"/>
+            app:layout_constraintEnd_toStartOf="@id/order_status"
+            android:gravity="center_vertical"
+            android:text="22-12-2019 T 15L"
+            tools:textSize="25sp"
+            android:textColor="#3A3939"
+            android:paddingTop="2dp"
+            android:paddingBottom="3dp"
+            android:layout_marginTop="3dp"
+            />
 
         <com.corenet.yohady.utils.CustomTextView
             android:layout_width="0dp"
@@ -95,17 +102,20 @@
             android:text="ORDER_STATUS"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:textColor="#5A5959"/>
+            android:textColor="#5A5959"
+            />
 
         <com.corenet.yohady.utils.CustomTextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/order_status"
             app:layout_constraintTop_toBottomOf="@id/orderStatus_label"
-            app:layout_constraintStart_toStartOf="@id/orderStatus_label"
+            app:layout_constraintStart_toEndOf="@id/order_date"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="pending"
-            android:textSize="20sp"
-            android:textColor="#3A3939"/>
+            android:textSize="18sp"
+            android:textColor="#3A3939"
+            />
 
         <View
             android:layout_width="match_parent"

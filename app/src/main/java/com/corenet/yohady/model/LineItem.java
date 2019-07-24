@@ -1,11 +1,14 @@
 package com.corenet.yohady.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-class LineItem {
+public class LineItem implements Parcelable {
 
-    private Integer product_id;
-    private Integer quantity;
+    private int product_id;
+    private int quantity;
     private int variation_id;
     private String tax_class;
     private int subtotal;
@@ -35,6 +38,32 @@ class LineItem {
         this.taxes = taxes;
         this.meta_data = meta_data;
     }
+
+    protected LineItem(Parcel in) {
+        product_id = in.readInt();
+        quantity = in.readInt();
+        variation_id = in.readInt();
+        tax_class = in.readString();
+        subtotal = in.readInt();
+        subtotal_tax = in.readInt();
+        total = in.readInt();
+        total_tax = in.readInt();
+        price = in.readInt();
+        sku = in.readString();
+        meta_data = in.createTypedArrayList(MetaData.CREATOR);
+    }
+
+    public static final Creator<LineItem> CREATOR = new Creator<LineItem>() {
+        @Override
+        public LineItem createFromParcel(Parcel in) {
+            return new LineItem(in);
+        }
+
+        @Override
+        public LineItem[] newArray(int size) {
+            return new LineItem[size];
+        }
+    };
 
     public Integer getProduct_id() {
         return product_id;
@@ -130,5 +159,25 @@ class LineItem {
 
     public void setMeta_data(ArrayList<MetaData> meta_data) {
         this.meta_data = meta_data;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(product_id);
+        dest.writeInt(quantity);
+        dest.writeInt(variation_id);
+        dest.writeString(tax_class);
+        dest.writeInt(subtotal);
+        dest.writeInt(subtotal_tax);
+        dest.writeInt(total);
+        dest.writeInt(total_tax);
+        dest.writeInt(price);
+        dest.writeString(sku);
+        dest.writeTypedList(meta_data);
     }
 }
