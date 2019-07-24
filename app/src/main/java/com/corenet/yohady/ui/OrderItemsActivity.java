@@ -35,8 +35,13 @@ public class OrderItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_items);
         orderItemsRecycler=findViewById(R.id.orderItems_recycler);
         orderItemsPB=findViewById(R.id.orderItem_PB);
-        orderItemsViewModel= ViewModelProviders.of(this).get(OrderItemsViewModel.class);
         ArrayList<LineItem> orderItems=getIntent().getParcelableArrayListExtra(ORDER_ITEMS_KEY);
+        if (orderItems==null){
+            Toast.makeText(this, R.string.error_loading_order_Items, Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        orderItemsViewModel= ViewModelProviders.of(this).get(OrderItemsViewModel.class);
         orderItemsViewModel.getProducts(null,null,null,null,null,null,
                null,null,null,null,null,null,null,
                 ProductUtils.getOrderItemsIdsAsString(orderItems),null,null,null,null);

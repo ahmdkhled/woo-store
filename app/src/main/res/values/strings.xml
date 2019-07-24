@@ -39,5 +39,6 @@
     <string name="invalid_coupon">invalid coupon code</string>
     <string name="deprecated_coupon">deprecated coupon</string>
     <string name="slogan">Gifting Made Easy</string>
+    <string name="error_loading_order_Items">Error loading Order Items</string>
 
 </resources>
