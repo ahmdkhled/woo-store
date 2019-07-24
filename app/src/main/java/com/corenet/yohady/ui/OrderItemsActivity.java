@@ -39,6 +39,7 @@ public class OrderItemsActivity extends AppCompatActivity {
         if (orderItems==null){
             Toast.makeText(this, R.string.error_loading_order_Items, Toast.LENGTH_SHORT).show();
             finish();
+            return;
         }
 
         orderItemsViewModel= ViewModelProviders.of(this).get(OrderItemsViewModel.class);

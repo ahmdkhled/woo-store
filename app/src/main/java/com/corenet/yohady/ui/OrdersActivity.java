@@ -81,7 +81,7 @@ public class OrdersActivity extends AppCompatActivity {
         ordersViewModel.getOrderLoadingError().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                Log.d("OORRDDER", "error: "+s);
+                Log.d("OORRDDER", "Error loading Orders ");
             }
         });
     }
