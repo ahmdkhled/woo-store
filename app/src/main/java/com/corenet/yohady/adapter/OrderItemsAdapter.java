@@ -1,6 +1,7 @@
 package com.corenet.yohady.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.corenet.yohady.R;
 import com.corenet.yohady.model.Image;
 import com.corenet.yohady.model.LineItem;
 import com.corenet.yohady.model.Product;
+import com.corenet.yohady.ui.ProductDetailActivity;
 import com.corenet.yohady.utils.HtmlUtil;
 
 import java.util.ArrayList;
@@ -72,6 +74,15 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
             name=itemView.findViewById(R.id.item_name);
             price=itemView.findViewById(R.id.item_price);
             quantity=itemView.findViewById(R.id.item_quantity);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, ProductDetailActivity.class);
+                    intent.putExtra(ProductDetailActivity.PRODUCT_KEY,products.get(getAdapterPosition()));
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
