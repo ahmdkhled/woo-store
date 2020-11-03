@@ -2,7 +2,7 @@ package com.corenet.yohady.network;
 
 public class Constants {
 
-    static final String BASE_URL="https://yohady.com/";
+    static final String BASE_URL="https://yohady.000webhostapp.com/";
     private static final String WOOCOMMERCE_PATH="wp-json/wc/v3/";
     private static final String WORDPRESS_PATH="/wp/v2/";
 
